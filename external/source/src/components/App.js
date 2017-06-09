@@ -10,11 +10,11 @@ import NotFound from './NotFound';
 class App extends React.Component {
   render() {
     // Change to state management, when auth will be available
-    const isLogged = true;
+    const displayTopbar = true;
 
     return (
       <div>
-        {isLogged ? <Topbar /> : null}
+        {displayTopbar ? <Topbar /> : null}
         <Switch>
           <Route exact path="/" component={Tracks} />
           <Route exact path="/tracks" component={Tracks} />
