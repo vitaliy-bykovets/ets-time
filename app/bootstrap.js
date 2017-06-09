@@ -1,5 +1,6 @@
 'use strict';
 const koa_body = require('koa-body');
+const koa_static = require('koa-static');
 
 const Bootstrap = async app => {
   app.context.env = require('./../.configure');
@@ -8,6 +9,7 @@ const Bootstrap = async app => {
 
   // attach midlewares
   app.use(koa_body());
+  app.use(koa_static(__dirname + '/../external/public'));
 
   // read and add models to context
   require('fs').readdirSync(__dirname + '/Models').filter(file => file.indexOf('.') !== 0).forEach(file => {
