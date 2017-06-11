@@ -1,5 +1,6 @@
 let config = {
   port: 3000,
+  type_works: ['Development', 'Testing'],
   db: {
     client: 'mysql',
     connection: {

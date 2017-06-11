@@ -14,11 +14,12 @@
     "bcrypt": "^1.0.2",
     "bookshelf": "^0.10.3",
     "knex": "^0.12.7",
-    "koa": "^2.0.0-alpha.8",
+    "koa": "2.2.0",
     "koa-body": "^2.1.0",
     "koa-jsonp": "^2.0.2",
     "koa-router": "^7.0.1",
     "koa-static": "^3.0.0",
+    "lodash": "^4.17.4",
     "mysql": "^2.13.0",
     "validatorjs": "^3.13.3"
   },
