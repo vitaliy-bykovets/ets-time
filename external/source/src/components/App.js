@@ -1,11 +1,12 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 
-import Topbar from './Topbar';
-import Tracks from './Tracks';
-import Users from './Users';
-import Login from './Login';
-import NotFound from './NotFound';
+// Components
+import Topbar from './general/Topbar';
+import Tracks from './tracks/Tracks';
+import Users from './users/Users';
+import Login from './general/Login';
+import NotFound from './general/NotFound';
 
 class App extends React.Component {
   render() {
