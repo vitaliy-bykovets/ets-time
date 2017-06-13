@@ -67,13 +67,6 @@ router.get('/', mw.validators.line_list, async (req, res) => {
       }
     }
   );
-
-  //let count = ;
-  //res.json({ count: count.c });
-
-  //knex('track_lines').then(data => {}).catch(e => {
-  //  console.log('e', e);
-  //});
 });
 
 router.post('/', mw.validators.line_create, (req, res) => {
