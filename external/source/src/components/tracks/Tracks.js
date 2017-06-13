@@ -14,7 +14,8 @@ import TracksTable from './TracksTable';
 // Actions
 import {
   toggleSingleTrack,
-  toggleTrackFilters
+  toggleTrackFilters,
+  getLibraries
 } from './../../store/actions/trackActions';
 
 const addBtnStyle = {
@@ -30,6 +31,10 @@ const filterBtnStyle = {
 };
 
 class Tracks extends React.Component {
+  componentDidMount() {
+    this.props.getLibraries();
+  }
+
   openAddTrack = () => {
     this.props.toggleSingleTrack();
   };
@@ -67,5 +72,6 @@ class Tracks extends React.Component {
 
 export default connect(null, {
   toggleSingleTrack,
-  toggleTrackFilters
+  toggleTrackFilters,
+  getLibraries
 })(Tracks);
