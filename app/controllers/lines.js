@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const mw = require('./../middlewares/index');
-const Line = require('./../models/Line');
 const knex = require('./../libs/Db').knex;
 const _ = require('lodash');
 const async = require('async');
@@ -70,23 +69,34 @@ router.get('/', mw.validators.line_list, async (req, res) => {
 });
 
 router.post('/', mw.validators.line_create, (req, res) => {
-  new Line(req.body).save().then(model => res.status(201).send()).catch(e => res.status(400).send());
+  knex('track_lines').insert(req.body).then(() => res.status(201).send()).catch(e => res.status(500).send());
 });
 
 // update track-line by id
 router.patch('/', mw.validators.line_edit, (req, res) => {
-  new Line({ id: req.body.id, user_id: 1 })
-    .save(_.omit(req.body, 'user_id'), { patch: 1 })
-    .then(model => res.send())
-    .catch(e => res.status(400).send());
+  knex('track_lines')
+    .where({ id: req.body.id, user_id: 1 })
+    .update(_.omit(req.body, 'user_id'))
+    .then(() => res.send())
+    .catch(() => res.status(400).send());
 });
 
 // delete track line
 router.delete('/', mw.validators.line_delete, (req, res) => {
-  new Line({ id: req.body.id, user_id: 1 })
-    .destroy()
+  knex('track_lines')
+    .where({ id: req.body.id, user_id: 1 })
+    .delete()
     .then(() => res.status(204).send())
-    .catch(e => res.status(400).send());
+    .catch(() => res.status(400).send());
+});
+
+// update status for track line (by admin | pm)
+router.patch('/status', mw.validators.line_status, (req, res) => {
+  knex('track_lines')
+    .where({ id: req.body.id })
+    .update({ status: req.body.status })
+    .then(() => res.send())
+    .catch(() => res.status(500).send());
 });
 
 module.exports = router;
