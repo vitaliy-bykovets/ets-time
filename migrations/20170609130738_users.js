@@ -10,6 +10,7 @@ exports.up = knex => {
     table.decimal('rate', 6, 2).default(0).comment('Price Rate in $');
     table.boolean('locked').default(false).comment('if user banned');
     table.timestamps();
+    table.collate('utf8_general_ci');
   });
 };
 

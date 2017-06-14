@@ -22,6 +22,8 @@ let config = {
 };
 switch (process.env.NODE_ENV) {
   case 'production':
+    config.db.connection.user = 'silex_api';
+    config.db.connection.password = 't6f`m}gDJ>~&n;Uz';
     break;
   default:
     break;

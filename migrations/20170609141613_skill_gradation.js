@@ -7,6 +7,7 @@ exports.up = knex => {
     table.unique(['user_id', 'skill_id']);
     table.foreign('user_id').references('users.id').onDelete('CASCADE');
     table.foreign('skill_id').references('skills.id').onDelete('CASCADE');
+    table.collate('utf8_general_ci');
   });
 };
 

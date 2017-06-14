@@ -3,6 +3,7 @@ exports.up = knex => {
     table.increments();
     table.integer('parent_id').index().notNullable().default(0);
     table.string('name', 100).notNullable();
+    table.collate('utf8_general_ci');
   });
 };
 
