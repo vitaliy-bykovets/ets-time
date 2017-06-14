@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import ContentAdd from 'material-ui/svg-icons/content/add';
 import ContentFilterList from 'material-ui/svg-icons/content/filter-list';
+import ContentFilterClear from 'material-ui/svg-icons/content/clear';
 
 // Components
 import SingleTrack from './SingleTrack';
@@ -15,8 +16,12 @@ import TracksTable from './TracksTable';
 import {
   toggleSingleTrack,
   toggleTrackFilters,
-  getLibraries
+  getLibraries,
+  clearTrackFilters
 } from './../../store/actions/trackActions';
+
+// Helpers
+import { showClearFilters } from './../../shared/HelpService';
 
 const addBtnStyle = {
   position: 'absolute',
@@ -30,9 +35,25 @@ const filterBtnStyle = {
   bottom: '30px'
 };
 
+const clearFiltersBtnStyle = {
+  position: 'absolute',
+  left: '75px',
+  bottom: '20px',
+  zIndex: '0'
+};
+
 class Tracks extends React.Component {
+  state = {
+    showFilters: false
+  };
+
   componentDidMount() {
     this.props.getLibraries();
+  }
+
+  componentWillReceiveProps(nextProps) {
+    let showFilters = showClearFilters(nextProps.filters);
+    this.setState({ showFilters });
   }
 
   openAddTrack = () => {
@@ -41,6 +62,10 @@ class Tracks extends React.Component {
 
   openFilters = () => {
     this.props.toggleTrackFilters();
+  };
+
+  clearFilters = () => {
+    this.props.clearTrackFilters();
   };
 
   render() {
@@ -65,13 +90,31 @@ class Tracks extends React.Component {
         >
           <ContentFilterList />
         </FloatingActionButton>
+
+        {this.state.showFilters
+          ? <FloatingActionButton
+              mini={true}
+              onTouchTap={this.clearFilters}
+              backgroundColor="#9E9E9E"
+              style={clearFiltersBtnStyle}
+            >
+              <ContentFilterClear />
+            </FloatingActionButton>
+          : null}
       </div>
     );
   }
 }
 
-export default connect(null, {
+function mapStateToProps(state) {
+  return {
+    filters: state.trackReducer.filters
+  };
+}
+
+export default connect(mapStateToProps, {
   toggleSingleTrack,
   toggleTrackFilters,
-  getLibraries
+  getLibraries,
+  clearTrackFilters
 })(Tracks);
