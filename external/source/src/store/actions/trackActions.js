@@ -4,12 +4,14 @@ import {
   TOGGLE_SINGLE_TRACK,
   TOGGLE_TRACK_FILTERS,
   SET_WORK_TYPES,
-  SET_STATUS_TYPES
+  SET_STATUS_TYPES,
+  SET_TRACK_FILTER,
+  CLEAR_TRACK_FILTERS
 } from './types';
 
-export function getTracks() {
+export function getTracks(filters) {
   return dispatch => {
-    getTracksApi().then(resp => dispatch(setTracks(resp.data)));
+    getTracksApi(filters).then(resp => dispatch(setTracks(resp.data)));
   };
 }
 
@@ -17,6 +19,12 @@ function setTracks(tracks) {
   return {
     type: SET_TRACKS,
     tracks
+  };
+}
+
+export function clearTrackFilters() {
+  return {
+    type: CLEAR_TRACK_FILTERS
   };
 }
 
@@ -29,6 +37,13 @@ export function toggleSingleTrack() {
 export function toggleTrackFilters() {
   return {
     type: TOGGLE_TRACK_FILTERS
+  };
+}
+
+export function setTrackFilters(filters) {
+  return {
+    type: SET_TRACK_FILTER,
+    filters
   };
 }
 
