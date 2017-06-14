@@ -7,6 +7,7 @@ import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import injectTapEventPlugin from 'react-tap-event-plugin';
+import 'whatwg-fetch';
 
 import App from './components/App';
 import registerServiceWorker from './registerServiceWorker';
