@@ -10,7 +10,11 @@ import MenuItem from 'material-ui/MenuItem';
 import DatePicker from 'material-ui/DatePicker';
 
 // Actions
-import { toggleTrackFilters } from './../../store/actions/trackActions';
+import {
+  toggleTrackFilters,
+  getTracks,
+  setTrackFilters
+} from './../../store/actions/trackActions';
 
 const wrapper = {
   display: 'flex',
@@ -19,32 +23,36 @@ const wrapper = {
 };
 
 class Filters extends React.Component {
-  state = {
-    workType: null,
-    status: null,
-    project: '',
-    task: '',
-    startDate: new Date(),
-    endDate: new Date()
-  };
+  state = {};
 
-  handleClose = () => this.props.toggleTrackFilters();
+  componentDidMount() {
+    this.setState(this.props.filters);
+  }
 
-  handleChangeWorkType = (e, index, workType) => this.setState({ workType });
+  componentWillReceiveProps(nextProps) {
+    this.setState(nextProps.filters);
+  }
 
-  handleChangeStatus = (e, index, status) => this.setState({ status });
-
-  handleProjectChange = (e, project) => this.setState({ project });
-
-  handleTaskChange = (e, task) => this.setState({ task });
-
-  handleChangeStartDate = (e, startDate) => this.setState({ startDate });
-
+  handleInputChange = (e, value) => this.setState({ [e.target.name]: value });
   handleChangeEndDate = (e, endDate) => this.setState({ endDate });
+  handleChangeStartDate = (e, startDate) => this.setState({ startDate });
+  handleChangeWorkType = (e, index, workType) => this.setState({ workType });
+  handleChangeStatus = (e, index, status) => this.setState({ status });
+  handleClose = () => this.props.toggleTrackFilters();
+  handleUseFilters = () => {
+    let filters = this.state;
+    this.props.toggleTrackFilters();
+    this.props.setTrackFilters(filters);
+    this.props.getTracks(filters);
+  };
 
   render() {
     const actions = [
-      <FlatButton label="Go" primary={true} onTouchTap={this.handleClose} />,
+      <FlatButton
+        label="Go"
+        primary={true}
+        onTouchTap={this.handleUseFilters}
+      />,
       <FlatButton
         label="Cancel"
         primary={false}
@@ -61,68 +69,71 @@ class Filters extends React.Component {
     );
 
     return (
-      <div>
-        <Dialog
-          title="Filters"
-          actions={actions}
-          modal={true}
-          autoOk={true}
-          open={this.props.filtersIsOpen}
-          autoScrollBodyContent={true}
-          contentStyle={
-            window.innerWidth < 768
-              ? {}
-              : { width: '65%', minWidth: '560px', maxWidth: '600px' }
-          }
-        >
-          <div style={wrapper}>
-            <TextField
-              floatingLabelText="Project"
-              onChange={this.handleProjectChange}
-            />
-            <TextField
-              floatingLabelText="Task"
-              onChange={this.handleTaskChange}
-            />
+      <Dialog
+        title="Filters"
+        actions={actions}
+        modal={true}
+        autoOk={true}
+        open={this.props.filtersIsOpen}
+        autoScrollBodyContent={true}
+        contentStyle={
+          window.innerWidth < 768
+            ? {}
+            : { width: '65%', minWidth: '560px', maxWidth: '600px' }
+        }
+      >
+        <div style={wrapper}>
+          <TextField
+            name="project"
+            floatingLabelText="Project"
+            value={this.state.project}
+            onChange={this.handleInputChange}
+          />
 
-            <SelectField
-              floatingLabelText="Work type"
-              value={this.state.workType}
-              onChange={this.handleChangeWorkType}
-            >
-              <MenuItem value={null} primaryText="" />
-              {workTypes}
-            </SelectField>
+          <TextField
+            name="task"
+            floatingLabelText="Task"
+            value={this.state.task}
+            onChange={this.handleInputChange}
+          />
 
-            <SelectField
-              floatingLabelText="Status"
-              value={this.state.status}
-              onChange={this.handleChangeStatus}
-            >
-              <MenuItem value={null} primaryText="" />
-              {statusTypes}
-            </SelectField>
+          <SelectField
+            floatingLabelText="Work type"
+            value={this.state.workType}
+            onChange={this.handleChangeWorkType}
+          >
+            <MenuItem value={null} primaryText="" />
+            {workTypes}
+          </SelectField>
 
-            <DatePicker
-              onChange={this.handleChangeStartDate}
-              floatingLabelText="Start date"
-              defaultDate={this.state.startDate}
-              disableYearSelection={true}
-              textFieldStyle={window.innerWidth < 768 ? { width: '100%' } : {}}
-              style={window.innerWidth < 768 ? { width: '100%' } : {}}
-            />
+          <SelectField
+            floatingLabelText="Status"
+            value={this.state.status}
+            onChange={this.handleChangeStatus}
+          >
+            <MenuItem value={null} primaryText="" />
+            {statusTypes}
+          </SelectField>
 
-            <DatePicker
-              onChange={this.handleChangeEndDate}
-              floatingLabelText="End date"
-              defaultDate={this.state.endDate}
-              disableYearSelection={true}
-              textFieldStyle={window.innerWidth < 768 ? { width: '100%' } : {}}
-              style={window.innerWidth < 768 ? { width: '100%' } : {}}
-            />
-          </div>
-        </Dialog>
-      </div>
+          <DatePicker
+            onChange={this.handleChangeStartDate}
+            floatingLabelText="Start date"
+            defaultDate={this.state.startDate}
+            disableYearSelection={true}
+            textFieldStyle={window.innerWidth < 768 ? { width: '100%' } : {}}
+            style={window.innerWidth < 768 ? { width: '100%' } : {}}
+          />
+
+          <DatePicker
+            onChange={this.handleChangeEndDate}
+            floatingLabelText="End date"
+            defaultDate={this.state.endDate}
+            disableYearSelection={true}
+            textFieldStyle={window.innerWidth < 768 ? { width: '100%' } : {}}
+            style={window.innerWidth < 768 ? { width: '100%' } : {}}
+          />
+        </div>
+      </Dialog>
     );
   }
 }
@@ -131,8 +142,13 @@ function mapStateToProps(state) {
   return {
     filtersIsOpen: state.trackReducer.filtersIsOpen,
     workTypes: state.trackReducer.workTypes,
-    statusTypes: state.trackReducer.statusTypes
+    statusTypes: state.trackReducer.statusTypes,
+    filters: state.trackReducer.filters
   };
 }
 
-export default connect(mapStateToProps, { toggleTrackFilters })(Filters);
+export default connect(mapStateToProps, {
+  toggleTrackFilters,
+  getTracks,
+  setTrackFilters
+})(Filters);

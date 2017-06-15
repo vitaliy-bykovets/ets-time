@@ -16,7 +16,7 @@ import { getTracks } from './../../store/actions/trackActions';
 
 class Tracks extends React.Component {
   componentDidMount() {
-    this.props.getTracks();
+    this.props.getTracks(this.props.filters);
   }
 
   render() {
@@ -66,7 +66,8 @@ class Tracks extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    tracks: state.trackReducer.tracks
+    tracks: state.trackReducer.tracks,
+    filters: state.trackReducer.filters
   };
 }
 
