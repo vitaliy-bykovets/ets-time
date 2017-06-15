@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const mw = require('./../middlewares/index');
-const knex = require('./../libs/Db').knex;
+const knex = require('./../libs/knex');
 const _ = require('lodash');
 const async = require('async');
 

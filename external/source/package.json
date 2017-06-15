@@ -19,7 +19,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build && rm -rf ../../public/ &&  cp -r build/. ../../public/",
+    "build": "react-scripts build && rm -rf ../../public/* &&  cp -r build/. ../../public/",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   },

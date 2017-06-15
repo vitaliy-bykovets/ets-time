@@ -1,6 +1,6 @@
 const Validator = require('./Validator');
 const env = require('./../../config');
-const knex = require('./../../libs/Db').knex;
+const knex = require('./../../libs/knex');
 
 module.exports = (req, res, next) => {
   const rules = {
@@ -17,7 +17,7 @@ module.exports = (req, res, next) => {
       .count('* as c')
       .first()
       .then(data => {
-        if (data.c === 1) {
+        if (data.c) {
           next();
         } else {
           res.status(404).send();

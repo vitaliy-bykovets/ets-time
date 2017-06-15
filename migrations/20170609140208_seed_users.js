@@ -1,6 +1,5 @@
-const bcrypt = require('bcrypt');
-const saltRound = 10;
-const salt = bcrypt.genSaltSync(saltRound);
+const bcrypt = require('bcrypt-nodejs');
+const salt = bcrypt.genSaltSync(10);
 
 exports.up = knex => {
   return knex.table('users').insert({

@@ -1,6 +1,6 @@
 const Validator = require('./Validator');
 const env = require('./../../config');
-const Line = require('./../../models/Line');
+const knex = require('./../../libs/knex');
 
 module.exports = (req, res, next) => {
   const rules = {
@@ -16,10 +16,12 @@ module.exports = (req, res, next) => {
     res.status(400).send(validate.errors);
   } else {
     // TODO change default user id to user from request by token
-    new Line({ id: req.body.id, user_id: 1 })
-      .fetch()
-      .then(data => {
-        if (data) {
+    knex('track_lines')
+      .where({ id: req.body.id, user_id: 1 })
+      .first()
+      .count('* as c')
+      .then(count => {
+        if (count.c) {
           next();
         } else {
           res.status(404).send();
