@@ -1,106 +1,73 @@
 import React from 'react';
 import { connect } from 'react-redux';
-
-// UI components
-import FloatingActionButton from 'material-ui/FloatingActionButton';
-import ContentAdd from 'material-ui/svg-icons/content/add';
-import ContentFilterList from 'material-ui/svg-icons/content/filter-list';
-import ContentFilterClear from 'material-ui/svg-icons/content/clear';
+import { isEqual } from 'lodash';
 
 // Components
-import SingleTrack from './SingleTrack';
+import Track from './Track';
 import Filters from './Filters';
-import TracksTable from './TracksTable';
 
 // Actions
 import {
-  toggleSingleTrack,
-  toggleTrackFilters,
+  getTracks,
   getLibraries,
+  toggleTrackFilters,
   clearTrackFilters
 } from './../../store/actions/trackActions';
 
 // Helpers
 import { showClearFilters } from './../../shared/HelpService';
 
-const addBtnStyle = {
-  position: 'absolute',
-  right: '30px',
-  bottom: '30px'
-};
-
-const filterBtnStyle = {
-  position: 'absolute',
-  left: '30px',
-  bottom: '30px'
-};
-
-const clearFiltersBtnStyle = {
-  position: 'absolute',
-  left: '75px',
-  bottom: '20px',
-  zIndex: '0'
-};
+// Icons
+import FaPlus from 'react-icons/lib/fa/plus';
+import FaFilter from 'react-icons/lib/fa/filter';
+import FaTimes from 'react-icons/lib/fa/ban';
 
 class Tracks extends React.Component {
-  state = {
-    showFilters: false
-  };
+  state = { showFilters: false };
 
   componentDidMount() {
     this.props.getLibraries();
+    this.props.getTracks(this.props.filters);
   }
-
-  componentWillReceiveProps(nextProps) {
-    let showFilters = showClearFilters(nextProps.filters);
-    this.setState({ showFilters });
-  }
-
-  openAddTrack = () => {
-    this.props.toggleSingleTrack();
-  };
 
   openFilters = () => {
     this.props.toggleTrackFilters();
   };
+
+  componentWillReceiveProps(nextProps) {
+    this.setState({ showFilters: showClearFilters(nextProps.filters) });
+
+    if (!isEqual(nextProps.filters, this.props.filters)) {
+      this.props.getTracks(nextProps.filters);
+    }
+  }
 
   clearFilters = () => {
     this.props.clearTrackFilters();
   };
 
   render() {
+    const tracks = this.props.tracks.map((t, i) => {
+      return <Track trackData={t} key={i} view={this.props.view} />;
+    });
+
+    const { showFilters } = this.state;
+
     return (
       <div className="container">
-        <TracksTable />
-        <SingleTrack />
+        {tracks}
         <Filters />
-
-        <FloatingActionButton
-          secondary={true}
-          style={addBtnStyle}
-          onTouchTap={this.openAddTrack}
-        >
-          <ContentAdd />
-        </FloatingActionButton>
-
-        <FloatingActionButton
-          backgroundColor="#4CAF50"
-          style={filterBtnStyle}
-          onTouchTap={this.openFilters}
-        >
-          <ContentFilterList />
-        </FloatingActionButton>
-
-        {this.state.showFilters
-          ? <FloatingActionButton
-              mini={true}
-              onTouchTap={this.clearFilters}
-              backgroundColor="#9E9E9E"
-              style={clearFiltersBtnStyle}
-            >
-              <ContentFilterClear />
-            </FloatingActionButton>
-          : null}
+        <div className="trackBtns">
+          <button className="trackBtns__btn"><FaPlus /></button>
+          <button className="trackBtns__btn" onClick={this.openFilters}>
+            <FaFilter />
+          </button>
+          {showFilters
+            ? <button className="trackBtns__btn" onClick={this.clearFilters}>
+                <FaTimes />
+              </button>
+            : null}
+        </div>
       </div>
     );
   }
@@ -108,13 +75,15 @@ class Tracks extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    filters: state.trackReducer.filters
+    tracks: state.trackReducer.tracks,
+    filters: state.trackReducer.filters,
+    view: state.trackReducer.view
   };
 }
 
 export default connect(mapStateToProps, {
-  toggleSingleTrack,
-  toggleTrackFilters,
+  getTracks,
   getLibraries,
+  toggleTrackFilters,
   clearTrackFilters
 })(Tracks);

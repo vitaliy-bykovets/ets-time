@@ -1,9 +1,11 @@
+import moment from 'moment';
+
 // Handle http errors
 export function checkStatus(response) {
   if (response.status >= 200 && response.status < 300) {
     return response;
   } else {
-    var error = new Error(response.statusText);
+    let error = new Error(response.statusText);
     error.response = response;
     throw error;
   }
@@ -16,43 +18,46 @@ export function parseJSON(response) {
 
 // Format date to server special
 export function formatDateToServer(inputDate) {
-  let d = inputDate.toLocaleDateString().split('/');
-  let y = d.splice(-1)[0];
-  d.splice(0, 0, y);
-
-  return d.map(i => (i.length === 1 ? `0${i}` : i)).join('-');
+  return moment(inputDate).format('YYYY-MM-DD');
 }
 
 // Get start of week
 export function getStartOfWeek(date) {
-  date = date ? new Date(date) : new Date();
-  date.setHours(0, 0, 0, 0);
-
-  // Set date to previous monday
-  date.setDate(date.getDate() - (date.getDay() || 7) + 1);
-
-  return date;
+  return moment().startOf('isoWeek');
 }
 
 // Get end of week
 export function getEndOfWeek(date) {
-  date = getStartOfWeek(date);
-  date.setDate(date.getDate() + 6);
-  return date;
+  return moment().endOf('isoWeek');
 }
 
 // Check if filters was selected
 export function showClearFilters(filters) {
   let { workType, status, project, task, startDate, endDate } = filters;
-  const sWeek = getStartOfWeek().toLocaleDateString();
-  const eWeek = getEndOfWeek().toLocaleDateString();
+  const sWeek = getStartOfWeek().format('YYYY-MM-DD');
+  const eWeek = getEndOfWeek().format('YYYY-MM-DD');
 
   return (
-    workType !== null ||
-    status !== null ||
+    workType !== '' ||
+    status !== '' ||
     project !== '' ||
     task !== '' ||
-    startDate.toLocaleDateString() !== sWeek ||
-    endDate.toLocaleDateString() !== eWeek
+    startDate.format('YYYY-MM-DD') !== sWeek ||
+    endDate.format('YYYY-MM-DD') !== eWeek
   );
+}
+
+// Get initial filters
+export function getInitFilters() {
+  const startWeek = getStartOfWeek();
+  const endWeek = getEndOfWeek();
+
+  return {
+    workType: '',
+    status: '',
+    project: '',
+    task: '',
+    startDate: startWeek,
+    endDate: endWeek
+  };
 }

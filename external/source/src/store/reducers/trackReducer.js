@@ -5,36 +5,31 @@ import {
   SET_WORK_TYPES,
   SET_STATUS_TYPES,
   SET_TRACK_FILTER,
-  CLEAR_TRACK_FILTERS
+  CLEAR_TRACK_FILTERS,
+  CHANGE_TRACK_VIEW
 } from './../actions/types';
 
 // Helpers
-import { getStartOfWeek, getEndOfWeek } from './../../shared/HelpService';
+import { getInitFilters } from './../../shared/HelpService';
 
-const startWeek = getStartOfWeek();
-const endWeek = getEndOfWeek();
-const initFilters = {
-  workType: null,
-  status: null,
-  project: '',
-  task: '',
-  startDate: startWeek,
-  endDate: endWeek
-};
-
+const initFilters = getInitFilters();
+const view = localStorage.getItem('viewType');
 const initial = {
   tracks: [],
   workTypes: [],
   statusTypes: [],
   trackIsOpen: false,
   filtersIsOpen: false,
-  filters: initFilters
+  filters: initFilters,
+  view: view ? view : 'block'
 };
 
 export default function trackReducer(state = initial, action = {}) {
   switch (action.type) {
     case SET_TRACKS:
       return Object.assign({}, state, { tracks: action.tracks });
+    case CHANGE_TRACK_VIEW:
+      return Object.assign({}, state, { view: action.view });
     case CLEAR_TRACK_FILTERS:
       return Object.assign({}, state, { filters: initFilters });
     case SET_TRACK_FILTER:

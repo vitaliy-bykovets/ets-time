@@ -1,13 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
-
-// Ui components
-import Dialog from 'material-ui/Dialog';
-import FlatButton from 'material-ui/FlatButton';
-import TextField from 'material-ui/TextField';
-import SelectField from 'material-ui/SelectField';
-import MenuItem from 'material-ui/MenuItem';
-import DatePicker from 'material-ui/DatePicker';
+import classnames from 'classnames';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 
 // Actions
 import {
@@ -16,14 +11,11 @@ import {
   setTrackFilters
 } from './../../store/actions/trackActions';
 
-const wrapper = {
-  display: 'flex',
-  flexWrap: 'wrap',
-  justifyContent: 'space-around'
-};
+// Helpers
+import { getInitFilters } from './../../shared/HelpService';
 
 class Filters extends React.Component {
-  state = {};
+  state = getInitFilters();
 
   componentDidMount() {
     this.setState(this.props.filters);
@@ -33,11 +25,9 @@ class Filters extends React.Component {
     this.setState(nextProps.filters);
   }
 
-  handleInputChange = (e, value) => this.setState({ [e.target.name]: value });
-  handleChangeEndDate = (e, endDate) => this.setState({ endDate });
-  handleChangeStartDate = (e, startDate) => this.setState({ startDate });
-  handleChangeWorkType = (e, index, workType) => this.setState({ workType });
-  handleChangeStatus = (e, index, status) => this.setState({ status });
+  handleInputChange = e => this.setState({ [e.target.name]: e.target.value });
+  handleChangeStartDate = date => this.setState({ startDate: date });
+  handleChangeEndDate = date => this.setState({ endDate: date });
   handleClose = () => this.props.toggleTrackFilters();
   handleUseFilters = () => {
     let filters = this.state;
@@ -47,93 +37,93 @@ class Filters extends React.Component {
   };
 
   render() {
-    const actions = [
-      <FlatButton
-        label="Go"
-        primary={true}
-        onTouchTap={this.handleUseFilters}
-      />,
-      <FlatButton
-        label="Cancel"
-        primary={false}
-        onTouchTap={this.handleClose}
-      />
-    ];
-
     const workTypes = this.props.workTypes.map((item, i) =>
-      <MenuItem key={i} value={item} primaryText={item} />
+      <option key={i} value={item}>{item}</option>
     );
 
     const statusTypes = this.props.statusTypes.map((item, i) =>
-      <MenuItem key={i} value={item} primaryText={item} />
+      <option key={i} value={item}>{item}</option>
     );
 
     return (
-      <Dialog
-        title="Filters"
-        actions={actions}
-        modal={true}
-        autoOk={true}
-        open={this.props.filtersIsOpen}
-        autoScrollBodyContent={true}
-        contentStyle={
-          window.innerWidth < 768
-            ? {}
-            : { width: '65%', minWidth: '560px', maxWidth: '600px' }
-        }
+      <div
+        className={classnames('filters', {
+          'filters--open': this.props.filtersIsOpen
+        })}
       >
-        <div style={wrapper}>
-          <TextField
-            name="project"
-            floatingLabelText="Project"
+        <div className="filters-wrapper">
+          <label className="filters__headline">Project</label>
+          <input
+            type="text"
             value={this.state.project}
+            name="project"
             onChange={this.handleInputChange}
+            className="filters__input"
           />
 
-          <TextField
-            name="task"
-            floatingLabelText="Task"
+          <label className="filters__headline">Task</label>
+          <input
+            type="text"
             value={this.state.task}
+            name="task"
             onChange={this.handleInputChange}
+            className="filters__input"
           />
 
-          <SelectField
-            floatingLabelText="Work type"
+          <label className="filters__headline">Work type</label>
+          <select
+            name="workType"
+            className="filters__select"
             value={this.state.workType}
-            onChange={this.handleChangeWorkType}
+            onChange={this.handleInputChange}
           >
-            <MenuItem value={null} primaryText="" />
+            <option value="" />
             {workTypes}
-          </SelectField>
+          </select>
 
-          <SelectField
-            floatingLabelText="Status"
+          <label className="filters__headline">Status</label>
+          <select
+            name="status"
+            className="filters__select"
             value={this.state.status}
-            onChange={this.handleChangeStatus}
+            onChange={this.handleInputChange}
           >
-            <MenuItem value={null} primaryText="" />
+            <option value="" />
             {statusTypes}
-          </SelectField>
+          </select>
 
+          <label className="filters__headline">Start date</label>
           <DatePicker
+            dateFormat="DD-MM-YYYY"
+            selected={this.state.startDate}
             onChange={this.handleChangeStartDate}
-            floatingLabelText="Start date"
-            defaultDate={this.state.startDate}
-            disableYearSelection={true}
-            textFieldStyle={window.innerWidth < 768 ? { width: '100%' } : {}}
-            style={window.innerWidth < 768 ? { width: '100%' } : {}}
+            className="filters__select"
           />
 
+          <label className="filters__headline">End date</label>
           <DatePicker
-            onChange={this.handleChangeEndDate}
-            floatingLabelText="End date"
-            defaultDate={this.state.endDate}
-            disableYearSelection={true}
-            textFieldStyle={window.innerWidth < 768 ? { width: '100%' } : {}}
-            style={window.innerWidth < 768 ? { width: '100%' } : {}}
+            dateFormat="DD-MM-YYYY"
+            selected={this.state.endDate}
+            onChange={this.handleEndChange}
+            className="filters__select"
           />
+
+          <div className="filtersBtns">
+            <button
+              className="filtersBtns__btn filtersBtns__btn--save"
+              onClick={this.handleUseFilters}
+            >
+              Save
+            </button>
+            <button
+              className="filtersBtns__btn filtersBtns__btn--cancel"
+              onClick={this.handleClose}
+            >
+              Cancel
+            </button>
+          </div>
         </div>
-      </Dialog>
+      </div>
     );
   }
 }

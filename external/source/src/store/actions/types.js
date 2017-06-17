@@ -6,6 +6,7 @@ export const SET_WORK_TYPES = 'SET_WORK_TYPES';
 export const SET_STATUS_TYPES = 'SET_STATUS_TYPES';
 export const SET_TRACK_FILTER = 'SET_TRACK_FILTER';
 export const CLEAR_TRACK_FILTERS = 'CLEAR_TRACK_FILTERS';
+export const CHANGE_TRACK_VIEW = 'CHANGE_TRACK_VIEW';
 
 // Users
 

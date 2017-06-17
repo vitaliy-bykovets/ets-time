@@ -1,0 +1,62 @@
+@media (max-width: 768px) {
+  .filters {
+    width: 100%;
+    transform: translateX(100%);
+  }
+
+  .filters--open {
+    transform: translateX(0);
+  }
+
+  .trackBtns {
+    bottom: 0;
+    right: 0;
+    top: inherit;
+    width: 100%;
+    border-radius: 0;
+    height: 50px;
+    box-shadow: 0px -2px 10px 1px rgba(0, 0, 0, 0.1);
+    flex-wrap: initial;
+  }
+
+  .track__menuBtnLine--btn {
+    padding: 0 7px;
+  }
+}
+
+@media (max-width: 680px) {
+  .track {
+    width: 100%;
+  }
+
+  .track__block {
+    margin: 5px;
+  }
+}
+
+@media (max-width: 420px) {
+  .track__line {
+    padding-left: 5px;
+  }
+
+  .track__project--line {
+    display: none;
+  }
+
+  .track__date--line {
+    font-size: 12px;
+  }
+
+  .track__type--line {
+    display: none;
+  }
+
+  .track__menuBtn--line {
+    margin-left: 5px;
+    font-size: initial;
+  }
+
+  .track__hours--line {
+    padding-right: 5px;
+  }
+}
