@@ -6,7 +6,8 @@ import {
   SET_WORK_TYPES,
   SET_STATUS_TYPES,
   SET_TRACK_FILTER,
-  CLEAR_TRACK_FILTERS
+  CLEAR_TRACK_FILTERS,
+  CHANGE_TRACK_VIEW
 } from './types';
 
 export function getTracks(filters) {
@@ -67,5 +68,12 @@ function setStatusTypes(statusTypes) {
   return {
     type: SET_STATUS_TYPES,
     statusTypes
+  };
+}
+
+export function changeTrackView(view) {
+  return {
+    type: CHANGE_TRACK_VIEW,
+    view
   };
 }
