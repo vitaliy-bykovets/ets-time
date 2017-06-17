@@ -1,10 +1,15 @@
 @media (max-width: 768px) {
-  .filters {
+  .container {
+    width: calc(100% - 20px);
+    padding: 0 10px;
+  }
+
+  .filters, .settings {
     width: 100%;
     transform: translateX(100%);
   }
 
-  .filters--open {
+  .filters--open, .settings--open {
     transform: translateX(0);
   }
 
@@ -58,5 +63,10 @@
 
   .track__hours--line {
     padding-right: 5px;
+  }
+
+  .container {
+    width: calc(100% - 10px);
+    padding: 0 5px;
   }
 }

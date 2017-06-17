@@ -54,7 +54,7 @@ class Tracks extends React.Component {
     const { showFilters } = this.state;
 
     return (
-      <div className="container">
+      <div className="container" style={{ background: this.props.bgColor }}>
         {tracks}
         <Filters />
         <div className="trackBtns">
@@ -77,7 +77,8 @@ function mapStateToProps(state) {
   return {
     tracks: state.trackReducer.tracks,
     filters: state.trackReducer.filters,
-    view: state.trackReducer.view
+    view: state.trackReducer.view,
+    bgColor: state.generalReducer.bgColor
   };
 }
 

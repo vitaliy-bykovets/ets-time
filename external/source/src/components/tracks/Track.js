@@ -3,13 +3,13 @@ import classnames from 'classnames';
 
 // Icons
 import FaEllipsis from 'react-icons/lib/fa/ellipsis-h';
-import FaPencil from 'react-icons/lib/fa/pencil';
-import FaDelete from 'react-icons/lib/fa/trash-o';
-import FaAccept from 'react-icons/lib/fa/check-square-o';
-import FaDecline from 'react-icons/lib/fa/ban';
 
 // Helpers
 import { formatDateToServer } from './../../shared/HelpService';
+
+// Components
+import TrackBlockMenu from './TrackBlockMenu';
+import TrackLineMenu from './TrackLineMenu';
 
 class Track extends React.Component {
   state = {
@@ -87,22 +87,7 @@ class Track extends React.Component {
             {t.hours} hours
           </span>
 
-          {view === 'line'
-            ? <div className="track__menuBtn--line">
-                <div className="track__menuBtnLine--btn">
-                  <FaPencil />
-                </div>
-                <div className="track__menuBtnLine--btn">
-                  <FaDelete />
-                </div>
-                <div className="track__menuBtnLine--btn">
-                  <FaAccept />
-                </div>
-                <div className="track__menuBtnLine--btn">
-                  <FaDecline />
-                </div>
-              </div>
-            : null}
+          <TrackLineMenu view={view} />
         </div>
 
         {view === 'block'
@@ -111,23 +96,11 @@ class Track extends React.Component {
             </button>
           : null}
 
-        <div
-          className={classnames('track-menu-btns', {
-            'track-menu-btns--opened': this.state.menuOpen
-          })}
-        >
-          <button className="track-menu-btns__btn">Edit</button>
-          <button className="track-menu-btns__btn">Delete</button>
-          {t.status !== 'Declined'
-            ? <button className="track-menu-btns__btn">Decline</button>
-            : null}
-          {t.status !== 'Accepted'
-            ? <button className="track-menu-btns__btn">Accept</button>
-            : null}
-          <button className="track-menu-btns__btn" onClick={this.toggleMenu}>
-            Cancel
-          </button>
-        </div>
+        <TrackBlockMenu
+          t={t}
+          menuOpen={this.state.menuOpen}
+          toggleMenu={this.toggleMenu}
+        />
       </div>
     );
   }
