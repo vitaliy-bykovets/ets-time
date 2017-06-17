@@ -8,8 +8,8 @@ export const SET_TRACK_FILTER = 'SET_TRACK_FILTER';
 export const CLEAR_TRACK_FILTERS = 'CLEAR_TRACK_FILTERS';
 export const CHANGE_TRACK_VIEW = 'CHANGE_TRACK_VIEW';
 
-// Users
-
 // General
+export const CHANGE_BG_COLOR = 'CHANGE_BG_COLOR';
 
+// Users
 // Auth

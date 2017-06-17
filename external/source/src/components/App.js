@@ -1,5 +1,6 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
+import { connect } from 'react-redux';
 
 // Components
 import Topbar from './general/Topbar';
@@ -14,7 +15,7 @@ class App extends React.Component {
     const displayTopbar = true;
 
     return (
-      <div>
+      <div className="wrapper" style={{ background: this.props.bgColor }}>
         {displayTopbar ? <Topbar /> : null}
         <Switch>
           <Route exact path="/" component={Tracks} />
@@ -28,4 +29,10 @@ class App extends React.Component {
   }
 }
 
-export default App;
+function mapStateToProps(state) {
+  return {
+    bgColor: state.generalReducer.bgColor
+  };
+}
+
+export default connect(mapStateToProps, {})(App);
