@@ -2,6 +2,8 @@ let config = {
   port: 3000,
   type_works: ['Development', 'Testing'],
   task_status: ['Accepted', 'Declined', 'Open'],
+  roles: ['owner', 'pm', 'member'],
+  positions: ['backend', 'ios', 'android', 'qa', 'designer', 'other'],
   db: {
     client: 'mysql',
     connection: {

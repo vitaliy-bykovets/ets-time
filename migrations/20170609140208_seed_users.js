@@ -8,7 +8,10 @@ exports.up = knex => {
     last_name: 'Admin',
     token: 1,
     password: bcrypt.hashSync('password', salt),
-    user_type: 1
+    position: 'default',
+    roles: 'owner,pm',
+    created_at: new Date(),
+    updated_at: new Date()
   });
 };
 

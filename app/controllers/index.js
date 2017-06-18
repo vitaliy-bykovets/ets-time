@@ -1,4 +1,5 @@
 module.exports = {
   dictionaries: require('./dictionaries'),
-  lines: require('./lines')
+  lines: require('./lines'),
+  users: require('./users')
 };

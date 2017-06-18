@@ -9,5 +9,6 @@ const noCache = (req, res, next) => {
 
 module.exports = app => {
   app.use('/api/v1/lines', noCache, c.lines);
+  app.use('/api/v1/users', noCache, c.users);
   app.use('/api/v1/dictionaries', noCache, c.dictionaries);
 };

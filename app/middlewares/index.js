@@ -4,7 +4,9 @@ module.exports = {
     line_edit: require('./validators/line_edit'),
     line_delete: require('./validators/line_delete'),
     line_list: require('./validators/line_list'),
-    line_status: require('./validators/line_status')
+    line_status: require('./validators/line_status'),
+    user_create: require('./validators/user_create'),
+    users_list: require('./validators/users_list')
   },
   auth: require('./auth')
 };

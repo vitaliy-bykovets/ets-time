@@ -5,7 +5,9 @@ const env = require('./../config');
 router.get('/', (req, res) => {
   res.json({
     type_works: env.type_works,
-    task_status: env.task_status
+    task_status: env.task_status,
+    positions: env.positions,
+    roles: env.roles
   });
 });
 
