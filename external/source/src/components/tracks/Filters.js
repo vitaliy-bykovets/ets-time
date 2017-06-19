@@ -107,21 +107,20 @@ class Filters extends React.Component {
             onChange={this.handleEndChange}
             className="filters__select"
           />
-
-          <div className="filtersBtns">
-            <button
-              className="filtersBtns__btn filtersBtns__btn--save"
-              onClick={this.handleUseFilters}
-            >
-              Save
-            </button>
-            <button
-              className="filtersBtns__btn filtersBtns__btn--cancel"
-              onClick={this.handleClose}
-            >
-              Cancel
-            </button>
-          </div>
+        </div>
+        <div className="filtersBtns">
+          <button
+            className="filtersBtns__btn filtersBtns__btn--save"
+            onClick={this.handleUseFilters}
+          >
+            Save
+          </button>
+          <button
+            className="filtersBtns__btn filtersBtns__btn--cancel"
+            onClick={this.handleClose}
+          >
+            Cancel
+          </button>
         </div>
       </div>
     );

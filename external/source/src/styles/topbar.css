@@ -24,6 +24,7 @@
 
 .settings__wrapper {
   padding: 20px;
+  min-height: 100%;
 }
 
 .settings--open {
