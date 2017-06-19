@@ -25,10 +25,22 @@ class Filters extends React.Component {
     this.setState(nextProps.filters);
   }
 
-  handleInputChange = e => this.setState({ [e.target.name]: e.target.value });
-  handleChangeStartDate = date => this.setState({ startDate: date });
-  handleChangeEndDate = date => this.setState({ endDate: date });
-  handleClose = () => this.props.toggleTrackFilters();
+  handleInputChange = e => {
+    this.setState({ [e.target.name]: e.target.value });
+  };
+
+  handleChangeStartDate = date => {
+    this.setState({ startDate: date });
+  };
+
+  handleChangeEndDate = date => {
+    this.setState({ endDate: date });
+  };
+
+  handleClose = () => {
+    this.props.toggleTrackFilters();
+  };
+
   handleUseFilters = () => {
     let filters = this.state;
     this.props.toggleTrackFilters();
@@ -52,6 +64,8 @@ class Filters extends React.Component {
         })}
       >
         <div className="sidebar__wrapper">
+          <h4 className="sidebar__title">Change filters</h4>
+
           <label className="filters__headline">Project</label>
           <input
             type="text"
@@ -113,7 +127,7 @@ class Filters extends React.Component {
             className="sidebarBtns__btn sidebarBtns__btn--save"
             onClick={this.handleUseFilters}
           >
-            Save
+            Apply filters
           </button>
           <button
             className="sidebarBtns__btn sidebarBtns__btn--cancel"

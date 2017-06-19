@@ -27,4 +27,7 @@
 .filters__headline {
   margin-top: 20px;
   color: #A7FFEB;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }

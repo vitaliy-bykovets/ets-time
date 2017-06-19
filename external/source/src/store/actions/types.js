@@ -10,6 +10,9 @@ export const CHANGE_TRACK_VIEW = 'CHANGE_TRACK_VIEW';
 
 // General
 export const CHANGE_BG_COLOR = 'CHANGE_BG_COLOR';
+export const SET_ERRORS = 'SET_ERRORS';
+export const CLEAR_ERROR_FIELD = 'CLEAR_ERROR_FIELD';
+export const CLEAR_ERRORS = 'CLEAR_ERRORS';
 
 // Users
 // Auth

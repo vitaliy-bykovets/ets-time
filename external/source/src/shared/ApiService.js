@@ -1,7 +1,31 @@
-import { checkStatus, parseJSON, formatDateToServer } from './HelpService';
+import { parseJSON, formatDateToServer } from './HelpService';
 
-export function getWorkTypesApi() {
-  return fetch('/api/v1/dictionaries').then(checkStatus).then(parseJSON);
+export function getDictionaries() {
+  return fetch('/api/v1/dictionaries').then(parseJSON);
+}
+
+export function createTrackApi(data) {
+  let {
+    project = '',
+    task = '',
+    workType: type_work = '',
+    hours = 0,
+    trackDate
+  } = data;
+
+  return fetch('/api/v1/lines', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      project,
+      task,
+      type_work,
+      hours,
+      date_task: trackDate ? trackDate.format('YYYY-MM-DD') : ''
+    })
+  });
 }
 
 export function getTracksApi(filters) {
@@ -26,7 +50,5 @@ export function getTracksApi(filters) {
       : ''}&status=${status ? status : ''}&type_work=${workType
       ? workType
       : ''}&task=${task}`
-  )
-    .then(checkStatus)
-    .then(parseJSON);
+  ).then(parseJSON);
 }

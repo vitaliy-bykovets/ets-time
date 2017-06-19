@@ -52,6 +52,7 @@ class Settings extends React.Component {
         })}
       >
         <div className="sidebar__wrapper">
+          <h4 className="sidebar__title">Settings</h4>
           <label className="filters__headline">Background color</label>
           <div className="sidebar__colors">
             {colorsSection}
@@ -62,7 +63,7 @@ class Settings extends React.Component {
             className="sidebarBtns__btn sidebarBtns__btn--save"
             onClick={this.saveSettings}
           >
-            Save
+            Save settings
           </button>
           <button
             className="sidebarBtns__btn sidebarBtns__btn--cancel"

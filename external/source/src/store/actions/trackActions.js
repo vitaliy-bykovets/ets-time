@@ -1,4 +1,14 @@
-import { getTracksApi, getWorkTypesApi } from './../../shared/ApiService';
+// Api services
+import {
+  getTracksApi,
+  getDictionaries,
+  createTrackApi
+} from './../../shared/ApiService';
+
+// Actions
+import { setErrors } from './generalActions';
+
+// Constants
 import {
   SET_TRACKS,
   TOGGLE_SINGLE_TRACK,
@@ -10,16 +20,40 @@ import {
   CHANGE_TRACK_VIEW
 } from './types';
 
-export function getTracks(filters) {
+// Helpers
+import { getInitFilters } from './../../shared/HelpService';
+
+export function getTracks(filters = getInitFilters()) {
   return dispatch => {
-    getTracksApi(filters).then(resp => dispatch(setTracks(resp.data)));
+    getTracksApi(filters).then(resp => {
+      if (resp.data) dispatch(setTracks(resp.data));
+    });
   };
 }
 
-function setTracks(tracks) {
-  return {
-    type: SET_TRACKS,
-    tracks
+export function createTrack(data) {
+  return dispatch => {
+    createTrackApi(data).then(resp => {
+      if (resp.status >= 200 && resp.status < 300) {
+        dispatch(getTracks());
+        dispatch(toggleSingleTrack());
+      } else {
+        resp.json().then(resp => {
+          dispatch(setErrors(resp.errors));
+        });
+      }
+    });
+  };
+}
+
+export function getLibraries() {
+  return dispatch => {
+    getDictionaries().then(resp => {
+      if (resp) {
+        dispatch(setWorkTypes(resp.type_works));
+        dispatch(setStatusTypes(resp.task_status));
+      }
+    });
   };
 }
 
@@ -48,12 +82,17 @@ export function setTrackFilters(filters) {
   };
 }
 
-export function getLibraries() {
-  return dispatch => {
-    getWorkTypesApi().then(resp => {
-      dispatch(setWorkTypes(resp.type_works));
-      dispatch(setStatusTypes(resp.task_status));
-    });
+export function changeTrackView(view) {
+  return {
+    type: CHANGE_TRACK_VIEW,
+    view
+  };
+}
+
+function setTracks(tracks) {
+  return {
+    type: SET_TRACKS,
+    tracks
   };
 }
 
@@ -68,12 +107,5 @@ function setStatusTypes(statusTypes) {
   return {
     type: SET_STATUS_TYPES,
     statusTypes
-  };
-}
-
-export function changeTrackView(view) {
-  return {
-    type: CHANGE_TRACK_VIEW,
-    view
   };
 }
