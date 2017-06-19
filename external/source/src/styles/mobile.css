@@ -4,12 +4,12 @@
     padding: 0 10px;
   }
 
-  .filters, .settings {
+  .sidebar {
     width: 100%;
     transform: translateX(100%);
   }
 
-  .filters--open, .settings--open {
+  .sidebar--open {
     transform: translateX(0);
   }
 
