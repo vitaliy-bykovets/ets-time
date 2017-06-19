@@ -108,15 +108,15 @@ class Filters extends React.Component {
             className="filters__select"
           />
         </div>
-        <div className="filtersBtns">
+        <div className="sidebarBtns">
           <button
-            className="filtersBtns__btn filtersBtns__btn--save"
+            className="sidebarBtns__btn sidebarBtns__btn--save"
             onClick={this.handleUseFilters}
           >
             Save
           </button>
           <button
-            className="filtersBtns__btn filtersBtns__btn--cancel"
+            className="sidebarBtns__btn sidebarBtns__btn--cancel"
             onClick={this.handleClose}
           >
             Cancel
