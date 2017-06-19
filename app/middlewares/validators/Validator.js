@@ -19,4 +19,20 @@ Validator.registerAsync('unique', (email, attribute, req, passes) => {
     });
 });
 
+/**
+ * Get exist user
+ */
+Validator.registerAsync('user_exist', (user_id, attribute, req, passes) => {
+  knex('users')
+    .where('id', user_id)
+    .first()
+    .count('* as c')
+    .then(count => {
+      passes(count.c === 1, 'User not found');
+    })
+    .catch(() => {
+      passes(false, 'Error in Validator.js:34');
+    });
+});
+
 module.exports = Validator;

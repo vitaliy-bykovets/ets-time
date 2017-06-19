@@ -6,7 +6,8 @@ module.exports = {
     line_list: require('./validators/line_list'),
     line_status: require('./validators/line_status'),
     user_create: require('./validators/user_create'),
-    users_list: require('./validators/users_list')
+    users_list: require('./validators/users_list'),
+    user_edit: require('./validators/user_edit')
   },
   auth: require('./auth')
 };
