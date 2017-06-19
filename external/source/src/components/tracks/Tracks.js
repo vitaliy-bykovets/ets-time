@@ -57,13 +57,13 @@ class Tracks extends React.Component {
       <div className="container" style={{ background: this.props.bgColor }}>
         {tracks}
         <Filters />
-        <div className="trackBtns">
-          <button className="trackBtns__btn"><FaPlus /></button>
-          <button className="trackBtns__btn" onClick={this.openFilters}>
+        <div className="mainBtns">
+          <button className="mainBtns__btn"><FaPlus /></button>
+          <button className="mainBtns__btn" onClick={this.openFilters}>
             <FaFilter />
           </button>
           {showFilters
-            ? <button className="trackBtns__btn" onClick={this.clearFilters}>
+            ? <button className="mainBtns__btn" onClick={this.clearFilters}>
                 <FaTimes />
               </button>
             : null}

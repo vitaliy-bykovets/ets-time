@@ -57,15 +57,15 @@ class Settings extends React.Component {
             {colorsSection}
           </div>
         </div>
-        <div className="filtersBtns">
+        <div className="sidebarBtns">
           <button
-            className="filtersBtns__btn filtersBtns__btn--save"
+            className="sidebarBtns__btn sidebarBtns__btn--save"
             onClick={this.saveSettings}
           >
             Save
           </button>
           <button
-            className="filtersBtns__btn filtersBtns__btn--cancel"
+            className="sidebarBtns__btn sidebarBtns__btn--cancel"
             onClick={toggleSettings}
           >
             Cancel
