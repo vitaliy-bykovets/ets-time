@@ -5,14 +5,17 @@ import { isEqual } from 'lodash';
 // Components
 import Track from './Track';
 import Filters from './Filters';
+import SingleTrack from './SingleTrack';
 
 // Actions
 import {
   getTracks,
   getLibraries,
   toggleTrackFilters,
-  clearTrackFilters
+  clearTrackFilters,
+  toggleSingleTrack
 } from './../../store/actions/trackActions';
+import { clearErrors } from './../../store/actions/generalActions';
 
 // Helpers
 import { showClearFilters } from './../../shared/HelpService';
@@ -46,6 +49,11 @@ class Tracks extends React.Component {
     this.props.clearTrackFilters();
   };
 
+  openSingleTrack = () => {
+    this.props.toggleSingleTrack();
+    this.props.clearErrors();
+  };
+
   render() {
     const tracks = this.props.tracks.map((t, i) => {
       return <Track trackData={t} key={i} view={this.props.view} />;
@@ -57,8 +65,11 @@ class Tracks extends React.Component {
       <div className="container" style={{ background: this.props.bgColor }}>
         {tracks}
         <Filters />
+        <SingleTrack />
         <div className="mainBtns">
-          <button className="mainBtns__btn"><FaPlus /></button>
+          <button className="mainBtns__btn" onClick={this.openSingleTrack}>
+            <FaPlus />
+          </button>
           <button className="mainBtns__btn" onClick={this.openFilters}>
             <FaFilter />
           </button>
@@ -86,5 +97,7 @@ export default connect(mapStateToProps, {
   getTracks,
   getLibraries,
   toggleTrackFilters,
-  clearTrackFilters
+  clearTrackFilters,
+  toggleSingleTrack,
+  clearErrors
 })(Tracks);
