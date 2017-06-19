@@ -94,12 +94,12 @@ class SingeTrack extends React.Component {
               ? <span className="error__text">{errors.task}</span>
               : null}
           </label>
-          <input
-            type="text"
+          <textarea
+            rows="6"
             value={this.state.task}
             name="task"
             onChange={this.handleInputChange}
-            className={classnames('filters__input', {
+            className={classnames('filters__textarea', {
               bgError: errors.task
             })}
             onFocus={this.handleFocusInput}

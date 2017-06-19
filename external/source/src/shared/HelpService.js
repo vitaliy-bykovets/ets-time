@@ -2,7 +2,6 @@ import moment from 'moment';
 
 // Parse http response to json
 export function parseJSON(response) {
-  console.log(response);
   return response.json();
 }
 
