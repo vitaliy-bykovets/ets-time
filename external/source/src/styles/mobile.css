@@ -54,6 +54,11 @@
     margin: 0;
   }
 
+  .filters__textarea {
+    padding: 0 10px;
+    margin: 0;
+  }
+
   .track__line {
     padding-left: 5px;
   }
