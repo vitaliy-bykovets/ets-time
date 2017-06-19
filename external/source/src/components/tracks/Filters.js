@@ -47,11 +47,11 @@ class Filters extends React.Component {
 
     return (
       <div
-        className={classnames('filters', {
-          'filters--open': this.props.filtersIsOpen
+        className={classnames('sidebar', {
+          'sidebar--open': this.props.filtersIsOpen
         })}
       >
-        <div className="filters-wrapper">
+        <div className="sidebar__wrapper">
           <label className="filters__headline">Project</label>
           <input
             type="text"

@@ -9,7 +9,7 @@
   margin-bottom: 10px;
 }
 
-.settings {
+.sidebar {
   height: 100%;
   position: fixed;
   right: 0;
@@ -20,23 +20,28 @@
   transform: translateX(400px);
   transition: all 0.2s;
   z-index: 1;
+  overflow-y: scroll;
 }
 
-.settings__wrapper {
-  padding: 20px;
+.sidebar__wrapper {
+  padding: 0 20px 20px 20px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
   min-height: 100%;
+  height: auto;
 }
 
-.settings--open {
+.sidebar--open {
   transform: translateX(0);
 }
 
-.settings__colors {
+.sidebar__colors {
   display: flex;
   margin-top: 10px;
 }
 
-.settings__color {
+.sidebar__color {
   width: 30px;
   height: 30px;
   border-radius: 3px;
@@ -46,14 +51,14 @@
   position: relative;
 }
 
-.settings__color-pointer {
+.sidebar__color-pointer {
   position: absolute;
   top: 35px;
   left: 7px;
   color: #A7FFEB;
 }
 
-.settings__color:not(:first-child) {
+.sidebar__color:not(:first-child) {
   margin: 5px;
 }
 
