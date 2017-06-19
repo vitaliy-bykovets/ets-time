@@ -35,25 +35,25 @@ class Settings extends React.Component {
     const colorsSection = colors.map((i, index) =>
       <div
         key={index}
-        className="settings__color"
+        className="sidebar__color"
         style={{ background: i }}
         onClick={() => this.handleClickColor(i)}
       >
         {bgColor === i
-          ? <FaArrowUp className="settings__color-pointer" />
+          ? <FaArrowUp className="sidebar__color-pointer" />
           : null}
       </div>
     );
 
     return (
       <div
-        className={classnames('settings', {
-          'settings--open': settingsOpen
+        className={classnames('sidebar', {
+          'sidebar--open': settingsOpen
         })}
       >
-        <div className="settings__wrapper">
+        <div className="sidebar__wrapper">
           <label className="filters__headline">Background color</label>
-          <div className="settings__colors">
+          <div className="sidebar__colors">
             {colorsSection}
           </div>
         </div>

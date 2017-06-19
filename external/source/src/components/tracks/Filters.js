@@ -47,11 +47,11 @@ class Filters extends React.Component {
 
     return (
       <div
-        className={classnames('filters', {
-          'filters--open': this.props.filtersIsOpen
+        className={classnames('sidebar', {
+          'sidebar--open': this.props.filtersIsOpen
         })}
       >
-        <div className="filters-wrapper">
+        <div className="sidebar__wrapper">
           <label className="filters__headline">Project</label>
           <input
             type="text"
@@ -107,21 +107,20 @@ class Filters extends React.Component {
             onChange={this.handleEndChange}
             className="filters__select"
           />
-
-          <div className="filtersBtns">
-            <button
-              className="filtersBtns__btn filtersBtns__btn--save"
-              onClick={this.handleUseFilters}
-            >
-              Save
-            </button>
-            <button
-              className="filtersBtns__btn filtersBtns__btn--cancel"
-              onClick={this.handleClose}
-            >
-              Cancel
-            </button>
-          </div>
+        </div>
+        <div className="filtersBtns">
+          <button
+            className="filtersBtns__btn filtersBtns__btn--save"
+            onClick={this.handleUseFilters}
+          >
+            Save
+          </button>
+          <button
+            className="filtersBtns__btn filtersBtns__btn--cancel"
+            onClick={this.handleClose}
+          >
+            Cancel
+          </button>
         </div>
       </div>
     );
