@@ -48,7 +48,7 @@ router.get('/', mw.validators.line_list, async (req, res) => {
       },
       list: callback => {
         knex('track_lines as tl')
-          .select('tl.*', 'u.first_name', 'u.last_name', 'u.user_type', 'u.locked', 'u.email')
+          .select('tl.*', 'u.first_name', 'u.last_name', 'u.roles', 'u.position', 'u.locked', 'u.email')
           .where(criteriaForList(param))
           .leftJoin('users as u', 'u.id', 'tl.user_id')
           .orderBy('tl.created_at', 'desc')
@@ -57,6 +57,7 @@ router.get('/', mw.validators.line_list, async (req, res) => {
     },
     (err, results) => {
       if (err) {
+        console.log(err);
         res.status(400).end();
       } else if (results) {
         res.json({
