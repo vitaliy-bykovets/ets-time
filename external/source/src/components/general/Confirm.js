@@ -27,7 +27,6 @@ class Confirm extends React.Component {
       >
         <div className="sidebar__wrapper centered">
           <h4 className="headline-centered">{this.props.text}</h4>
-
           <div>
             <button onClick={this.handleClickOk} className="button">Ok</button>
             <button onClick={this.handleClose} className="button">

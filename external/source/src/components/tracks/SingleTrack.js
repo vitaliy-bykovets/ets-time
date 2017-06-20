@@ -3,6 +3,7 @@ import classnames from 'classnames';
 import { connect } from 'react-redux';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import { isEqual } from 'lodash';
 
 // Actions
 import {
@@ -26,7 +27,9 @@ class SingeTrack extends React.Component {
     }
 
     // Set state if opened track edit
-    this.setState(nextProps.trackData);
+    if (!isEqual(nextProps.trackData, this.props.trackData)) {
+      this.setState(nextProps.trackData);
+    }
   }
 
   handleClose = () => {
@@ -50,8 +53,7 @@ class SingeTrack extends React.Component {
   };
 
   handleFocusInput = e => {
-    let field = e.target.name;
-    this.props.clearErrorField(field !== 'type_work' ? field : 'type_work');
+    this.props.clearErrorField(e.target.name);
   };
 
   handleDateFocus = () => {
@@ -75,6 +77,12 @@ class SingeTrack extends React.Component {
           <h4 className="sidebar__title">
             {this.props.isTrackEdit ? 'Edit track' : 'Add new track'}
           </h4>
+
+          {this.props.errors.singleTrackError
+            ? <p className="confirm__error">
+                Sorry, but something gone wrong...
+              </p>
+            : null}
 
           <label className="filters__headline">
             <span>Project</span>

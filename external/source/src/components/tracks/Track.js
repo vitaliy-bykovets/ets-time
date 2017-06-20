@@ -96,11 +96,14 @@ class Track extends React.Component {
             </button>
           : null}
 
-        <TrackBlockMenu
-          t={t}
-          menuOpen={this.state.menuOpen}
-          toggleMenu={this.toggleMenu}
-        />
+        {view === 'block'
+          ? <TrackBlockMenu
+              t={t}
+              menuOpen={this.state.menuOpen}
+              toggleMenu={this.toggleMenu}
+            />
+          : null}
+
       </div>
     );
   }
