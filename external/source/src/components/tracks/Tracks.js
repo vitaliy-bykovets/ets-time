@@ -50,7 +50,7 @@ class Tracks extends React.Component {
   };
 
   openSingleTrack = () => {
-    this.props.toggleSingleTrack();
+    this.props.toggleSingleTrack(true);
     this.props.clearErrors();
   };
 

@@ -18,13 +18,7 @@ export function deleteTrackApi(id) {
 }
 
 export function createTrackApi(data) {
-  let {
-    project = '',
-    task = '',
-    workType: type_work = '',
-    hours = 0,
-    trackDate
-  } = data;
+  let { project = '', task = '', type_work = '', hours = 0, trackDate } = data;
 
   return fetch('/api/v1/lines', {
     method: 'POST',
@@ -41,9 +35,35 @@ export function createTrackApi(data) {
   });
 }
 
+export function updateTrackApi(data) {
+  let {
+    id = '',
+    project = '',
+    task = '',
+    type_work = '',
+    hours = 0,
+    trackDate
+  } = data;
+
+  return fetch('/api/v1/lines', {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      id,
+      project,
+      task,
+      type_work,
+      hours,
+      date_task: trackDate ? trackDate.format('YYYY-MM-DD') : ''
+    })
+  });
+}
+
 export function getTracksApi(filters) {
   let {
-    workType = '',
+    type_work = '',
     status = '',
     project = '',
     task = '',
@@ -60,8 +80,8 @@ export function getTracksApi(filters) {
       ? username
       : ''}&date_start=${startDate ? sDate : ''}&date_end=${endDate
       ? eDate
-      : ''}&status=${status ? status : ''}&type_work=${workType
-      ? workType
+      : ''}&status=${status ? status : ''}&type_work=${type_work
+      ? type_work
       : ''}&task=${task}`
   ).then(parseJSON);
 }

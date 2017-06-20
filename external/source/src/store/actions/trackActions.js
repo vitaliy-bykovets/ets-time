@@ -3,7 +3,8 @@ import {
   getTracksApi,
   getDictionaries,
   createTrackApi,
-  deleteTrackApi
+  deleteTrackApi,
+  updateTrackApi
 } from './../../shared/ApiService';
 
 // Actions
@@ -50,7 +51,22 @@ export function createTrack(data) {
     createTrackApi(data).then(resp => {
       if (resp.status >= 200 && resp.status < 300) {
         dispatch(getTracks());
-        dispatch(toggleSingleTrack());
+        dispatch(toggleSingleTrack(false));
+      } else {
+        resp.json().then(resp => {
+          dispatch(setErrors(resp.errors));
+        });
+      }
+    });
+  };
+}
+
+export function updateTrack(data) {
+  return dispatch => {
+    updateTrackApi(data).then(resp => {
+      if (resp.status >= 200 && resp.status < 300) {
+        dispatch(getTracks());
+        dispatch(toggleSingleTrack(false));
       } else {
         resp.json().then(resp => {
           dispatch(setErrors(resp.errors));
@@ -77,9 +93,12 @@ export function clearTrackFilters() {
   };
 }
 
-export function toggleSingleTrack() {
+export function toggleSingleTrack(param, isTrackEdit, data) {
   return {
-    type: TOGGLE_SINGLE_TRACK
+    type: TOGGLE_SINGLE_TRACK,
+    data,
+    isTrackEdit,
+    param
   };
 }
 

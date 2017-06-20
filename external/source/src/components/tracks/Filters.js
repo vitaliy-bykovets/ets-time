@@ -86,9 +86,9 @@ class Filters extends React.Component {
 
           <label className="filters__headline">Work type</label>
           <select
-            name="workType"
+            name="type_work"
             className="filters__select"
-            value={this.state.workType}
+            value={this.state.type_work}
             onChange={this.handleInputChange}
           >
             <option value="" />

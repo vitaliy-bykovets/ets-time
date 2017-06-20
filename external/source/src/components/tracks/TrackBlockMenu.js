@@ -3,7 +3,11 @@ import classnames from 'classnames';
 import { connect } from 'react-redux';
 
 // Actions
-import { toggleConfirm } from './../../store/actions/generalActions';
+import {
+  toggleConfirm,
+  clearErrors
+} from './../../store/actions/generalActions';
+import { toggleSingleTrack } from './../../store/actions/trackActions';
 
 // Helpers
 import { formatDateToServer } from './../../shared/HelpService';
@@ -21,6 +25,16 @@ class TrackBlockMenu extends React.Component {
       id
     );
   };
+
+  handleEdit = () => {
+    this.props.toggleSingleTrack(true, true, this.props.t);
+    this.props.clearErrors();
+  };
+
+  handleDecline = () => {};
+
+  handleAccept = () => {};
+
   render() {
     const { t, menuOpen } = this.props;
 
@@ -30,15 +44,27 @@ class TrackBlockMenu extends React.Component {
           'track-menu-btns--opened': menuOpen
         })}
       >
-        <button className="track-menu-btns__btn">Edit</button>
+        <button className="track-menu-btns__btn" onClick={this.handleEdit}>
+          Edit
+        </button>
         <button className="track-menu-btns__btn" onClick={this.handleDelete}>
           Delete
         </button>
         {t.status !== 'Declined'
-          ? <button className="track-menu-btns__btn">Decline</button>
+          ? <button
+              className="track-menu-btns__btn"
+              onClick={this.handleDecline}
+            >
+              Decline
+            </button>
           : null}
         {t.status !== 'Accepted'
-          ? <button className="track-menu-btns__btn">Accept</button>
+          ? <button
+              className="track-menu-btns__btn"
+              onClick={this.handleAccept}
+            >
+              Accept
+            </button>
           : null}
         <button
           className="track-menu-btns__btn"
@@ -51,4 +77,6 @@ class TrackBlockMenu extends React.Component {
   }
 }
 
-export default connect(null, { toggleConfirm })(TrackBlockMenu);
+export default connect(null, { toggleConfirm, toggleSingleTrack, clearErrors })(
+  TrackBlockMenu
+);

@@ -87,7 +87,7 @@ class Track extends React.Component {
             {t.hours} hours
           </span>
 
-          <TrackLineMenu view={view} />
+          <TrackLineMenu view={view} t={t} />
         </div>
 
         {view === 'block'

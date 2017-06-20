@@ -1,3 +1,4 @@
+// Types
 import {
   SET_TRACKS,
   TOGGLE_SINGLE_TRACK,
@@ -10,18 +11,24 @@ import {
 } from './../actions/types';
 
 // Helpers
-import { getInitFilters } from './../../shared/HelpService';
+import {
+  getInitFilters,
+  getInitNewTrackData
+} from './../../shared/HelpService';
 
 const initFilters = getInitFilters();
+const initTrackData = getInitNewTrackData();
 const view = localStorage.getItem('viewType');
 const initial = {
   tracks: [],
   workTypes: [],
   statusTypes: [],
   trackIsOpen: false,
+  isTrackCreate: false,
   filtersIsOpen: false,
   filters: initFilters,
-  view: view ? view : 'block'
+  view: view ? view : 'block',
+  trackData: initTrackData
 };
 
 export default function trackReducer(state = initial, action = {}) {
@@ -41,7 +48,11 @@ export default function trackReducer(state = initial, action = {}) {
     case SET_WORK_TYPES:
       return Object.assign({}, state, { workTypes: action.workTypes });
     case TOGGLE_SINGLE_TRACK:
-      return Object.assign({}, state, { trackIsOpen: !state.trackIsOpen });
+      return Object.assign({}, state, {
+        trackIsOpen: action.param,
+        trackData: action.data ? action.data : initTrackData,
+        isTrackEdit: action.isTrackEdit
+      });
     case TOGGLE_TRACK_FILTERS:
       return Object.assign({}, state, { filtersIsOpen: !state.filtersIsOpen });
     default:
