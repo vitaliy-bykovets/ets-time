@@ -35,4 +35,20 @@ Validator.registerAsync('user_exist', (user_id, attribute, req, passes) => {
     });
 });
 
+/**
+ * Get exist email
+ */
+Validator.registerAsync('email_exist', (email_exist, attribute, req, passes) => {
+  knex('users')
+    .where('email', email_exist)
+    .first()
+    .count('* as c')
+    .then(count => {
+      passes(count.c === 1, 'Email not found');
+    })
+    .catch(() => {
+      passes(false, 'Error in Validator.js:50');
+    });
+});
+
 module.exports = Validator;

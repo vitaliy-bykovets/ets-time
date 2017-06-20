@@ -2,7 +2,7 @@ const Validator = require('./Validator');
 const env = require('./../../config');
 const bcrypt = require('bcrypt-nodejs');
 const _ = require('lodash');
-const salt = bcrypt.genSaltSync(10);
+const salt = bcrypt.genSaltSync();
 
 module.exports = (req, res, next) => {
   const rules = {
@@ -15,6 +15,7 @@ module.exports = (req, res, next) => {
     password: 'alpha_num|min:5',
     locked: 'in:0,1'
   };
+
   const validate = new Validator(req.body, rules);
 
   validate.passes(() => {
