@@ -38,23 +38,16 @@ router.post('/', (req, res) => {
       })
       .catch(e => res.status(500).send());
   });
-  validate.fails(() => {
-    return res.status(400).send(validate.errors);
-  });
+  validate.fails(() => res.status(400).send(validate.errors));
 });
 
 /* Logout */
 router.post('/logout', auth, (req, res) => {
-  console.log(req._user);
   knex('users')
     .where('id', req._user.id)
     .update('token', null)
-    .then(() => {
-      res.status(204).send();
-    })
-    .catch(() => {
-      res.status(500).send();
-    });
+    .then(() => res.status(204).send())
+    .catch(() => res.status(500).send());
 });
 
 module.exports = router;
