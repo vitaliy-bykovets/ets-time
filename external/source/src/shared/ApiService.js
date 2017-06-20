@@ -4,6 +4,19 @@ export function getDictionaries() {
   return fetch('/api/v1/dictionaries').then(parseJSON);
 }
 
+export function deleteTrackApi(id) {
+  return fetch('/api/v1/lines', {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      id,
+      user_id: 1
+    })
+  });
+}
+
 export function createTrackApi(data) {
   let {
     project = '',

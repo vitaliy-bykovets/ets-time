@@ -1,8 +1,10 @@
+// Types
 import {
   CHANGE_BG_COLOR,
   CLEAR_ERROR_FIELD,
   SET_ERRORS,
-  CLEAR_ERRORS
+  CLEAR_ERRORS,
+  TOGGLE_CONFIRM
 } from './../actions/types';
 
 export function changeBgColor(color) {
@@ -29,5 +31,13 @@ export function setErrors(errors) {
 export function clearErrors() {
   return {
     type: CLEAR_ERRORS
+  };
+}
+
+export function toggleConfirm(confirmIsOpen, text, action, param) {
+  return {
+    type: TOGGLE_CONFIRM,
+    data: { text, action, param },
+    confirmIsOpen
   };
 }

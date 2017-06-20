@@ -2,11 +2,12 @@
 import {
   getTracksApi,
   getDictionaries,
-  createTrackApi
+  createTrackApi,
+  deleteTrackApi
 } from './../../shared/ApiService';
 
 // Actions
-import { setErrors } from './generalActions';
+import { setErrors, toggleConfirm } from './generalActions';
 
 // Constants
 import {
@@ -27,6 +28,19 @@ export function getTracks(filters = getInitFilters()) {
   return dispatch => {
     getTracksApi(filters).then(resp => {
       if (resp.data) dispatch(setTracks(resp.data));
+    });
+  };
+}
+
+export function removeTrack(id) {
+  return dispatch => {
+    deleteTrackApi(id).then(resp => {
+      if (resp.status >= 200 && resp.status < 300) {
+        dispatch(getTracks());
+        dispatch(toggleConfirm(false, 'text'));
+      } else {
+        dispatch(setErrors({ deleteTrack: true }));
+      }
     });
   };
 }

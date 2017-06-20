@@ -8,6 +8,7 @@ import Tracks from './tracks/Tracks';
 import Users from './users/Users';
 import Login from './general/Login';
 import NotFound from './general/NotFound';
+import Confirm from './general/Confirm';
 
 class App extends React.Component {
   render() {
@@ -24,6 +25,7 @@ class App extends React.Component {
           <Route exact path="/login" component={Login} />
           <Route component={NotFound} />
         </Switch>
+        <Confirm />
       </div>
     );
   }

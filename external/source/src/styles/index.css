@@ -59,6 +59,38 @@ body {
   font-size: 12px;
 }
 
+.confirm__error {
+  font-size: 12px;
+  position: absolute;
+  bottom: 10px;
+}
+
 .bgError {
   background: #FFCDD2;
+}
+
+.button {
+  border-radius: 2px;
+  font-size: 14px;
+  cursor: pointer;
+  height: 40px;
+  width: 120px;
+  border: none;
+  outline: none;
+  background: rgb(66, 66, 66);
+  color: #ffffff;
+  margin: 0 10px;
+  transition: all 0.2s;
+}
+
+.button:hover {
+  background: #ffffff;
+  color: rgb(66, 66, 66);
+}
+
+.headline-centered {
+  color: #ffffff;
+  text-align: center;
+  font-weight: normal;
+  line-height: 1.3em;
 }
