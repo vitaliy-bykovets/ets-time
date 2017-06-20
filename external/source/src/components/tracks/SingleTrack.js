@@ -1,25 +1,21 @@
 import React from 'react';
 import classnames from 'classnames';
 import { connect } from 'react-redux';
-import moment from 'moment';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
 // Actions
 import {
   toggleSingleTrack,
-  createTrack
+  createTrack,
+  updateTrack
 } from './../../store/actions/trackActions';
-
 import { clearErrorField } from './../../store/actions/generalActions';
 
-const initialState = {
-  project: '',
-  task: '',
-  workType: '',
-  hours: '',
-  trackDate: moment()
-};
+// Helpers
+import { getInitNewTrackData } from './../../shared/HelpService';
+
+const initialState = getInitNewTrackData();
 
 class SingeTrack extends React.Component {
   state = initialState;
@@ -28,14 +24,21 @@ class SingeTrack extends React.Component {
     if (nextProps.trackIsOpen !== this.props.trackIsOpen) {
       this.setState(initialState);
     }
+
+    // Set state if opened track edit
+    this.setState(nextProps.trackData);
   }
 
   handleClose = () => {
-    this.props.toggleSingleTrack();
+    this.props.toggleSingleTrack(false);
   };
 
   handleSaveTrack = () => {
-    this.props.createTrack(this.state);
+    if (this.props.isTrackEdit) {
+      this.props.updateTrack(this.state);
+    } else {
+      this.props.createTrack(this.state);
+    }
   };
 
   handleInputChange = e => {
@@ -48,7 +51,7 @@ class SingeTrack extends React.Component {
 
   handleFocusInput = e => {
     let field = e.target.name;
-    this.props.clearErrorField(field !== 'workType' ? field : 'type_work');
+    this.props.clearErrorField(field !== 'type_work' ? field : 'type_work');
   };
 
   handleDateFocus = () => {
@@ -69,7 +72,9 @@ class SingeTrack extends React.Component {
         })}
       >
         <div className="sidebar__wrapper">
-          <h4 className="sidebar__title">Add track</h4>
+          <h4 className="sidebar__title">
+            {this.props.isTrackEdit ? 'Edit track' : 'Add new track'}
+          </h4>
 
           <label className="filters__headline">
             <span>Project</span>
@@ -112,11 +117,11 @@ class SingeTrack extends React.Component {
               : null}
           </label>
           <select
-            name="workType"
+            name="type_work"
             className={classnames('filters__select', {
               bgError: errors.type_work
             })}
-            value={this.state.workType}
+            value={this.state.type_work}
             onChange={this.handleInputChange}
             onFocus={this.handleFocusInput}
           >
@@ -177,9 +182,12 @@ class SingeTrack extends React.Component {
 }
 
 function mapStateToProps(state) {
+  let { trackIsOpen, workTypes, trackData, isTrackEdit } = state.trackReducer;
   return {
-    trackIsOpen: state.trackReducer.trackIsOpen,
-    workTypes: state.trackReducer.workTypes,
+    trackIsOpen,
+    workTypes,
+    trackData,
+    isTrackEdit,
     errors: state.generalReducer.errors
   };
 }
@@ -187,5 +195,6 @@ function mapStateToProps(state) {
 export default connect(mapStateToProps, {
   toggleSingleTrack,
   createTrack,
+  updateTrack,
   clearErrorField
 })(SingeTrack);

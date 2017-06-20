@@ -22,12 +22,12 @@ export function getEndOfWeek(date) {
 
 // Check if filters was selected
 export function showClearFilters(filters) {
-  let { workType, status, project, task, startDate, endDate } = filters;
+  let { type_work, status, project, task, startDate, endDate } = filters;
   const sWeek = getStartOfWeek().format('YYYY-MM-DD');
   const eWeek = getEndOfWeek().format('YYYY-MM-DD');
 
   return (
-    workType !== '' ||
+    type_work !== '' ||
     status !== '' ||
     project !== '' ||
     task !== '' ||
@@ -42,11 +42,21 @@ export function getInitFilters() {
   const endWeek = getEndOfWeek();
 
   return {
-    workType: '',
+    type_work: '',
     status: '',
     project: '',
     task: '',
     startDate: startWeek,
     endDate: endWeek
+  };
+}
+
+export function getInitNewTrackData() {
+  return {
+    project: '',
+    task: '',
+    type_work: '',
+    hours: '',
+    trackDate: moment()
   };
 }
