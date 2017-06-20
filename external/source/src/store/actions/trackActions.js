@@ -53,9 +53,13 @@ export function createTrack(data) {
         dispatch(getTracks());
         dispatch(toggleSingleTrack(false));
       } else {
-        resp.json().then(resp => {
-          dispatch(setErrors(resp.errors));
-        });
+        if (resp.status === 404) {
+          dispatch(setErrors({ singleTrackError: true }));
+        } else {
+          resp.json().then(resp => {
+            dispatch(setErrors(resp.errors));
+          });
+        }
       }
     });
   };
@@ -68,9 +72,13 @@ export function updateTrack(data) {
         dispatch(getTracks());
         dispatch(toggleSingleTrack(false));
       } else {
-        resp.json().then(resp => {
-          dispatch(setErrors(resp.errors));
-        });
+        if (resp.status === 404) {
+          dispatch(setErrors({ singleTrackError: true }));
+        } else {
+          resp.json().then(resp => {
+            dispatch(setErrors(resp.errors));
+          });
+        }
       }
     });
   };
