@@ -1,9 +1,29 @@
 import React from 'react';
 import classnames from 'classnames';
+import { connect } from 'react-redux';
+
+// Actions
+import { toggleConfirm } from './../../store/actions/generalActions';
+
+// Helpers
+import { formatDateToServer } from './../../shared/HelpService';
 
 class TrackBlockMenu extends React.Component {
+  handleDelete = () => {
+    const { date_task, status, id } = this.props.t;
+    const date = new Date(date_task);
+    const dateStr = date ? formatDateToServer(date) : '';
+
+    this.props.toggleConfirm(
+      true,
+      `Delete track from ${dateStr} with status: ${status.toLowerCase()}?`,
+      'removeTrack',
+      id
+    );
+  };
   render() {
     const { t, menuOpen } = this.props;
+
     return (
       <div
         className={classnames('track-menu-btns', {
@@ -11,7 +31,9 @@ class TrackBlockMenu extends React.Component {
         })}
       >
         <button className="track-menu-btns__btn">Edit</button>
-        <button className="track-menu-btns__btn">Delete</button>
+        <button className="track-menu-btns__btn" onClick={this.handleDelete}>
+          Delete
+        </button>
         {t.status !== 'Declined'
           ? <button className="track-menu-btns__btn">Decline</button>
           : null}
@@ -29,4 +51,4 @@ class TrackBlockMenu extends React.Component {
   }
 }
 
-export default TrackBlockMenu;
+export default connect(null, { toggleConfirm })(TrackBlockMenu);

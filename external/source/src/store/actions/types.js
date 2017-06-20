@@ -13,6 +13,7 @@ export const CHANGE_BG_COLOR = 'CHANGE_BG_COLOR';
 export const SET_ERRORS = 'SET_ERRORS';
 export const CLEAR_ERROR_FIELD = 'CLEAR_ERROR_FIELD';
 export const CLEAR_ERRORS = 'CLEAR_ERRORS';
+export const TOGGLE_CONFIRM = 'TOGGLE_CONFIRM';
 
 // Users
 // Auth
