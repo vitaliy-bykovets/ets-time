@@ -95,7 +95,7 @@ class SingeTrack extends React.Component {
             value={this.state.project}
             name="project"
             onChange={this.handleInputChange}
-            className={classnames('filters__input', {
+            className={classnames('input', {
               bgError: errors.project
             })}
             onFocus={this.handleFocusInput}
@@ -148,7 +148,7 @@ class SingeTrack extends React.Component {
             value={this.state.hours}
             name="hours"
             onChange={this.handleInputChange}
-            className={classnames('filters__input', {
+            className={classnames('input', {
               bgError: errors.hours
             })}
             onFocus={this.handleFocusInput}

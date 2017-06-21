@@ -72,7 +72,7 @@ class Filters extends React.Component {
             value={this.state.project}
             name="project"
             onChange={this.handleInputChange}
-            className="filters__input"
+            className="input"
           />
 
           <label className="filters__headline">Task</label>
@@ -81,7 +81,7 @@ class Filters extends React.Component {
             value={this.state.task}
             name="task"
             onChange={this.handleInputChange}
-            className="filters__input"
+            className="input"
           />
 
           <label className="filters__headline">Work type</label>

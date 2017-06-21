@@ -26,6 +26,15 @@ body {
   flex-wrap: wrap;
 }
 
+.login-wrapper {
+  background: #00BFA5;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
 .mainBtns {
   height: 110px;
   width: 50px;
@@ -81,6 +90,12 @@ body {
   color: #ffffff;
   margin: 0 10px;
   transition: all 0.2s;
+}
+
+.login-button {
+  width: 100%;
+  max-width: 220px;
+  margin: 5px 0 0 0;
 }
 
 .button:hover {
