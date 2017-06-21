@@ -4,6 +4,7 @@ const mw = require('./../middlewares/index');
 const knex = require('./../libs/knex');
 const _ = require('lodash');
 const async = require('async');
+const { role } = require('./../middlewares');
 
 const criteriaForList = function(param) {
   return function() {
@@ -32,7 +33,7 @@ const criteriaForList = function(param) {
   };
 };
 
-/* GET users listing. */
+/* Get track lines */
 router.get('/', mw.validators.line_list, async (req, res) => {
   let param = req.query;
 
@@ -57,7 +58,6 @@ router.get('/', mw.validators.line_list, async (req, res) => {
     },
     (err, results) => {
       if (err) {
-        console.log(err);
         res.status(400).end();
       } else if (results) {
         res.json({
@@ -69,15 +69,16 @@ router.get('/', mw.validators.line_list, async (req, res) => {
   );
 });
 
+/* Create track line */
 router.post('/', mw.validators.line_create, (req, res) => {
-  knex('track_lines').insert(req.body).then(() => res.status(201).send()).catch(e => res.status(500).send());
+  knex('track_lines').insert(req._vars).then(() => res.status(201).send()).catch(e => res.status(500).send());
 });
 
-// update track-line by id
+// Update track-line by id
 router.patch('/', mw.validators.line_edit, (req, res) => {
   knex('track_lines')
-    .where({ id: req.body.id, user_id: 1 })
-    .update(_.omit(req.body, 'user_id'))
+    .where({ id: req.body.id, user_id: req._user.id })
+    .update(req._vars)
     .then(() => res.send())
     .catch(() => res.status(400).send());
 });
@@ -85,14 +86,14 @@ router.patch('/', mw.validators.line_edit, (req, res) => {
 // delete track line
 router.delete('/', mw.validators.line_delete, (req, res) => {
   knex('track_lines')
-    .where({ id: req.body.id, user_id: 1 })
+    .where({ id: req.body.id, user_id: req._user.id })
     .delete()
     .then(() => res.status(204).send())
-    .catch(() => res.status(400).send());
+    .catch(() => res.status(500).send());
 });
 
 // update status for track line (by admin | pm)
-router.patch('/status', mw.validators.line_status, (req, res) => {
+router.patch('/status', role(['owner', 'pm']), mw.validators.line_status, (req, res) => {
   knex('track_lines')
     .where({ id: req.body.id })
     .update({ status: req.body.status })

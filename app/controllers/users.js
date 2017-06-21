@@ -31,7 +31,7 @@ router.patch('/', mw.validators.user_edit, (req, res) => {
     .where({ id: req._vars.id })
     .update(req._vars)
     .then(() => res.send())
-    .catch(() => res.status(400).send());
+    .catch(() => res.status(500).send());
 });
 
 /* GET users listing. */
@@ -40,9 +40,7 @@ router.get('/', mw.validators.users_list, async (req, res) => {
 
   async.parallel(
     {
-      count: callback => {
-        knex('users').where(criteriaForList(param)).first().count('* as c').asCallback(callback);
-      },
+      count: callback => knex('users').where(criteriaForList(param)).first().count('* as c').asCallback(callback),
       list: callback => {
         knex('users')
           .select('first_name', 'last_name', 'roles', 'position', 'email', 'rate', 'id')

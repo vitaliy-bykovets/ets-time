@@ -20,26 +20,32 @@ router.post('/', (req, res) => {
     knex('users')
       .where('email', req.body.email)
       .select('email', 'password')
+      .where('locked', 0)
       .first()
       .then(data => {
-        if (bcrypt.compareSync(req.body.password, data.password)) {
-          // generate token
-          let token = crypto.randomBytes(16).toString('hex');
-          knex('users')
-            .where('email', req.body.email)
-            .update({ token: token })
-            .then(() => {
-              res.json({ token: token });
-            })
-            .catch(() => res.status(500).send());
+        if (data) {
+          if (bcrypt.compareSync(req.body.password, data.password)) {
+            // generate token
+            let token = crypto.randomBytes(16).toString('hex');
+            knex('users')
+              .where('email', req.body.email)
+              .update({ token: token })
+              .then(() => res.json({ token: token }))
+              .catch(() => res.status(500).send());
+          } else {
+            res.status(401).send();
+          }
         } else {
           res.status(401).send();
         }
       })
-      .catch(e => res.status(500).send());
+      .catch(() => res.status(500).send());
   });
   validate.fails(() => res.status(400).send(validate.errors));
 });
+
+/* Me */
+router.get('/me', auth, (req, res) => res.json(req._user));
 
 /* Logout */
 router.post('/logout', auth, (req, res) => {

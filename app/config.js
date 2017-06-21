@@ -1,9 +1,19 @@
 let config = {
   port: 3000,
-  type_works: ['Development', 'Testing'],
+  type_works: [
+    'Development',
+    'Design',
+    'Bug fixing',
+    'Documentation',
+    'Mentoring',
+    'Study',
+    'Testing',
+    'Meeting',
+    'Vacation'
+  ],
   task_status: ['Accepted', 'Declined', 'Open'],
   roles: ['owner', 'pm', 'member'],
-  positions: ['backend', 'ios', 'android', 'qa', 'designer', 'other'],
+  positions: ['php', 'nodejs', 'ios', 'android', 'qa', 'ui/ux', 'fed', 'other'],
   db: {
     client: 'mysql',
     connection: {

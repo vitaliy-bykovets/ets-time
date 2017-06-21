@@ -9,9 +9,8 @@ module.exports = (req, res, next) => {
   if (validate.fails()) {
     res.status(400).send(validate.errors);
   } else {
-    // TODO change default user id to user from request by token
     knex('track_lines')
-      .where({ id: req.body.id, user_id: 1 })
+      .where({ id: req.body.id, user_id: req._user.id })
       .first()
       .count('* as c')
       .then(count => {
@@ -21,8 +20,6 @@ module.exports = (req, res, next) => {
           res.status(404).send();
         }
       })
-      .catch(() => {
-        res.status(500).send();
-      });
+      .catch(() => res.status(500).send());
   }
 };

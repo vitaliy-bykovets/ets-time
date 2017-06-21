@@ -1,15 +1,9 @@
 const c = require('./controllers/index');
-
-const noCache = (req, res, next) => {
-  res.header('Cache-Control', 'private, no-cache, no-store, must-revalidate');
-  res.header('Expires', '-1');
-  res.header('Pragma', 'no-cache');
-  next();
-};
+const { role, auth, no_cache } = require('./middlewares');
 
 module.exports = app => {
-  app.use('/api/v1/auth', noCache, c.auth);
-  app.use('/api/v1/lines', noCache, c.lines);
-  app.use('/api/v1/users', noCache, c.users);
-  app.use('/api/v1/dictionaries', noCache, c.dictionaries);
+  app.use('/api/v1/auth', no_cache, c.auth);
+  app.use('/api/v1/lines', no_cache, auth, c.lines);
+  app.use('/api/v1/users', no_cache, auth, role(['owner', 'pm']), c.users);
+  app.use('/api/v1/dictionaries', no_cache, auth, c.dictionaries);
 };
