@@ -7,7 +7,10 @@ module.exports = {
     line_status: require('./validators/line_status'),
     user_create: require('./validators/user_create'),
     users_list: require('./validators/users_list'),
-    user_edit: require('./validators/user_edit')
+    user_edit: require('./validators/user_edit'),
+    skill_create: require('./validators/skill_create'),
+    skill_edit: require('./validators/skill_edit'),
+    skill_delete: require('./validators/skill_delete')
   },
   role: require('./role'),
   auth: require('./auth'),

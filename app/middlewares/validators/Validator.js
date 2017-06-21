@@ -51,4 +51,20 @@ Validator.registerAsync('email_exist', (email_exist, attribute, req, passes) => 
     });
 });
 
+/**
+ * Get exist skill
+ */
+Validator.registerAsync('exist_skill', (skill_id_exist, attribute, req, passes) => {
+  if (skill_id_exist === 0) {
+    passes();
+  } else {
+    knex('skills')
+      .where('id', skill_id_exist)
+      .first()
+      .count('* as c')
+      .then(count => passes(count.c === 1, 'Skill not found'))
+      .catch(() => passes(false, 'Error in Validator.js:66'));
+  }
+});
+
 module.exports = Validator;

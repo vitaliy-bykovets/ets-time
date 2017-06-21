@@ -30,9 +30,18 @@ app.use(function(err, req, res, next) {
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
 
-  console.log('err handler', err);
-  // render the error page
-  res.status(err.status || 500).end(res.locals.message);
+  switch (err.code) {
+    // knex error when we try to insert duplicate entrie
+    case 'ER_DUP_ENTRY':
+      res.status(409).end();
+      break;
+    case 'ER_BAD_FIELD_ERROR':
+      res.status(400).end();
+      break;
+    default:
+      res.status(err.status || 500).end(res.locals.message);
+      break;
+  }
 });
 
 module.exports = app;

@@ -1,6 +1,7 @@
 module.exports = {
   auth: require('./auth'),
-  dictionaries: require('./dictionaries'),
   lines: require('./lines'),
-  users: require('./users')
+  users: require('./users'),
+  skills: require('./skills'),
+  dictionaries: require('./dictionaries')
 };
