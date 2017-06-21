@@ -12,7 +12,7 @@ module.exports = (req, res, next) => {
   });
 
   if (validate.fails()) {
-    res.status(400).send(validate.errors);
+    res.status(401).send(validate.errors);
   } else {
     knex('users')
       .where('token', req.header('authorization'))
