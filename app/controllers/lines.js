@@ -53,6 +53,7 @@ router.get('/', mw.validators.line_list, async (req, res) => {
           .where(criteriaForList(param))
           .leftJoin('users as u', 'u.id', 'tl.user_id')
           .orderBy('tl.created_at', 'desc')
+          .limit(200)
           .asCallback(callback);
       }
     },
