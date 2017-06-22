@@ -75,3 +75,8 @@
 .topbar__menu--active {
   opacity: 1;
 }
+
+.logout {
+  padding-left: 20px;
+  cursor: pointer;
+}
