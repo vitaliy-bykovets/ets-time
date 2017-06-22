@@ -10,9 +10,15 @@ import Settings from './Settings';
 import FaBlocks from 'react-icons/lib/fa/th';
 import FaLines from 'react-icons/lib/fa/align-justify';
 import FaCog from 'react-icons/lib/fa/cog';
+import FaPower from 'react-icons/lib/fa/power-off';
 
 // Actions
 import { changeTrackView } from './../../store/actions/trackActions';
+import { setActiveUser } from './../../store/actions/userActions';
+import { setToken } from './../../store/actions/generalActions';
+
+// Helpers
+import { logoutApi } from './../../shared/ApiService';
 
 class Topbar extends React.Component {
   state = {
@@ -28,13 +34,27 @@ class Topbar extends React.Component {
     this.setState({ settingsOpen: !this.state.settingsOpen });
   };
 
+  logoutHandler = () => {
+    logoutApi(this.props.token).then(resp => {
+      if (resp.status >= 200 && resp.status < 300) {
+        this.props.setActiveUser({ first_name: '', last_name: '' });
+        this.props.setToken('');
+        localStorage.removeItem('token');
+        this.props.history.push('/login');
+      }
+    });
+  };
+
   render() {
-    const { viewType, location, bgColor } = this.props;
+    const { viewType, location, bgColor, activeUser } = this.props;
     const { settingsOpen } = this.state;
 
     return (
       <div className="topbar">
-        <h4 className="topbar__headline">Username</h4>
+        <h4 className="topbar__headline">
+          <span>{`${activeUser.first_name} ${activeUser.last_name}`}</span>
+          <FaPower className="logout" onClick={this.logoutHandler} />
+        </h4>
 
         <div className="topbar__menu">
           <div className="topbar__menu--wrapper">
@@ -89,10 +109,12 @@ class Topbar extends React.Component {
 function mapStateToProps(state) {
   return {
     viewType: state.trackReducer.view,
-    bgColor: state.generalReducer.bgColor
+    bgColor: state.generalReducer.bgColor,
+    token: state.generalReducer.token,
+    activeUser: state.userReducer.activeUser
   };
 }
 
 export default withRouter(
-  connect(mapStateToProps, { changeTrackView })(Topbar)
+  connect(mapStateToProps, { changeTrackView, setActiveUser, setToken })(Topbar)
 );

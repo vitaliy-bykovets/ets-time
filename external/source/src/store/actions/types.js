@@ -19,3 +19,4 @@ export const TOGGLE_CONFIRM = 'TOGGLE_CONFIRM';
 export const SET_TOKEN = 'SET_TOKEN';
 
 // Users
+export const SET_ACTIVE_USER = 'SET_ACTIVE_USER';

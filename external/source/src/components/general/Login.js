@@ -44,6 +44,7 @@ class Login extends React.Component {
           let token = resp.token;
           if (token) {
             localStorage.setItem('token', token);
+            //this.props.setActiveUser(resp.user);
             this.props.setToken(token);
           }
         });
