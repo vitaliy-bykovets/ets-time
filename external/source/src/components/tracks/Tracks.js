@@ -10,7 +10,6 @@ import SingleTrack from './SingleTrack';
 // Actions
 import {
   getTracks,
-  getLibraries,
   toggleTrackFilters,
   clearTrackFilters,
   toggleSingleTrack
@@ -30,7 +29,6 @@ class Tracks extends React.Component {
 
   componentDidMount() {
     let { token, filters } = this.props;
-    this.props.getLibraries(token);
     this.props.getTracks(token, filters);
   }
 
@@ -115,7 +113,6 @@ function mapStateToProps(state) {
 
 export default connect(mapStateToProps, {
   getTracks,
-  getLibraries,
   toggleTrackFilters,
   clearTrackFilters,
   toggleSingleTrack,

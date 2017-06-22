@@ -116,14 +116,12 @@
   border: 1px solid white;
   cursor: pointer;
   outline: none;
+  transition: all 0.2s;
 }
 
-/*.track__menuBtn:hover {
-  border-color: #ffffff;
-  color: #ffffff;
-  transition: all 0.3s;
-  outline: none;
-}*/
+.track__menuBtn:hover {
+  transform: scale(1.4);
+}
 
 .track-menu-btns {
   height: 100%;

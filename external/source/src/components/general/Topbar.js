@@ -20,10 +20,18 @@ import { setToken } from './../../store/actions/generalActions';
 // Helpers
 import { logoutApi } from './../../shared/ApiService';
 
+// Actions
+import { getLibraries } from './../../store/actions/trackActions';
+
 class Topbar extends React.Component {
   state = {
     settingsOpen: false
   };
+
+  componentDidMount() {
+    let { token } = this.props;
+    this.props.getLibraries(token);
+  }
 
   changeView = view => {
     this.props.changeTrackView(view);
@@ -48,6 +56,8 @@ class Topbar extends React.Component {
   render() {
     const { viewType, location, bgColor, activeUser } = this.props;
     const { settingsOpen } = this.state;
+    const trackUrl =
+      location.pathname.includes('tracks') || location.pathname === '/';
 
     return (
       <div className="topbar">
@@ -56,14 +66,29 @@ class Topbar extends React.Component {
           <FaPower className="logout" onClick={this.logoutHandler} />
         </h4>
 
-        <div className="topbar__menu">
+        <div className="topbar__menu" style={{ color: bgColor }}>
+          {trackUrl
+            ? <FaBlocks
+                className={classnames('topbar__icon', {
+                  'topbar__icon--active': viewType === 'block'
+                })}
+                onClick={() => this.changeView('block')}
+              />
+            : null}
+          {trackUrl
+            ? <FaLines
+                className={classnames('topbar__icon', 'p-r-20', {
+                  'topbar__icon--active': viewType === 'line'
+                })}
+                onClick={() => this.changeView('line')}
+              />
+            : null}
+
           <div className="topbar__menu--wrapper">
             <Link
               to="/tracks"
               className={classnames('topbar__menu--btn', {
-                'topbar__menu--active':
-                  location.pathname.includes('tracks') ||
-                    location.pathname === '/'
+                'topbar__menu--active': trackUrl
               })}
               style={{ background: bgColor }}
             >
@@ -81,18 +106,6 @@ class Topbar extends React.Component {
           </div>
 
           <div className="topbar__icons" style={{ color: bgColor }}>
-            <FaBlocks
-              className={classnames('topbar__icon', 'p-l-20', {
-                'topbar__icon--active': viewType === 'block'
-              })}
-              onClick={() => this.changeView('block')}
-            />
-            <FaLines
-              className={classnames('topbar__icon', {
-                'topbar__icon--active': viewType === 'line'
-              })}
-              onClick={() => this.changeView('line')}
-            />
             <FaCog
               className="topbar__icon p-l-20"
               onClick={this.toggleSettings}
@@ -118,5 +131,10 @@ function mapStateToProps(state) {
 }
 
 export default withRouter(
-  connect(mapStateToProps, { changeTrackView, setActiveUser, setToken })(Topbar)
+  connect(mapStateToProps, {
+    changeTrackView,
+    setActiveUser,
+    setToken,
+    getLibraries
+  })(Topbar)
 );

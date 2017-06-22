@@ -13,16 +13,11 @@ import TrackLineMenu from './TrackLineMenu';
 
 class Track extends React.Component {
   state = {
-    menuOpen: false,
-    hover: false
+    menuOpen: false
   };
 
   toggleMenu = () => {
     this.setState({ menuOpen: !this.state.menuOpen });
-  };
-
-  menuMouseHover = () => {
-    this.setState({ hover: !this.state.hover });
   };
 
   render() {
@@ -99,20 +94,10 @@ class Track extends React.Component {
           ? <button
               className="track__menuBtn"
               onClick={this.toggleMenu}
-              onMouseEnter={this.menuMouseHover}
-              onMouseLeave={this.menuMouseHover}
-              style={
-                this.state.hover
-                  ? {
-                      background: bgColor,
-                      color: 'white',
-                      borderColor: 'white'
-                    }
-                  : {
-                      borderColor: bgColor,
-                      color: bgColor
-                    }
-              }
+              style={{
+                borderColor: bgColor,
+                color: bgColor
+              }}
             >
               <FaEllipsis />
             </button>
