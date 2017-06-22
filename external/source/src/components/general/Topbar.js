@@ -61,7 +61,9 @@ class Topbar extends React.Component {
             <Link
               to="/tracks"
               className={classnames('topbar__menu--btn', {
-                'topbar__menu--active': location.pathname.includes('tracks')
+                'topbar__menu--active':
+                  location.pathname.includes('tracks') ||
+                    location.pathname === '/'
               })}
               style={{ background: bgColor }}
             >
