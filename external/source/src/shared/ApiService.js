@@ -102,6 +102,16 @@ export function getTracksApi(token, filters) {
   ).then(parseJSON);
 }
 
+export function getUsersApi(token) {
+  return fetch('/api/v1/users', {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      authorization: token
+    }
+  }).then(parseJSON);
+}
+
 export function loginApi(email, password) {
   return fetch('/api/v1/auth', {
     method: 'POST',
