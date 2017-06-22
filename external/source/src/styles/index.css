@@ -35,6 +35,11 @@ body {
   flex-direction: column;
 }
 
+.login-form {
+  width: 100%;
+  max-width: 220px;
+}
+
 .mainBtns {
   height: 110px;
   width: 50px;
@@ -93,7 +98,6 @@ body {
 
 .login-button {
   width: 100%;
-  max-width: 220px;
   margin: 5px 0 0 0;
 }
 

@@ -10,8 +10,11 @@
 }
 
 .login__input {
+  height: 40px;
   width: 100%;
-  max-width: 200px;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
 }
 
 .filters__textarea {

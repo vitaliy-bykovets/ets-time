@@ -65,37 +65,40 @@ class Login extends React.Component {
     const { errors, token } = this.props;
 
     const loginComponent = (
-      <form
-        autoComplete="true"
-        onSubmit={this.handleSubmit}
-        className="login-wrapper"
-      >
-        <input
-          type="email"
-          name="email"
-          value={this.state.email}
-          onChange={this.handleChangeInput}
-          onFocus={this.handleFocusInput}
-          placeholder="Email"
-          className={classnames('input login__input', {
-            bgError: errors.email
-          })}
-        />
+      <div className="login-wrapper">
+        <form
+          autoComplete="true"
+          onSubmit={this.handleSubmit}
+          className="login-form"
+        >
+          <h4 className="filters__headline m-0">Selecto tracker</h4>
+          <input
+            type="email"
+            name="email"
+            value={this.state.email}
+            onChange={this.handleChangeInput}
+            onFocus={this.handleFocusInput}
+            placeholder="Email"
+            className={classnames('input login__input', {
+              bgError: errors.email
+            })}
+          />
 
-        <input
-          type="password"
-          name="password"
-          value={this.state.password}
-          onChange={this.handleChangeInput}
-          onFocus={this.handleFocusInput}
-          placeholder="Password"
-          className={classnames('input login__input', {
-            bgError: errors.password
-          })}
-        />
+          <input
+            type="password"
+            name="password"
+            value={this.state.password}
+            onChange={this.handleChangeInput}
+            onFocus={this.handleFocusInput}
+            placeholder="Password"
+            className={classnames('input login__input', {
+              bgError: errors.password
+            })}
+          />
 
-        <button type="submin" className="button login-button">Login</button>
-      </form>
+          <button type="submin" className="button login-button">Login</button>
+        </form>
+      </div>
     );
 
     return (
