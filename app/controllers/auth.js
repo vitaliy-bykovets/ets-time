@@ -7,7 +7,7 @@ const Validator = require('./../middlewares/validators/Validator');
 const { auth } = require('./../middlewares/index');
 
 /* Auth user */
-router.post('/', (req, res) => {
+router.post('/', (req, res, next) => {
   const rules = {
     email: 'required|email|email_exist',
     password: 'required|min:5'
@@ -19,7 +19,7 @@ router.post('/', (req, res) => {
     // get email and check password
     knex('users')
       .where('email', req.body.email)
-      .select('email', 'password')
+      .select('email', 'password', 'id')
       .where('locked', 0)
       .first()
       .then(data => {
@@ -27,11 +27,10 @@ router.post('/', (req, res) => {
           if (bcrypt.compareSync(req.body.password, data.password)) {
             // generate token
             let token = crypto.randomBytes(16).toString('hex');
-            knex('users')
-              .where('email', req.body.email)
-              .update({ token: token })
+            knex('tokens')
+              .insert({ token: token, user_id: data.id })
               .then(() => res.json({ token: token }))
-              .catch(() => res.status(500).send());
+              .catch(next);
           } else {
             res.status(401).send();
           }
@@ -45,13 +44,15 @@ router.post('/', (req, res) => {
 });
 
 /* Me */
-router.get('/me', auth, (req, res) => res.json(req._user));
+router.get('/me', auth, (req, res) => {
+  res.json(req._user);
+});
 
 /* Logout */
 router.post('/logout', auth, (req, res) => {
-  knex('users')
-    .where('id', req._user.id)
-    .update('token', null)
+  knex('tokens')
+    .where('token', req._user.token)
+    .del()
     .then(() => res.status(204).send())
     .catch(() => res.status(500).send());
 });

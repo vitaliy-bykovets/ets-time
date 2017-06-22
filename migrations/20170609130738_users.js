@@ -4,7 +4,6 @@ exports.up = knex => {
     table.string('email', 100).notNullable().unique();
     table.string('first_name', 100).notNullable().comment('First Name');
     table.string('last_name', 100).notNullable().comment('Last Name');
-    table.string('token', 32).comment('For Authorization from frontend').index();
     table.string('password', 100).notNullable();
     table.string('position').notNullable().comment('backend, pm, fed, etc.');
     table.string('roles').notNullable().comment('owner,pm,member or guest');
