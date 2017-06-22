@@ -24,7 +24,7 @@ const checkMe = async props => {
 };
 
 export default function({ component: Component, props, ...rest }) {
-  const redirect = (
+  const login = (
     <Redirect
       to={{
         pathname: '/login',
@@ -34,7 +34,7 @@ export default function({ component: Component, props, ...rest }) {
   );
 
   if (!props.token && !token) {
-    return <Route {...rest} render={props => redirect} />;
+    return <Route {...rest} render={props => login} />;
   }
 
   if (!props.token) {
@@ -47,7 +47,7 @@ export default function({ component: Component, props, ...rest }) {
     if (props.token) {
       return <Route {...rest} render={props => <Component {...props} />} />;
     } else {
-      const component = isLoading ? <LoadingPage /> : redirect;
+      const component = isLoading ? <LoadingPage /> : login;
       return <Route {...rest} render={props => component} />;
     }
   } else {
