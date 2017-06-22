@@ -45,7 +45,7 @@ class Filters extends React.Component {
     let filters = this.state;
     this.props.toggleTrackFilters();
     this.props.setTrackFilters(filters);
-    this.props.getTracks(filters);
+    this.props.getTracks(this.props.token, filters);
   };
 
   render() {
@@ -142,11 +142,13 @@ class Filters extends React.Component {
 }
 
 function mapStateToProps(state) {
+  let { filtersIsOpen, workTypes, statusTypes, filters } = state.trackReducer;
   return {
-    filtersIsOpen: state.trackReducer.filtersIsOpen,
-    workTypes: state.trackReducer.workTypes,
-    statusTypes: state.trackReducer.statusTypes,
-    filters: state.trackReducer.filters
+    filtersIsOpen,
+    workTypes,
+    statusTypes,
+    filters,
+    token: state.generalReducer.token
   };
 }
 

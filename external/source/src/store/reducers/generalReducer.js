@@ -3,13 +3,15 @@ import {
   SET_ERRORS,
   CLEAR_ERROR_FIELD,
   CLEAR_ERRORS,
-  TOGGLE_CONFIRM
+  TOGGLE_CONFIRM,
+  SET_TOKEN
 } from './../actions/types';
 
 const bgColor = localStorage.getItem('bdColor');
 const initial = {
   bgColor: bgColor ? bgColor : 'deepskyblue',
   errors: {},
+  token: false,
   confirmIsOpen: false,
   confirmData: {
     text: 'text',
@@ -22,6 +24,8 @@ export default function userReducer(state = initial, action = {}) {
   switch (action.type) {
     case CHANGE_BG_COLOR:
       return Object.assign({}, state, { bgColor: action.color });
+    case SET_TOKEN:
+      return Object.assign({}, state, { token: action.token });
     case TOGGLE_CONFIRM:
       return Object.assign({}, state, {
         confirmIsOpen: action.confirmIsOpen,

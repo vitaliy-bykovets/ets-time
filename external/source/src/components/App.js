@@ -1,5 +1,5 @@
 import React from 'react';
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 // Components
@@ -9,19 +9,30 @@ import Users from './users/Users';
 import Login from './general/Login';
 import NotFound from './general/NotFound';
 import Confirm from './general/Confirm';
+import PrivateRoute from './general/PrivateRoute';
+
+// Actions
+import { setToken } from './../store/actions/generalActions';
 
 class App extends React.Component {
   render() {
-    // Change to state management, when auth will be available
-    const displayTopbar = true;
-
     return (
       <div className="wrapper" style={{ background: this.props.bgColor }}>
-        {displayTopbar ? <Topbar /> : null}
+        {this.props.token ? <Topbar /> : null}
         <Switch>
-          <Route exact path="/" component={Tracks} />
-          <Route exact path="/tracks" component={Tracks} />
-          <Route exact path="/users" component={Users} />
+          <PrivateRoute exact path="/" component={Tracks} props={this.props} />
+          <PrivateRoute
+            exact
+            path="/tracks"
+            component={Tracks}
+            props={this.props}
+          />
+          <PrivateRoute
+            exact
+            path="/users"
+            component={Users}
+            props={this.props}
+          />
           <Route exact path="/login" component={Login} />
           <Route component={NotFound} />
         </Switch>
@@ -32,9 +43,11 @@ class App extends React.Component {
 }
 
 function mapStateToProps(state) {
+  let { bgColor, token } = state.generalReducer;
   return {
-    bgColor: state.generalReducer.bgColor
+    bgColor,
+    token
   };
 }
 
-export default connect(mapStateToProps, {})(App);
+export default withRouter(connect(mapStateToProps, { setToken })(App));

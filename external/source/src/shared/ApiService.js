@@ -1,14 +1,21 @@
 import { parseJSON, formatDateToServer } from './HelpService';
 
-export function getDictionaries() {
-  return fetch('/api/v1/dictionaries').then(parseJSON);
+export function getDictionaries(token) {
+  return fetch('/api/v1/dictionaries', {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      authorization: token
+    }
+  }).then(parseJSON);
 }
 
-export function deleteTrackApi(id) {
+export function deleteTrackApi(id, token) {
   return fetch('/api/v1/lines', {
     method: 'DELETE',
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      authorization: token
     },
     body: JSON.stringify({
       id,
@@ -17,13 +24,14 @@ export function deleteTrackApi(id) {
   });
 }
 
-export function createTrackApi(data) {
+export function createTrackApi(data, token) {
   let { project = '', task = '', type_work = '', hours = 0, trackDate } = data;
 
   return fetch('/api/v1/lines', {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      authorization: token
     },
     body: JSON.stringify({
       project,
@@ -35,7 +43,7 @@ export function createTrackApi(data) {
   });
 }
 
-export function updateTrackApi(data) {
+export function updateTrackApi(data, token) {
   let {
     id = '',
     project = '',
@@ -48,7 +56,8 @@ export function updateTrackApi(data) {
   return fetch('/api/v1/lines', {
     method: 'PATCH',
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      authorization: token
     },
     body: JSON.stringify({
       id,
@@ -61,7 +70,7 @@ export function updateTrackApi(data) {
   });
 }
 
-export function getTracksApi(filters) {
+export function getTracksApi(token, filters) {
   let {
     type_work = '',
     status = '',
@@ -82,7 +91,14 @@ export function getTracksApi(filters) {
       ? eDate
       : ''}&status=${status ? status : ''}&type_work=${type_work
       ? type_work
-      : ''}&task=${task}`
+      : ''}&task=${task}`,
+    {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        authorization: token
+      }
+    }
   ).then(parseJSON);
 }
 
@@ -96,5 +112,15 @@ export function loginApi(email, password) {
       email,
       password
     })
+  });
+}
+
+export function meApi(token) {
+  return fetch('/api/v1/auth/me', {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      authorization: token
+    }
   });
 }

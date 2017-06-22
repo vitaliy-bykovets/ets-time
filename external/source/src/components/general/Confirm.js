@@ -12,9 +12,9 @@ class Confirm extends React.Component {
   };
 
   handleClickOk = () => {
-    let { action, param } = this.props;
+    let { action, param, token } = this.props;
     if (action === 'removeTrack') {
-      this.props.removeTrack(param);
+      this.props.removeTrack(param, token);
     }
   };
 
@@ -51,7 +51,8 @@ function mapStateToProps(state) {
     action,
     param,
     confirmIsOpen: state.generalReducer.confirmIsOpen,
-    deleteTrack: state.generalReducer.errors.deleteTrack
+    deleteTrack: state.generalReducer.errors.deleteTrack,
+    token: state.generalReducer.token
   };
 }
 

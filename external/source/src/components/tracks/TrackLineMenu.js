@@ -40,11 +40,11 @@ class TrackLineMenu extends React.Component {
 
   handleAccept = () => {};
   render() {
-    const { view } = this.props;
+    const { view, bgColor } = this.props;
     return (
       <div>
         {view === 'line'
-          ? <div className="track__menuBtn--line">
+          ? <div className="track__menuBtn--line" style={{ color: bgColor }}>
               <div
                 className="track__menuBtnLine--btn"
                 onClick={this.handleEdit}
@@ -76,6 +76,14 @@ class TrackLineMenu extends React.Component {
   }
 }
 
-export default connect(null, { toggleConfirm, clearErrors, toggleSingleTrack })(
-  TrackLineMenu
-);
+function mapStateToProps(state) {
+  return {
+    bgColor: state.generalReducer.bgColor
+  };
+}
+
+export default connect(mapStateToProps, {
+  toggleConfirm,
+  clearErrors,
+  toggleSingleTrack
+})(TrackLineMenu);

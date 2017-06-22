@@ -19,6 +19,7 @@ import './styles/tracks.css';
 import './styles/filters.css';
 import './styles/topbar.css';
 import './styles/sidebar.css';
+import './styles/loading.css';
 import './styles/mobile.css';
 import './styles/general.css';
 

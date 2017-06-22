@@ -37,10 +37,11 @@ class SingeTrack extends React.Component {
   };
 
   handleSaveTrack = () => {
-    if (this.props.isTrackEdit) {
-      this.props.updateTrack(this.state);
+    let { isTrackEdit, token } = this.props;
+    if (isTrackEdit) {
+      this.props.updateTrack(this.state, token);
     } else {
-      this.props.createTrack(this.state);
+      this.props.createTrack(this.state, token);
     }
   };
 
@@ -191,12 +192,14 @@ class SingeTrack extends React.Component {
 
 function mapStateToProps(state) {
   let { trackIsOpen, workTypes, trackData, isTrackEdit } = state.trackReducer;
+  let { errors, token } = state.generalReducer;
   return {
     trackIsOpen,
     workTypes,
     trackData,
     isTrackEdit,
-    errors: state.generalReducer.errors
+    errors,
+    token
   };
 }
 
