@@ -49,9 +49,14 @@
     margin: 0;
   }
 
-  .filters__input {
+  .input {
     padding: 0 10px;
     margin: 0;
+  }
+
+  .login__input {
+    padding: 5px 10px;
+    margin: 5px 0 0 0;
   }
 
   .filters__textarea {
@@ -86,5 +91,9 @@
   .container {
     width: calc(100% - 10px);
     padding: 55px 5px;
+  }
+
+  .topbar__headline {
+    display: none;
   }
 }

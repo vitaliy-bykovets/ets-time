@@ -1,1 +1,7 @@
-export default ['deepskyblue', '#424242', '#8D6E63', '#78909C', '#00BCD4'];
+export default [
+  '#04aee6',
+  '#424242',
+  '#8D6E63',
+  'rgb(88, 106, 115)',
+  'rgb(60, 149, 160)'
+];

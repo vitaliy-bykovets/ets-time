@@ -25,19 +25,19 @@ import {
 // Helpers
 import { getInitFilters } from './../../shared/HelpService';
 
-export function getTracks(filters = getInitFilters()) {
+export function getTracks(token, filters = getInitFilters()) {
   return dispatch => {
-    getTracksApi(filters).then(resp => {
+    getTracksApi(token, filters).then(resp => {
       if (resp.data) dispatch(setTracks(resp.data));
     });
   };
 }
 
-export function removeTrack(id) {
+export function removeTrack(id, token) {
   return dispatch => {
-    deleteTrackApi(id).then(resp => {
+    deleteTrackApi(id, token).then(resp => {
       if (resp.status >= 200 && resp.status < 300) {
-        dispatch(getTracks());
+        dispatch(getTracks(token));
         dispatch(toggleConfirm(false, 'text'));
       } else {
         dispatch(setErrors({ deleteTrack: true }));
@@ -46,11 +46,11 @@ export function removeTrack(id) {
   };
 }
 
-export function createTrack(data) {
+export function createTrack(data, token) {
   return dispatch => {
-    createTrackApi(data).then(resp => {
+    createTrackApi(data, token).then(resp => {
       if (resp.status >= 200 && resp.status < 300) {
-        dispatch(getTracks());
+        dispatch(getTracks(token));
         dispatch(toggleSingleTrack(false));
       } else {
         if (resp.status === 404) {
@@ -65,11 +65,11 @@ export function createTrack(data) {
   };
 }
 
-export function updateTrack(data) {
+export function updateTrack(data, token) {
   return dispatch => {
-    updateTrackApi(data).then(resp => {
+    updateTrackApi(data, token).then(resp => {
       if (resp.status >= 200 && resp.status < 300) {
-        dispatch(getTracks());
+        dispatch(getTracks(token));
         dispatch(toggleSingleTrack(false));
       } else {
         if (resp.status === 404) {
@@ -84,9 +84,9 @@ export function updateTrack(data) {
   };
 }
 
-export function getLibraries() {
+export function getLibraries(token) {
   return dispatch => {
-    getDictionaries().then(resp => {
+    getDictionaries(token).then(resp => {
       if (resp) {
         dispatch(setWorkTypes(resp.type_works));
         dispatch(setStatusTypes(resp.task_status));

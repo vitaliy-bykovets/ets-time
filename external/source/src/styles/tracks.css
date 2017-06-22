@@ -113,19 +113,17 @@
   right: 20px;
   bottom: 10px;
   border-radius: 50%;
-  border: 1px solid deepskyblue;
-  color: deepskyblue;
+  border: 1px solid white;
   cursor: pointer;
   outline: none;
 }
 
-.track__menuBtn:hover {
-  background: deepskyblue;
+/*.track__menuBtn:hover {
   border-color: #ffffff;
   color: #ffffff;
   transition: all 0.3s;
   outline: none;
-}
+}*/
 
 .track-menu-btns {
   height: 100%;
@@ -163,7 +161,6 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  color: #00897B;
 }
 
 .track__menuBtnLine--btn:not(:last-of-type) {

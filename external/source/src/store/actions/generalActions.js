@@ -4,7 +4,8 @@ import {
   CLEAR_ERROR_FIELD,
   SET_ERRORS,
   CLEAR_ERRORS,
-  TOGGLE_CONFIRM
+  TOGGLE_CONFIRM,
+  SET_TOKEN
 } from './../actions/types';
 
 export function changeBgColor(color) {
@@ -39,5 +40,12 @@ export function toggleConfirm(confirmIsOpen, text, action, param) {
     type: TOGGLE_CONFIRM,
     data: { text, action, param },
     confirmIsOpen
+  };
+}
+
+export function setToken(token) {
+  return {
+    type: SET_TOKEN,
+    token
   };
 }

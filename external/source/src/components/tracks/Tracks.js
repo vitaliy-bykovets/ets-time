@@ -29,8 +29,9 @@ class Tracks extends React.Component {
   state = { showFilters: false };
 
   componentDidMount() {
-    this.props.getLibraries();
-    this.props.getTracks(this.props.filters);
+    let { token, filters } = this.props;
+    this.props.getLibraries(token);
+    this.props.getTracks(token, filters);
   }
 
   openFilters = () => {
@@ -41,7 +42,7 @@ class Tracks extends React.Component {
     this.setState({ showFilters: showClearFilters(nextProps.filters) });
 
     if (!isEqual(nextProps.filters, this.props.filters)) {
-      this.props.getTracks(nextProps.filters);
+      this.props.getTracks(nextProps.token, nextProps.filters);
     }
   }
 
@@ -55,26 +56,41 @@ class Tracks extends React.Component {
   };
 
   render() {
+    const { showFilters } = this.state;
+    const { bgColor } = this.props;
+
     const tracks = this.props.tracks.map((t, i) => {
-      return <Track trackData={t} key={i} view={this.props.view} />;
+      return (
+        <Track trackData={t} key={i} view={this.props.view} bgColor={bgColor} />
+      );
     });
 
-    const { showFilters } = this.state;
-
     return (
-      <div className="container" style={{ background: this.props.bgColor }}>
+      <div className="container" style={{ background: bgColor }}>
         {tracks}
         <Filters />
         <SingleTrack />
         <div className="mainBtns">
-          <button className="mainBtns__btn" onClick={this.openSingleTrack}>
+          <button
+            className="mainBtns__btn"
+            onClick={this.openSingleTrack}
+            style={{ color: bgColor }}
+          >
             <FaPlus />
           </button>
-          <button className="mainBtns__btn" onClick={this.openFilters}>
+          <button
+            className="mainBtns__btn"
+            onClick={this.openFilters}
+            style={{ color: bgColor }}
+          >
             <FaFilter />
           </button>
           {showFilters
-            ? <button className="mainBtns__btn" onClick={this.clearFilters}>
+            ? <button
+                className="mainBtns__btn"
+                onClick={this.clearFilters}
+                style={{ color: bgColor }}
+              >
                 <FaTimes />
               </button>
             : null}
@@ -85,11 +101,15 @@ class Tracks extends React.Component {
 }
 
 function mapStateToProps(state) {
+  let { tracks, filters, view } = state.trackReducer;
+  let { bgColor, token } = state.generalReducer;
+
   return {
-    tracks: state.trackReducer.tracks,
-    filters: state.trackReducer.filters,
-    view: state.trackReducer.view,
-    bgColor: state.generalReducer.bgColor
+    tracks,
+    filters,
+    view,
+    bgColor,
+    token
   };
 }
 

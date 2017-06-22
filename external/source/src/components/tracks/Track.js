@@ -13,15 +13,20 @@ import TrackLineMenu from './TrackLineMenu';
 
 class Track extends React.Component {
   state = {
-    menuOpen: false
+    menuOpen: false,
+    hover: false
   };
 
   toggleMenu = () => {
     this.setState({ menuOpen: !this.state.menuOpen });
   };
 
+  menuMouseHover = () => {
+    this.setState({ hover: !this.state.hover });
+  };
+
   render() {
-    const { trackData: t, view } = this.props;
+    const { trackData: t, view, bgColor } = this.props;
     const date = new Date(t.date_task);
     const dateStr = date ? formatDateToServer(date) : '';
     const project = typeof t.project === 'string' && t.project.length > 20
@@ -91,7 +96,24 @@ class Track extends React.Component {
         </div>
 
         {view === 'block'
-          ? <button className="track__menuBtn" onClick={this.toggleMenu}>
+          ? <button
+              className="track__menuBtn"
+              onClick={this.toggleMenu}
+              onMouseEnter={this.menuMouseHover}
+              onMouseLeave={this.menuMouseHover}
+              style={
+                this.state.hover
+                  ? {
+                      background: bgColor,
+                      color: 'white',
+                      borderColor: 'white'
+                    }
+                  : {
+                      borderColor: bgColor,
+                      color: bgColor
+                    }
+              }
+            >
               <FaEllipsis />
             </button>
           : null}

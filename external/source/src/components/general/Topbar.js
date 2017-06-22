@@ -1,6 +1,7 @@
 import React from 'react';
 import classnames from 'classnames';
 import { connect } from 'react-redux';
+import { Link, withRouter } from 'react-router-dom';
 
 // Components
 import Settings from './Settings';
@@ -28,34 +29,57 @@ class Topbar extends React.Component {
   };
 
   render() {
-    const { viewType } = this.props;
+    const { viewType, location, bgColor } = this.props;
     const { settingsOpen } = this.state;
 
     return (
       <div className="topbar">
-        <h4 className="topbar__headline">Selecto tracking system</h4>
+        <h4 className="topbar__headline">Username</h4>
 
-        <div className="topbar__icons">
-          <FaBlocks
-            className={classnames('topbar__icon', {
-              'topbar__icon--active': viewType === 'block'
-            })}
-            onClick={() => this.changeView('block')}
-          />
-          <FaLines
-            className={classnames('topbar__icon', {
-              'topbar__icon--active': viewType === 'line'
-            })}
-            onClick={() => this.changeView('line')}
-          />
-          <FaCog
-            className="topbar__icon p-l-20"
-            onClick={this.toggleSettings}
-          />
-          <Settings
-            settingsOpen={settingsOpen}
-            toggleSettings={this.toggleSettings}
-          />
+        <div className="topbar__menu">
+          <div className="topbar__menu--wrapper">
+            <Link
+              to="/tracks"
+              className={classnames('topbar__menu--btn', {
+                'topbar__menu--active': location.pathname.includes('tracks')
+              })}
+              style={{ background: bgColor }}
+            >
+              tracks
+            </Link>
+            <Link
+              to="/users"
+              className={classnames('topbar__menu--btn', {
+                'topbar__menu--active': location.pathname.includes('users')
+              })}
+              style={{ background: bgColor }}
+            >
+              users
+            </Link>
+          </div>
+
+          <div className="topbar__icons" style={{ color: bgColor }}>
+            <FaBlocks
+              className={classnames('topbar__icon', 'p-l-20', {
+                'topbar__icon--active': viewType === 'block'
+              })}
+              onClick={() => this.changeView('block')}
+            />
+            <FaLines
+              className={classnames('topbar__icon', {
+                'topbar__icon--active': viewType === 'line'
+              })}
+              onClick={() => this.changeView('line')}
+            />
+            <FaCog
+              className="topbar__icon p-l-20"
+              onClick={this.toggleSettings}
+            />
+            <Settings
+              settingsOpen={settingsOpen}
+              toggleSettings={this.toggleSettings}
+            />
+          </div>
         </div>
       </div>
     );
@@ -64,8 +88,11 @@ class Topbar extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    viewType: state.trackReducer.view
+    viewType: state.trackReducer.view,
+    bgColor: state.generalReducer.bgColor
   };
 }
 
-export default connect(mapStateToProps, { changeTrackView })(Topbar);
+export default withRouter(
+  connect(mapStateToProps, { changeTrackView })(Topbar)
+);

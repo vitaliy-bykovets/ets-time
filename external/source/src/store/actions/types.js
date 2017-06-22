@@ -15,5 +15,7 @@ export const CLEAR_ERROR_FIELD = 'CLEAR_ERROR_FIELD';
 export const CLEAR_ERRORS = 'CLEAR_ERRORS';
 export const TOGGLE_CONFIRM = 'TOGGLE_CONFIRM';
 
-// Users
 // Auth
+export const SET_TOKEN = 'SET_TOKEN';
+
+// Users
