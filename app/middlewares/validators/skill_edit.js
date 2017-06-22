@@ -1,3 +1,4 @@
+'use strict';
 const Validator = require('./Validator');
 const knex = require('./../../libs/knex');
 const _ = require('lodash');
@@ -29,7 +30,7 @@ module.exports = (req, res, next) => {
           res.status(204).end();
         }
       })
-      .catch(e => next(e));
+      .catch(next);
   });
   validate.fails(() => res.status(400).send(validate.errors));
 };

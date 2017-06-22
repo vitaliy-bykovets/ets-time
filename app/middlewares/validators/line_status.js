@@ -1,3 +1,4 @@
+'use strict';
 const Validator = require('./Validator');
 const env = require('./../../config');
 const knex = require('./../../libs/knex');
@@ -23,6 +24,6 @@ module.exports = (req, res, next) => {
           res.status(404).send();
         }
       })
-      .catch(() => res.status(500).send());
+      .catch(next);
   }
 };

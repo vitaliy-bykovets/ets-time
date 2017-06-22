@@ -1,3 +1,4 @@
+'use strict';
 const Validator = require('validatorjs');
 const knex = require('./../../libs/knex');
 
@@ -55,7 +56,7 @@ Validator.registerAsync('email_exist', (email_exist, attribute, req, passes) => 
  * Get exist skill
  */
 Validator.registerAsync('exist_skill', (skill_id_exist, attribute, req, passes) => {
-  if (skill_id_exist === 0) {
+  if (skill_id_exist === null) {
     passes();
   } else {
     knex('skills')

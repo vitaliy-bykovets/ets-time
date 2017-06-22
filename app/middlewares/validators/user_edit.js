@@ -1,3 +1,4 @@
+'use strict';
 const Validator = require('./Validator');
 const env = require('./../../config');
 const bcrypt = require('bcrypt-nodejs');
@@ -29,7 +30,5 @@ module.exports = (req, res, next) => {
     req._vars = vars;
     next();
   });
-  validate.fails(() => {
-    return res.status(400).send(validate.errors);
-  });
+  validate.fails(() => res.status(400).send(validate.errors));
 };

@@ -1,3 +1,4 @@
+'use strict';
 const express = require('express');
 const router = express.Router();
 const knex = require('./../libs/knex');
@@ -44,17 +45,11 @@ router.post('/', (req, res, next) => {
 });
 
 /* Me */
-router.get('/me', auth, (req, res) => {
-  res.json(req._user);
-});
+router.get('/me', auth, (req, res) => res.json(req._user));
 
 /* Logout */
 router.post('/logout', auth, (req, res) => {
-  knex('tokens')
-    .where('token', req._user.token)
-    .del()
-    .then(() => res.status(204).send())
-    .catch(() => res.status(500).send());
+  knex('tokens').where('token', req._user.token).del().then(() => res.status(204).send()).catch(next);
 });
 
 module.exports = router;

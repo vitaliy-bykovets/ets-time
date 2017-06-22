@@ -1,6 +1,7 @@
+'use strict';
 const express = require('express');
 const router = express.Router();
-const mw = require('./../middlewares/index');
+const { validators: { users_list, user_create, user_edit } } = require('./../middlewares/index');
 const knex = require('./../libs/knex');
 const _ = require('lodash');
 const async = require('async');
@@ -21,21 +22,17 @@ const criteriaForList = function(p) {
 };
 
 /* Create user */
-router.post('/', mw.validators.user_create, (req, res) => {
-  knex('users').insert(req._vars).then(() => res.status(201).send()).catch(e => res.status(500).send());
+router.post('/', user_create, (req, res, next) => {
+  knex('users').insert(req._vars).then(() => res.status(201).send()).catch(next);
 });
 
 /* Update user */
-router.patch('/', mw.validators.user_edit, (req, res) => {
-  knex('users')
-    .where({ id: req._vars.id })
-    .update(req._vars)
-    .then(() => res.send())
-    .catch(() => res.status(500).send());
+router.patch('/', user_edit, (req, res, next) => {
+  knex('users').where({ id: req._vars.id }).update(req._vars).then(() => res.send()).catch(next);
 });
 
 /* GET users listing. */
-router.get('/', mw.validators.users_list, async (req, res) => {
+router.get('/', users_list, async (req, res) => {
   let param = req.query;
 
   async.parallel(

@@ -1,6 +1,9 @@
+'use strict';
 const express = require('express');
 const router = express.Router();
-const mw = require('./../middlewares/index');
+const {
+  validators: { line_list, line_create, line_edit, line_status, line_delete }
+} = require('./../middlewares/index');
 const knex = require('./../libs/knex');
 const _ = require('lodash');
 const async = require('async');
@@ -34,7 +37,7 @@ const criteriaForList = function(param) {
 };
 
 /* Get track lines */
-router.get('/', mw.validators.line_list, async (req, res) => {
+router.get('/', line_list, async (req, res) => {
   let param = req.query;
 
   async.parallel(
@@ -71,35 +74,31 @@ router.get('/', mw.validators.line_list, async (req, res) => {
 });
 
 /* Create track line */
-router.post('/', mw.validators.line_create, (req, res) => {
-  knex('track_lines').insert(req._vars).then(() => res.status(201).send()).catch(e => res.status(500).send());
+router.post('/', line_create, (req, res, next) => {
+  knex('track_lines').insert(req._vars).then(() => res.status(201).send()).catch(next);
 });
 
 // Update track-line by id
-router.patch('/', mw.validators.line_edit, (req, res) => {
+router.patch('/', line_edit, (req, res, next) => {
   knex('track_lines')
     .where({ id: req.body.id, user_id: req._user.id })
     .update(req._vars)
     .then(() => res.send())
-    .catch(() => res.status(400).send());
+    .catch(next);
 });
 
 // delete track line
-router.delete('/', mw.validators.line_delete, (req, res) => {
+router.delete('/', line_delete, (req, res, next) => {
   knex('track_lines')
     .where({ id: req.body.id, user_id: req._user.id })
-    .delete()
+    .del()
     .then(() => res.status(204).send())
-    .catch(() => res.status(500).send());
+    .catch(next);
 });
 
 // update status for track line (by admin | pm)
-router.patch('/status', role(['owner', 'pm']), mw.validators.line_status, (req, res) => {
-  knex('track_lines')
-    .where({ id: req.body.id })
-    .update({ status: req.body.status })
-    .then(() => res.send())
-    .catch(() => res.status(500).send());
+router.patch('/status', role(['owner', 'pm']), line_status, (req, res, next) => {
+  knex('track_lines').where({ id: req.body.id }).update({ status: req.body.status }).then(() => res.send()).catch(next);
 });
 
 module.exports = router;

@@ -1,3 +1,4 @@
+'use strict';
 const Validator = require('./Validator');
 const env = require('./../../config');
 const bcrypt = require('bcrypt-nodejs');

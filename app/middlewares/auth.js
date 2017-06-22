@@ -1,3 +1,4 @@
+'use strict';
 const Validator = require('./validators/Validator');
 const knex = require('./../libs/knex');
 const _ = require('lodash');
@@ -14,6 +15,13 @@ module.exports = (req, res, next) => {
   if (validate.fails()) {
     res.status(401).send(validate.errors);
   } else {
+    let futureDate = new Date();
+    futureDate.setDate(futureDate.getDate() - 180);
+
+    // remove old tokens
+    knex('tokens').where('created_at', '<', futureDate).del().then(() => {}).catch(() => {});
+
+    // login
     knex('tokens as t')
       .select('u.*', 't.token')
       .where('t.token', req.header('authorization'))
@@ -36,6 +44,6 @@ module.exports = (req, res, next) => {
           res.status(401).send();
         }
       })
-      .catch(() => res.status(500).send());
+      .catch(next);
   }
 };
