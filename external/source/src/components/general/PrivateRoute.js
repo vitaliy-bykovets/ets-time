@@ -18,6 +18,11 @@ const checkMe = async props => {
     auth.json().then(resp => {
       props.setActiveUser(resp);
     });
+  } else {
+    props.setToken('');
+    props.setActiveUser({});
+    props.meFailed(true);
+    localStorage.removeItem('token');
   }
 
   return success;

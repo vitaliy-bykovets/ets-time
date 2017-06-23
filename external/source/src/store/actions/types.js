@@ -21,3 +21,4 @@ export const SET_TOKEN = 'SET_TOKEN';
 // Users
 export const SET_ACTIVE_USER = 'SET_ACTIVE_USER';
 export const SET_USERS = 'SET_USERS';
+export const ME_FAILED = 'ME_FAILED';

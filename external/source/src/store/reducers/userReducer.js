@@ -1,4 +1,4 @@
-import { SET_ACTIVE_USER, SET_USERS } from './../actions/types';
+import { SET_ACTIVE_USER, SET_USERS, ME_FAILED } from './../actions/types';
 
 const initial = {
   activeUser: {
@@ -6,7 +6,8 @@ const initial = {
     last_name: '',
     email: ''
   },
-  users: []
+  users: [],
+  meFailed: false
 };
 
 export default function userReducer(state = initial, action = {}) {
@@ -15,6 +16,8 @@ export default function userReducer(state = initial, action = {}) {
       return Object.assign({}, state, { activeUser: action.user });
     case SET_USERS:
       return Object.assign({}, state, { users: action.users });
+    case ME_FAILED:
+      return Object.assign({}, state, { meFailed: action.param });
 
     default:
       return state;
