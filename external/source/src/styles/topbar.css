@@ -29,15 +29,15 @@
   cursor: pointer;
   padding: 5px;
   transition: all 0.2s;
-  opacity: 0.7;
+  opacity: 1;
 }
 
 .topbar__icon:hover {
-  opacity: 0.7;
+  transform: scale(1.4);
 }
 
 .topbar__icon--active {
-  opacity: 1;
+  color: #424242;
 }
 
 .topbar__menu--wrapper {
@@ -74,4 +74,14 @@
 
 .topbar__menu--active {
   opacity: 1;
+}
+
+.logout {
+  padding-left: 20px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.logout:hover {
+  transform: scale(1.4);
 }

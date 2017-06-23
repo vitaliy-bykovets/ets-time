@@ -5,15 +5,14 @@ import { isEqual } from 'lodash';
 // Components
 import Track from './Track';
 import Filters from './Filters';
-import SingleTrack from './SingleTrack';
+import ChangeTrack from './ChangeTrack';
 
 // Actions
 import {
   getTracks,
-  getLibraries,
   toggleTrackFilters,
   clearTrackFilters,
-  toggleSingleTrack
+  toggleChangeTrack
 } from './../../store/actions/trackActions';
 import { clearErrors } from './../../store/actions/generalActions';
 
@@ -30,7 +29,6 @@ class Tracks extends React.Component {
 
   componentDidMount() {
     let { token, filters } = this.props;
-    this.props.getLibraries(token);
     this.props.getTracks(token, filters);
   }
 
@@ -50,18 +48,24 @@ class Tracks extends React.Component {
     this.props.clearTrackFilters();
   };
 
-  openSingleTrack = () => {
-    this.props.toggleSingleTrack(true);
+  openChangeTrack = () => {
+    this.props.toggleChangeTrack(true);
     this.props.clearErrors();
   };
 
   render() {
     const { showFilters } = this.state;
-    const { bgColor } = this.props;
+    const { bgColor, token } = this.props;
 
     const tracks = this.props.tracks.map((t, i) => {
       return (
-        <Track trackData={t} key={i} view={this.props.view} bgColor={bgColor} />
+        <Track
+          token={token}
+          trackData={t}
+          key={i}
+          view={this.props.view}
+          bgColor={bgColor}
+        />
       );
     });
 
@@ -69,11 +73,11 @@ class Tracks extends React.Component {
       <div className="container" style={{ background: bgColor }}>
         {tracks}
         <Filters />
-        <SingleTrack />
+        <ChangeTrack />
         <div className="mainBtns">
           <button
             className="mainBtns__btn"
-            onClick={this.openSingleTrack}
+            onClick={this.openChangeTrack}
             style={{ color: bgColor }}
           >
             <FaPlus />
@@ -115,9 +119,8 @@ function mapStateToProps(state) {
 
 export default connect(mapStateToProps, {
   getTracks,
-  getLibraries,
   toggleTrackFilters,
   clearTrackFilters,
-  toggleSingleTrack,
+  toggleChangeTrack,
   clearErrors
 })(Tracks);

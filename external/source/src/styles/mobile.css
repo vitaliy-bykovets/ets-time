@@ -40,11 +40,11 @@
 }
 
 @media (max-width: 420px) {
-  .filters__headline {
+  .input-headline {
     margin-top: 10px;
   }
 
-  .filters__select {
+  .datepicker {
     height: 30px;
     margin: 0;
   }
@@ -72,7 +72,11 @@
   }
 
   .track__date--line {
-    font-size: 12px;
+    display: none;
+  }
+
+  .track__user--line {
+    padding-left: 0;
   }
 
   .track__type--line {

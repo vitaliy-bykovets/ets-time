@@ -2,6 +2,7 @@
 const Validator = require('./validators/Validator');
 const knex = require('./../libs/knex');
 const _ = require('lodash');
+const userModel = require('./../models/user');
 
 module.exports = (req, res, next) => {
   const rules = {
@@ -22,28 +23,19 @@ module.exports = (req, res, next) => {
     knex('tokens').where('created_at', '<', futureDate).del().then(() => {}).catch(() => {});
 
     // login
-    knex('tokens as t')
-      .select('u.*', 't.token')
-      .where('t.token', req.header('authorization'))
-      .join('users as u', 'u.id', 't.user_id')
-      .first()
-      .then(user => {
-        if (user) {
-          let _user = _.omit(user, ['password']);
-          _user.roles = _user.roles.split(',');
-          _user.position = _user.position.split(',');
-          req._user = _user;
-          // update timestamp
-          knex('tokens')
-            .where('user_id', user.id)
-            .where('token', user.token)
-            .update({ created_at: new Date() })
-            .then(next())
-            .catch(next);
-        } else {
-          res.status(401).send();
-        }
-      })
-      .catch(next);
+    userModel.getUserByToken(req.header('authorization'), (err, user) => {
+      if (err) return next(err);
+      if (user) {
+        knex('tokens')
+          .where('user_id', user.id)
+          .where('token', user.token)
+          .update({ created_at: new Date() })
+          .then(() => {
+            req._user = user;
+            next();
+          })
+          .catch(next);
+      }
+    });
   }
 };

@@ -10,14 +10,28 @@ import Settings from './Settings';
 import FaBlocks from 'react-icons/lib/fa/th';
 import FaLines from 'react-icons/lib/fa/align-justify';
 import FaCog from 'react-icons/lib/fa/cog';
+import FaPower from 'react-icons/lib/fa/power-off';
 
 // Actions
 import { changeTrackView } from './../../store/actions/trackActions';
+import { setActiveUser } from './../../store/actions/userActions';
+import { setToken } from './../../store/actions/generalActions';
+
+// Helpers
+import { logoutApi } from './../../shared/ApiService';
+
+// Actions
+import { getLibraries } from './../../store/actions/trackActions';
 
 class Topbar extends React.Component {
   state = {
     settingsOpen: false
   };
+
+  componentDidMount() {
+    let { token } = this.props;
+    this.props.getLibraries(token);
+  }
 
   changeView = view => {
     this.props.changeTrackView(view);
@@ -28,20 +42,53 @@ class Topbar extends React.Component {
     this.setState({ settingsOpen: !this.state.settingsOpen });
   };
 
+  logoutHandler = () => {
+    logoutApi(this.props.token).then(resp => {
+      if (resp.status >= 200 && resp.status < 300) {
+        this.props.setActiveUser({ first_name: '', last_name: '' });
+        this.props.setToken('');
+        localStorage.removeItem('token');
+        this.props.history.push('/login');
+      }
+    });
+  };
+
   render() {
-    const { viewType, location, bgColor } = this.props;
+    const { viewType, location, bgColor, activeUser } = this.props;
     const { settingsOpen } = this.state;
+    const trackUrl =
+      location.pathname.includes('tracks') || location.pathname === '/';
 
     return (
       <div className="topbar">
-        <h4 className="topbar__headline">Username</h4>
+        <h4 className="topbar__headline">
+          <span>{`${activeUser.first_name} ${activeUser.last_name}`}</span>
+          <FaPower className="logout" onClick={this.logoutHandler} />
+        </h4>
 
-        <div className="topbar__menu">
+        <div className="topbar__menu" style={{ color: bgColor }}>
+          {trackUrl && activeUser.roles && activeUser.roles.includes('owner')
+            ? <FaBlocks
+                className={classnames('topbar__icon', {
+                  'topbar__icon--active': viewType === 'block'
+                })}
+                onClick={() => this.changeView('block')}
+              />
+            : null}
+          {trackUrl && activeUser.roles && activeUser.roles.includes('owner')
+            ? <FaLines
+                className={classnames('topbar__icon', 'p-r-20', {
+                  'topbar__icon--active': viewType === 'line'
+                })}
+                onClick={() => this.changeView('line')}
+              />
+            : null}
+
           <div className="topbar__menu--wrapper">
             <Link
               to="/tracks"
               className={classnames('topbar__menu--btn', {
-                'topbar__menu--active': location.pathname.includes('tracks')
+                'topbar__menu--active': trackUrl
               })}
               style={{ background: bgColor }}
             >
@@ -59,18 +106,6 @@ class Topbar extends React.Component {
           </div>
 
           <div className="topbar__icons" style={{ color: bgColor }}>
-            <FaBlocks
-              className={classnames('topbar__icon', 'p-l-20', {
-                'topbar__icon--active': viewType === 'block'
-              })}
-              onClick={() => this.changeView('block')}
-            />
-            <FaLines
-              className={classnames('topbar__icon', {
-                'topbar__icon--active': viewType === 'line'
-              })}
-              onClick={() => this.changeView('line')}
-            />
             <FaCog
               className="topbar__icon p-l-20"
               onClick={this.toggleSettings}
@@ -89,10 +124,17 @@ class Topbar extends React.Component {
 function mapStateToProps(state) {
   return {
     viewType: state.trackReducer.view,
-    bgColor: state.generalReducer.bgColor
+    bgColor: state.generalReducer.bgColor,
+    token: state.generalReducer.token,
+    activeUser: state.userReducer.activeUser
   };
 }
 
 export default withRouter(
-  connect(mapStateToProps, { changeTrackView })(Topbar)
+  connect(mapStateToProps, {
+    changeTrackView,
+    setActiveUser,
+    setToken,
+    getLibraries
+  })(Topbar)
 );

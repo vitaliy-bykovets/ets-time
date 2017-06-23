@@ -11,11 +11,37 @@ const token = localStorage.getItem('token');
 
 const checkMe = async props => {
   let auth = await meApi(token);
-  props.setToken(token);
-  return auth.status >= 200 && auth.status < 300;
+  let success = auth.status >= 200 && auth.status < 300;
+
+  if (success) {
+    props.setToken(token);
+    auth.json().then(resp => {
+      props.setActiveUser(resp);
+    });
+  } else {
+    props.setToken('');
+    props.setActiveUser({});
+    props.meFailed(true);
+    localStorage.removeItem('token');
+  }
+
+  return success;
 };
 
 export default function({ component: Component, props, ...rest }) {
+  const login = (
+    <Redirect
+      to={{
+        pathname: '/login',
+        state: { from: props.location }
+      }}
+    />
+  );
+
+  if (!props.token && !token) {
+    return <Route {...rest} render={props => login} />;
+  }
+
   if (!props.token) {
     let isLoading = true;
 
@@ -26,14 +52,7 @@ export default function({ component: Component, props, ...rest }) {
     if (props.token) {
       return <Route {...rest} render={props => <Component {...props} />} />;
     } else {
-      const component = isLoading
-        ? <LoadingPage />
-        : <Redirect
-            to={{
-              pathname: '/login',
-              state: { from: props.location }
-            }}
-          />;
+      const component = isLoading ? <LoadingPage /> : login;
       return <Route {...rest} render={props => component} />;
     }
   } else {

@@ -13,6 +13,7 @@ import PrivateRoute from './general/PrivateRoute';
 
 // Actions
 import { setToken } from './../store/actions/generalActions';
+import { setActiveUser, meFailed } from './../store/actions/userActions';
 
 class App extends React.Component {
   render() {
@@ -50,4 +51,6 @@ function mapStateToProps(state) {
   };
 }
 
-export default withRouter(connect(mapStateToProps, { setToken })(App));
+export default withRouter(
+  connect(mapStateToProps, { setToken, setActiveUser, meFailed })(App)
+);

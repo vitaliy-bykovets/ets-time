@@ -1,6 +1,6 @@
 // Tracks
 export const SET_TRACKS = 'SET_TRACKS';
-export const TOGGLE_SINGLE_TRACK = 'TOGGLE_SINGLE_TRACK';
+export const TOGGLE_CHANGE_TRACK = 'TOGGLE_CHANGE_TRACK';
 export const TOGGLE_TRACK_FILTERS = 'TOGGLE_TRACK_FILTERS';
 export const SET_WORK_TYPES = 'SET_WORK_TYPES';
 export const SET_STATUS_TYPES = 'SET_STATUS_TYPES';
@@ -17,5 +17,11 @@ export const TOGGLE_CONFIRM = 'TOGGLE_CONFIRM';
 
 // Auth
 export const SET_TOKEN = 'SET_TOKEN';
+export const ME_FAILED = 'ME_FAILED';
 
 // Users
+export const SET_ACTIVE_USER = 'SET_ACTIVE_USER';
+export const SET_USERS = 'SET_USERS';
+export const TOGGLE_CHANGE_USER = 'TOGGLE_CHANGE_USER';
+export const SET_ROLES = 'SET_ROLES';
+export const SET_POSITIONS = 'SET_POSITIONS';

@@ -4,8 +4,11 @@ const router = express.Router();
 const knex = require('./../libs/knex');
 const bcrypt = require('bcrypt-nodejs');
 const crypto = require('crypto');
+const _ = require('lodash');
 const Validator = require('./../middlewares/validators/Validator');
 const { auth } = require('./../middlewares/index');
+
+const userModel = require('./../models/user');
 
 /* Auth user */
 router.post('/', (req, res, next) => {
@@ -30,7 +33,14 @@ router.post('/', (req, res, next) => {
             let token = crypto.randomBytes(16).toString('hex');
             knex('tokens')
               .insert({ token: token, user_id: data.id })
-              .then(() => res.json({ token: token }))
+              .then(() => {
+                userModel.getUserByToken(token, (err, user) => {
+                  if (err) return next(err);
+                  if (user) {
+                    return res.json(user);
+                  }
+                });
+              })
               .catch(next);
           } else {
             res.status(401).send();
@@ -48,7 +58,7 @@ router.post('/', (req, res, next) => {
 router.get('/me', auth, (req, res) => res.json(req._user));
 
 /* Logout */
-router.post('/logout', auth, (req, res) => {
+router.post('/logout', auth, (req, res, next) => {
   knex('tokens').where('token', req._user.token).del().then(() => res.status(204).send()).catch(next);
 });
 

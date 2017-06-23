@@ -44,6 +44,7 @@ class Login extends React.Component {
           let token = resp.token;
           if (token) {
             localStorage.setItem('token', token);
+            //this.props.setActiveUser(resp.user);
             this.props.setToken(token);
           }
         });
@@ -64,37 +65,49 @@ class Login extends React.Component {
     const { errors, token } = this.props;
 
     const loginComponent = (
-      <form
-        autoComplete="true"
-        onSubmit={this.handleSubmit}
-        className="login-wrapper"
-      >
-        <input
-          type="email"
-          name="email"
-          value={this.state.email}
-          onChange={this.handleChangeInput}
-          onFocus={this.handleFocusInput}
-          placeholder="Email"
-          className={classnames('input login__input', {
-            bgError: errors.email
-          })}
-        />
+      <div className="login-wrapper">
+        <form
+          autoComplete="true"
+          onSubmit={this.handleSubmit}
+          className="login-form"
+        >
+          <h4 className="input-headline m-0">Selecto tracker</h4>
+          <input
+            type="email"
+            required
+            name="email"
+            value={this.state.email}
+            onChange={this.handleChangeInput}
+            onFocus={this.handleFocusInput}
+            placeholder="Email"
+            className={classnames('input login__input', {
+              bgError: errors.email
+            })}
+          />
 
-        <input
-          type="password"
-          name="password"
-          value={this.state.password}
-          onChange={this.handleChangeInput}
-          onFocus={this.handleFocusInput}
-          placeholder="Password"
-          className={classnames('input login__input', {
-            bgError: errors.password
-          })}
-        />
+          <input
+            type="password"
+            required
+            name="password"
+            value={this.state.password}
+            onChange={this.handleChangeInput}
+            onFocus={this.handleFocusInput}
+            placeholder="Password"
+            className={classnames('input login__input', {
+              bgError: errors.password
+            })}
+          />
 
-        <button type="submin" className="button login-button">Login</button>
-      </form>
+          <button type="submin" className="button login-button">
+            {this.state.isLoading
+              ? <div className="spinner-btn">
+                  <div className="double-bounce1" />
+                  <div className="double-bounce2" />
+                </div>
+              : <span>Login</span>}
+          </button>
+        </form>
+      </div>
     );
 
     return (
