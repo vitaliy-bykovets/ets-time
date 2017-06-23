@@ -48,7 +48,7 @@ router.post('/', (req, res, next) => {
 router.get('/me', auth, (req, res) => res.json(req._user));
 
 /* Logout */
-router.post('/logout', auth, (req, res) => {
+router.post('/logout', auth, (req, res, next) => {
   knex('tokens').where('token', req._user.token).del().then(() => res.status(204).send()).catch(next);
 });
 
