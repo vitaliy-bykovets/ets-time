@@ -2,10 +2,12 @@ import React from 'react';
 import classnames from 'classnames';
 import { connect } from 'react-redux';
 import { isEqual } from 'lodash';
+import Select from 'react-select';
+import 'react-select/dist/react-select.css';
 
 // Actions
 import {
-  toggleSingleUser,
+  toggleChangeUser,
   createUser,
   updateUser
 } from './../../store/actions/userActions';
@@ -31,15 +33,40 @@ class SingeUser extends React.Component {
   }
 
   handleClose = () => {
-    this.props.toggleSingleUser(false);
+    this.props.toggleChangeUser(false);
   };
 
   handleSaveUser = () => {
     let { isUserEdit, token } = this.props;
-    if (isUserEdit) {
-      this.props.updateUser(this.state, token);
+    let { roles, position } = this.state;
+
+    let rolesArray;
+    let positionArray;
+
+    let rolesString = typeof roles === 'string';
+    let positionString = typeof position === 'string';
+
+    if (rolesString) {
+      rolesArray = typeof roles === 'string' ? roles.split(',') : [];
     } else {
-      this.props.createUser(this.state, token);
+      rolesArray = roles.length > 0 ? roles.map(i => i.value) : [];
+    }
+
+    if (positionString) {
+      positionArray = typeof position === 'string' ? position.split(',') : [];
+    } else {
+      positionArray = position.length > 0 ? position.map(i => i.value) : [];
+    }
+
+    let user = Object.assign({}, this.state, {
+      roles: rolesArray,
+      position: positionArray
+    });
+
+    if (isUserEdit) {
+      this.props.updateUser(user, token);
+    } else {
+      this.props.createUser(user, token);
     }
   };
 
@@ -51,12 +78,32 @@ class SingeUser extends React.Component {
     this.props.clearErrorField(e.target.name);
   };
 
-  render() {
-    const { errors } = this.props;
+  changeRoles = roles => {
+    this.setState({ roles });
+    this.props.clearErrorField('roles');
+  };
 
-    const roles = this.props.roles.map((item, i) =>
-      <option key={i} value={item}>{item}</option>
-    );
+  changePositions = position => {
+    this.setState({ position });
+    this.props.clearErrorField('position');
+  };
+
+  render() {
+    const { errors, roles: rs, positions: ps } = this.props;
+
+    const roles = rs.map(r => {
+      return {
+        value: r,
+        label: r
+      };
+    });
+
+    const positions = ps.map(r => {
+      return {
+        value: r,
+        label: r
+      };
+    });
 
     return (
       <div
@@ -69,13 +116,13 @@ class SingeUser extends React.Component {
             {this.props.isUserEdit ? 'Edit user' : 'Add new user'}
           </h4>
 
-          {this.props.errors.singleUserError
+          {this.props.errors.changeUserError
             ? <p className="confirm__error">
                 Sorry, but something gone wrong...
               </p>
             : null}
 
-          <label className="filters__headline">
+          <label className="input-headline">
             <span>First name</span>
             {errors.first_name
               ? <span className="error__text">{errors.first_name}</span>
@@ -92,7 +139,7 @@ class SingeUser extends React.Component {
             onFocus={this.handleFocusInput}
           />
 
-          <label className="filters__headline">
+          <label className="input-headline">
             <span>Last name</span>
             {errors.last_name
               ? <span className="error__text">{errors.last_name}</span>
@@ -109,7 +156,7 @@ class SingeUser extends React.Component {
             onFocus={this.handleFocusInput}
           />
 
-          <label className="filters__headline">
+          <label className="input-headline">
             <span>Email</span>
             {errors.email
               ? <span className="error__text">{errors.email}</span>
@@ -126,25 +173,83 @@ class SingeUser extends React.Component {
             onFocus={this.handleFocusInput}
           />
 
-          <label className="filters__headline">
+          <label className="input-headline">
             <span>Roles</span>
             {errors.roles
-              ? <span className="error__text">{errors.roles}</span>
+              ? <span className="error__text">
+                  {errors.roles.length > 1 ? errors.roles[0] : errors.roles}
+                </span>
               : null}
           </label>
-          <select
-            multiple
-            name="roles"
-            className={classnames('filters__select', {
-              bgError: errors.roles
-            })}
+          <Select
+            multi={true}
+            searchable={false}
+            placeholder=""
+            name="Roles"
             value={this.state.roles}
+            options={roles}
+            onChange={this.changeRoles}
+            className={classnames({
+              bgErrorSelect: errors.roles
+            })}
+          />
+
+          <label className="input-headline">
+            <span>Position</span>
+            {errors.position
+              ? <span className="error__text">
+                  {errors.position.length > 1
+                    ? errors.position[0]
+                    : errors.position}
+                </span>
+              : null}
+          </label>
+          <Select
+            multi={true}
+            searchable={false}
+            placeholder=""
+            name="Position"
+            value={this.state.position}
+            options={positions}
+            onChange={this.changePositions}
+            className={classnames({
+              bgErrorSelect: errors.position
+            })}
+          />
+
+          <label className="input-headline">
+            <span>Rate</span>
+            {errors.rate
+              ? <span className="error__text">{errors.rate}</span>
+              : null}
+          </label>
+          <input
+            type="number"
+            value={this.state.rate}
+            name="email"
             onChange={this.handleInputChange}
+            className={classnames('input', {
+              bgError: errors.rate
+            })}
             onFocus={this.handleFocusInput}
-          >
-            <option value="" />
-            {roles}
-          </select>
+          />
+
+          <label className="input-headline">
+            <span>Password</span>
+            {errors.password
+              ? <span className="error__text">{errors.password}</span>
+              : null}
+          </label>
+          <input
+            type="password"
+            value={this.state.password}
+            name="password"
+            onChange={this.handleInputChange}
+            className={classnames('input', {
+              bgError: errors.password
+            })}
+            onFocus={this.handleFocusInput}
+          />
 
         </div>
         <div className="sidebarBtns">
@@ -187,7 +292,7 @@ function mapStateToProps(state) {
 }
 
 export default connect(mapStateToProps, {
-  toggleSingleUser,
+  toggleChangeUser,
   createUser,
   updateUser,
   clearErrorField

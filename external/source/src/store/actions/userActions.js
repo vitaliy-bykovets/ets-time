@@ -3,7 +3,7 @@ import {
   SET_ACTIVE_USER,
   SET_USERS,
   ME_FAILED,
-  TOGGLE_SINGLE_USER
+  TOGGLE_CHANGE_USER
 } from './types';
 
 // Actions
@@ -21,10 +21,10 @@ export function createUser(data, token) {
     createUserApi(data, token).then(resp => {
       if (resp.status >= 200 && resp.status < 300) {
         dispatch(getUsers(token));
-        dispatch(toggleSingleUser(false));
+        dispatch(toggleChangeUser(false));
       } else {
         if (resp.status === 404) {
-          dispatch(setErrors({ singleUserError: true }));
+          dispatch(setErrors({ changeUserError: true }));
         } else {
           resp.json().then(resp => {
             dispatch(setErrors(resp.errors));
@@ -40,10 +40,10 @@ export function updateUser(data, token) {
     updateUserApi(data, token).then(resp => {
       if (resp.status >= 200 && resp.status < 300) {
         dispatch(getUsers(token));
-        dispatch(toggleSingleUser(false));
+        dispatch(toggleChangeUser(false));
       } else {
         if (resp.status === 404) {
-          dispatch(setErrors({ singleUserError: true }));
+          dispatch(setErrors({ changeUserError: true }));
         } else {
           resp.json().then(resp => {
             dispatch(setErrors(resp.errors));
@@ -83,9 +83,9 @@ function setUsers(users) {
   };
 }
 
-export function toggleSingleUser(param, isUserEdit, data) {
+export function toggleChangeUser(param, isUserEdit, data) {
   return {
-    type: TOGGLE_SINGLE_USER,
+    type: TOGGLE_CHANGE_USER,
     data,
     isUserEdit,
     param

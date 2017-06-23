@@ -57,7 +57,8 @@ export function getInitNewTrackData() {
     task: '',
     type_work: '',
     hours: '',
-    trackDate: moment()
+    trackDate: moment(),
+    isLoading: false
   };
 }
 
@@ -69,6 +70,7 @@ export function getInitNewUserData() {
     roles: [],
     position: [],
     rate: 0,
-    password: ''
+    password: '',
+    isLoading: false
   };
 }

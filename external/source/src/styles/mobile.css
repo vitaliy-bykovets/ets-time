@@ -40,11 +40,11 @@
 }
 
 @media (max-width: 420px) {
-  .filters__headline {
+  .input-headline {
     margin-top: 10px;
   }
 
-  .filters__select {
+  .datepicker {
     height: 30px;
     margin: 0;
   }

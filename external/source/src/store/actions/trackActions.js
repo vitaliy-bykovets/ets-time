@@ -13,7 +13,7 @@ import { setErrors, toggleConfirm } from './generalActions';
 // Constants
 import {
   SET_TRACKS,
-  TOGGLE_SINGLE_TRACK,
+  TOGGLE_CHANGE_TRACK,
   TOGGLE_TRACK_FILTERS,
   SET_WORK_TYPES,
   SET_STATUS_TYPES,
@@ -53,10 +53,10 @@ export function createTrack(data, token) {
     createTrackApi(data, token).then(resp => {
       if (resp.status >= 200 && resp.status < 300) {
         dispatch(getTracks(token));
-        dispatch(toggleSingleTrack(false));
+        dispatch(toggleChangeTrack(false));
       } else {
         if (resp.status === 404) {
-          dispatch(setErrors({ singleTrackError: true }));
+          dispatch(setErrors({ changeTrackError: true }));
         } else {
           resp.json().then(resp => {
             dispatch(setErrors(resp.errors));
@@ -72,10 +72,10 @@ export function updateTrack(data, token) {
     updateTrackApi(data, token).then(resp => {
       if (resp.status >= 200 && resp.status < 300) {
         dispatch(getTracks(token));
-        dispatch(toggleSingleTrack(false));
+        dispatch(toggleChangeTrack(false));
       } else {
         if (resp.status === 404) {
-          dispatch(setErrors({ singleTrackError: true }));
+          dispatch(setErrors({ changeTrackError: true }));
         } else {
           resp.json().then(resp => {
             dispatch(setErrors(resp.errors));
@@ -105,9 +105,9 @@ export function clearTrackFilters() {
   };
 }
 
-export function toggleSingleTrack(param, isTrackEdit, data) {
+export function toggleChangeTrack(param, isTrackEdit, data) {
   return {
-    type: TOGGLE_SINGLE_TRACK,
+    type: TOGGLE_CHANGE_TRACK,
     data,
     isTrackEdit,
     param

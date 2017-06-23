@@ -71,7 +71,7 @@ class Login extends React.Component {
           onSubmit={this.handleSubmit}
           className="login-form"
         >
-          <h4 className="filters__headline m-0">Selecto tracker</h4>
+          <h4 className="input-headline m-0">Selecto tracker</h4>
           <input
             type="email"
             required

@@ -36,7 +36,7 @@ export function createTrackApi(data, token) {
     body: JSON.stringify({
       project,
       task,
-      type_work,
+      type_work: type_work.value ? type_work.value : type_work,
       hours,
       date_task: trackDate ? trackDate.format('YYYY-MM-DD') : ''
     })
@@ -48,8 +48,8 @@ export function createUserApi(data, token) {
     first_name = '',
     last_name = '',
     email = '',
-    roles = [],
-    position = [],
+    roles = '',
+    position = '',
     rate = 0,
     password = ''
   } = data;
@@ -123,7 +123,7 @@ export function updateTrackApi(data, token) {
       id,
       project,
       task,
-      type_work,
+      type_work: type_work.value ? type_work.value : type_work,
       hours,
       date_task: trackDate ? trackDate.format('YYYY-MM-DD') : ''
     })

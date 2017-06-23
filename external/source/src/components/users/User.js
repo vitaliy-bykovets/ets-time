@@ -5,12 +5,12 @@ import { connect } from 'react-redux';
 import FaPencil from 'react-icons/lib/fa/pencil';
 
 // Actions
-import { toggleSingleUser } from './../../store/actions/userActions';
+import { toggleChangeUser } from './../../store/actions/userActions';
 import { clearErrors } from './../../store/actions/generalActions';
 
 class User extends React.Component {
   handleEdit = () => {
-    this.props.toggleSingleUser(true, true, this.props.user);
+    this.props.toggleChangeUser(true, true, this.props.user);
     this.props.clearErrors();
   };
 
@@ -49,6 +49,6 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, { toggleSingleUser, clearErrors })(
+export default connect(mapStateToProps, { toggleChangeUser, clearErrors })(
   User
 );

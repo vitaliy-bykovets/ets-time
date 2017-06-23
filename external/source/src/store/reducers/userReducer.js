@@ -3,7 +3,7 @@ import {
   SET_ACTIVE_USER,
   SET_USERS,
   ME_FAILED,
-  TOGGLE_SINGLE_USER,
+  TOGGLE_CHANGE_USER,
   SET_POSITIONS,
   SET_ROLES
 } from './../actions/types';
@@ -39,7 +39,7 @@ export default function userReducer(state = initial, action = {}) {
       return Object.assign({}, state, { users: action.users });
     case ME_FAILED:
       return Object.assign({}, state, { meFailed: action.param });
-    case TOGGLE_SINGLE_USER:
+    case TOGGLE_CHANGE_USER:
       return Object.assign({}, state, {
         userIsOpen: action.param,
         userData: action.data ? action.data : initUserData,

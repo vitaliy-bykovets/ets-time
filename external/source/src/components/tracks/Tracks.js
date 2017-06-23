@@ -5,14 +5,14 @@ import { isEqual } from 'lodash';
 // Components
 import Track from './Track';
 import Filters from './Filters';
-import SingleTrack from './SingleTrack';
+import ChangeTrack from './ChangeTrack';
 
 // Actions
 import {
   getTracks,
   toggleTrackFilters,
   clearTrackFilters,
-  toggleSingleTrack
+  toggleChangeTrack
 } from './../../store/actions/trackActions';
 import { clearErrors } from './../../store/actions/generalActions';
 
@@ -48,8 +48,8 @@ class Tracks extends React.Component {
     this.props.clearTrackFilters();
   };
 
-  openSingleTrack = () => {
-    this.props.toggleSingleTrack(true);
+  openChangeTrack = () => {
+    this.props.toggleChangeTrack(true);
     this.props.clearErrors();
   };
 
@@ -67,11 +67,11 @@ class Tracks extends React.Component {
       <div className="container" style={{ background: bgColor }}>
         {tracks}
         <Filters />
-        <SingleTrack />
+        <ChangeTrack />
         <div className="mainBtns">
           <button
             className="mainBtns__btn"
-            onClick={this.openSingleTrack}
+            onClick={this.openChangeTrack}
             style={{ color: bgColor }}
           >
             <FaPlus />
@@ -115,6 +115,6 @@ export default connect(mapStateToProps, {
   getTracks,
   toggleTrackFilters,
   clearTrackFilters,
-  toggleSingleTrack,
+  toggleChangeTrack,
   clearErrors
 })(Tracks);

@@ -7,7 +7,7 @@ import {
   toggleConfirm,
   clearErrors
 } from './../../store/actions/generalActions';
-import { toggleSingleTrack } from './../../store/actions/trackActions';
+import { toggleChangeTrack } from './../../store/actions/trackActions';
 
 // Helpers
 import { formatDateToServer } from './../../shared/HelpService';
@@ -27,7 +27,7 @@ class TrackBlockMenu extends React.Component {
   };
 
   handleEdit = () => {
-    this.props.toggleSingleTrack(true, true, this.props.t);
+    this.props.toggleChangeTrack(true, true, this.props.t);
     this.props.clearErrors();
   };
 
@@ -77,6 +77,6 @@ class TrackBlockMenu extends React.Component {
   }
 }
 
-export default connect(null, { toggleConfirm, toggleSingleTrack, clearErrors })(
+export default connect(null, { toggleConfirm, toggleChangeTrack, clearErrors })(
   TrackBlockMenu
 );
