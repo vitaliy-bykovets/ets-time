@@ -134,6 +134,17 @@ class Filters extends React.Component {
             className="datepicker"
           />
 
+          <label className="input-headline">Work type</label>
+          <Select
+            multi={false}
+            searchable={false}
+            placeholder=""
+            name="type_work"
+            value={this.state.type_work}
+            options={workTypes}
+            onChange={this.changeWorkType}
+          />
+
           <label className="input-headline">Project</label>
           <input
             type="text"
@@ -150,17 +161,6 @@ class Filters extends React.Component {
             name="task"
             onChange={this.handleInputChange}
             className="input"
-          />
-
-          <label className="input-headline">Work type</label>
-          <Select
-            multi={false}
-            searchable={false}
-            placeholder=""
-            name="type_work"
-            value={this.state.type_work}
-            options={workTypes}
-            onChange={this.changeWorkType}
           />
 
         </div>
