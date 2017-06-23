@@ -72,7 +72,11 @@
   }
 
   .track__date--line {
-    font-size: 12px;
+    display: none;
+  }
+
+  .track__user--line {
+    padding-left: 0;
   }
 
   .track__type--line {

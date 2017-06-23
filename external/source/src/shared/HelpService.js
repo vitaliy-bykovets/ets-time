@@ -22,13 +22,14 @@ export function getEndOfWeek(date) {
 
 // Check if filters was selected
 export function showClearFilters(filters) {
-  let { type_work, status, project, task, startDate, endDate } = filters;
+  let { type_work, status, project, task, startDate, endDate, user } = filters;
   const sWeek = getStartOfWeek().format('YYYY-MM-DD');
   const eWeek = getEndOfWeek().format('YYYY-MM-DD');
 
   return (
     type_work !== '' ||
     status !== '' ||
+    user !== '' ||
     project !== '' ||
     task !== '' ||
     startDate.format('YYYY-MM-DD') !== sWeek ||
@@ -47,7 +48,8 @@ export function getInitFilters() {
     project: '',
     task: '',
     startDate: startWeek,
-    endDate: endWeek
+    endDate: endWeek,
+    user: ''
   };
 }
 

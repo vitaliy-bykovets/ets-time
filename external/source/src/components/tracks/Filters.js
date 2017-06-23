@@ -12,6 +12,7 @@ import {
   getTracks,
   setTrackFilters
 } from './../../store/actions/trackActions';
+import { getUsers } from './../../store/actions/userActions';
 
 // Helpers
 import { getInitFilters } from './../../shared/HelpService';
@@ -21,6 +22,7 @@ class Filters extends React.Component {
 
   componentDidMount() {
     this.setState(this.props.filters);
+    this.props.getUsers(this.props.token);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -51,15 +53,19 @@ class Filters extends React.Component {
   };
 
   changeWorkType = selected => {
-    this.setState({ type_work: selected.value });
+    this.setState({ type_work: selected ? selected.value : '' });
   };
 
   changeStatus = selected => {
-    this.setState({ status: selected.value });
+    this.setState({ status: selected ? selected.value : '' });
+  };
+
+  changeUser = selected => {
+    this.setState({ user: selected ? selected.value : '' });
   };
 
   render() {
-    const { workTypes: wt, statusTypes: st } = this.props;
+    const { workTypes: wt, statusTypes: st, users: us } = this.props;
     const workTypes = wt.map(v => {
       return {
         value: v,
@@ -74,6 +80,13 @@ class Filters extends React.Component {
       };
     });
 
+    const users = us.map(v => {
+      return {
+        value: v.id,
+        label: `${v.first_name} ${v.last_name}`
+      };
+    });
+
     return (
       <div
         className={classnames('sidebar', {
@@ -82,6 +95,44 @@ class Filters extends React.Component {
       >
         <div className="sidebar__wrapper">
           <h4 className="sidebar__title">Change filters</h4>
+
+          <label className="input-headline">Status</label>
+          <Select
+            multi={false}
+            searchable={false}
+            placeholder=""
+            name="status"
+            value={this.state.status}
+            options={statusTypes}
+            onChange={this.changeStatus}
+          />
+
+          <label className="input-headline">User</label>
+          <Select
+            multi={false}
+            searchable={false}
+            placeholder=""
+            name="user"
+            value={this.state.user}
+            options={users}
+            onChange={this.changeUser}
+          />
+
+          <label className="input-headline">Start date</label>
+          <DatePicker
+            dateFormat="DD-MM-YYYY"
+            selected={this.state.startDate}
+            onChange={this.handleChangeStartDate}
+            className="datepicker"
+          />
+
+          <label className="input-headline">End date</label>
+          <DatePicker
+            dateFormat="DD-MM-YYYY"
+            selected={this.state.endDate}
+            onChange={this.handleEndChange}
+            className="datepicker"
+          />
 
           <label className="input-headline">Project</label>
           <input
@@ -112,32 +163,6 @@ class Filters extends React.Component {
             onChange={this.changeWorkType}
           />
 
-          <label className="input-headline">Status</label>
-          <Select
-            multi={false}
-            searchable={false}
-            placeholder=""
-            name="status"
-            value={this.state.status}
-            options={statusTypes}
-            onChange={this.changeStatus}
-          />
-
-          <label className="input-headline">Start date</label>
-          <DatePicker
-            dateFormat="DD-MM-YYYY"
-            selected={this.state.startDate}
-            onChange={this.handleChangeStartDate}
-            className="datepicker"
-          />
-
-          <label className="input-headline">End date</label>
-          <DatePicker
-            dateFormat="DD-MM-YYYY"
-            selected={this.state.endDate}
-            onChange={this.handleEndChange}
-            className="datepicker"
-          />
         </div>
         <div className="sidebarBtns">
           <button
@@ -165,12 +190,14 @@ function mapStateToProps(state) {
     workTypes,
     statusTypes,
     filters,
-    token: state.generalReducer.token
+    token: state.generalReducer.token,
+    users: state.userReducer.users
   };
 }
 
 export default connect(mapStateToProps, {
   toggleTrackFilters,
   getTracks,
-  setTrackFilters
+  setTrackFilters,
+  getUsers
 })(Filters);

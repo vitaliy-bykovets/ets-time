@@ -67,7 +67,7 @@ class Topbar extends React.Component {
         </h4>
 
         <div className="topbar__menu" style={{ color: bgColor }}>
-          {trackUrl
+          {trackUrl && activeUser.roles && activeUser.roles.includes('owner')
             ? <FaBlocks
                 className={classnames('topbar__icon', {
                   'topbar__icon--active': viewType === 'block'
@@ -75,7 +75,7 @@ class Topbar extends React.Component {
                 onClick={() => this.changeView('block')}
               />
             : null}
-          {trackUrl
+          {trackUrl && activeUser.roles && activeUser.roles.includes('owner')
             ? <FaLines
                 className={classnames('topbar__icon', 'p-r-20', {
                   'topbar__icon--active': viewType === 'line'

@@ -1,6 +1,6 @@
 import { parseJSON, formatDateToServer } from './HelpService';
 
-export function getDictionaries(token) {
+export function getDictionariesApi(token) {
   return fetch('/api/v1/dictionaries', {
     method: 'GET',
     headers: {
@@ -138,15 +138,15 @@ export function getTracksApi(token, filters) {
     task = '',
     startDate = '',
     endDate = '',
-    username = ''
+    user = ''
   } = filters ? filters : {};
 
   let sDate = startDate ? formatDateToServer(startDate) : '';
   let eDate = endDate ? formatDateToServer(endDate) : '';
 
   return fetch(
-    `/api/v1/lines?project=${project ? project : ''}&user_name=${username
-      ? username
+    `/api/v1/lines?project=${project ? project : ''}&user=${user
+      ? user
       : ''}&date_start=${startDate ? sDate : ''}&date_end=${endDate
       ? eDate
       : ''}&status=${status ? status : ''}&type_work=${type_work
@@ -160,6 +160,20 @@ export function getTracksApi(token, filters) {
       }
     }
   ).then(parseJSON);
+}
+
+export function changeTrackStatusApi(token, id, status) {
+  return fetch('/api/v1/lines/status', {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
+      authorization: token
+    },
+    body: JSON.stringify({
+      id,
+      status
+    })
+  });
 }
 
 export function getUsersApi(token) {

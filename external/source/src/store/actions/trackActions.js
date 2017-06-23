@@ -1,10 +1,11 @@
 // Api services
 import {
   getTracksApi,
-  getDictionaries,
+  getDictionariesApi,
   createTrackApi,
   deleteTrackApi,
-  updateTrackApi
+  updateTrackApi,
+  changeTrackStatusApi
 } from './../../shared/ApiService';
 
 // Actions
@@ -31,6 +32,16 @@ export function getTracks(token, filters = getInitFilters()) {
   return dispatch => {
     getTracksApi(token, filters).then(resp => {
       if (resp.data) dispatch(setTracks(resp.data));
+    });
+  };
+}
+
+export function changeTrackStatus(token, id, status) {
+  return dispatch => {
+    changeTrackStatusApi(token, id, status).then(resp => {
+      if (resp.status >= 200 && resp.status < 300) {
+        dispatch(getTracks(token));
+      }
     });
   };
 }
@@ -88,7 +99,7 @@ export function updateTrack(data, token) {
 
 export function getLibraries(token) {
   return dispatch => {
-    getDictionaries(token).then(resp => {
+    getDictionariesApi(token).then(resp => {
       if (resp) {
         dispatch(setWorkTypes(resp.type_works));
         dispatch(setStatusTypes(resp.task_status));

@@ -20,7 +20,7 @@ class User extends React.Component {
     return (
       <div className="track track__line">
         <div className="track__info--line">
-          <h3 className="track__project track__project--line">
+          <h3 className="track__user track__user--line">
             {user.email}
           </h3>
           <h4 className="track__type track__type--line">

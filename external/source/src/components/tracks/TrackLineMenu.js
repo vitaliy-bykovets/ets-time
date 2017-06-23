@@ -12,7 +12,10 @@ import {
   toggleConfirm,
   clearErrors
 } from './../../store/actions/generalActions';
-import { toggleChangeTrack } from './../../store/actions/trackActions';
+import {
+  toggleChangeTrack,
+  changeTrackStatus
+} from './../../store/actions/trackActions';
 
 // Helpers
 import { formatDateToServer } from './../../shared/HelpService';
@@ -36,9 +39,19 @@ class TrackLineMenu extends React.Component {
     this.props.clearErrors();
   };
 
-  handleDecline = () => {};
+  handleDecline = () => {
+    let { t, token } = this.props;
+    if (t.status !== 'Declined') {
+      this.props.changeTrackStatus(token, t.id, 'Declined');
+    }
+  };
 
-  handleAccept = () => {};
+  handleAccept = () => {
+    let { t, token } = this.props;
+    if (t.status !== 'Accepted') {
+      this.props.changeTrackStatus(token, t.id, 'Accepted');
+    }
+  };
 
   render() {
     const { view, bgColor } = this.props;
@@ -86,5 +99,6 @@ function mapStateToProps(state) {
 export default connect(mapStateToProps, {
   toggleConfirm,
   clearErrors,
-  toggleChangeTrack
+  toggleChangeTrack,
+  changeTrackStatus
 })(TrackLineMenu);

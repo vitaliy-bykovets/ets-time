@@ -55,11 +55,17 @@ class Tracks extends React.Component {
 
   render() {
     const { showFilters } = this.state;
-    const { bgColor } = this.props;
+    const { bgColor, token } = this.props;
 
     const tracks = this.props.tracks.map((t, i) => {
       return (
-        <Track trackData={t} key={i} view={this.props.view} bgColor={bgColor} />
+        <Track
+          token={token}
+          trackData={t}
+          key={i}
+          view={this.props.view}
+          bgColor={bgColor}
+        />
       );
     });
 
