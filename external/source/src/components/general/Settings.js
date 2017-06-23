@@ -53,7 +53,7 @@ class Settings extends React.Component {
       >
         <div className="sidebar__wrapper">
           <h4 className="sidebar__title">Settings</h4>
-          <label className="filters__headline">Background color</label>
+          <label className="input-headline">Background color</label>
           <div className="sidebar__colors">
             {colorsSection}
           </div>

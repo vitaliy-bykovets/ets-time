@@ -5,15 +5,22 @@ import { connect } from 'react-redux';
 import FaPlus from 'react-icons/lib/fa/plus';
 
 // Actions
-import { getUsers } from './../../store/actions/userActions';
+import { getUsers, toggleChangeUser } from './../../store/actions/userActions';
+import { clearErrors } from './../../store/actions/generalActions';
 
 // Components
 import User from './User';
+import ChangeUser from './ChangeUser';
 
 class Users extends React.Component {
   componentDidMount() {
     this.props.getUsers(this.props.token);
   }
+
+  openChangeUser = () => {
+    this.props.toggleChangeUser(true);
+    this.props.clearErrors();
+  };
 
   render() {
     const users = this.props.users.map((u, i) => {
@@ -23,10 +30,11 @@ class Users extends React.Component {
     return (
       <div className="container" style={{ background: this.props.bgColor }}>
         {users}
+        <ChangeUser />
         <div className="mainBtns">
           <button
             className="mainBtns__btn"
-            onClick={this.openSingleUser}
+            onClick={this.openChangeUser}
             style={{ color: this.props.bgColor }}
           >
             <FaPlus />
@@ -46,4 +54,8 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, { getUsers })(Users);
+export default connect(mapStateToProps, {
+  getUsers,
+  toggleChangeUser,
+  clearErrors
+})(Users);

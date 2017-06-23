@@ -1,7 +1,7 @@
 // Types
 import {
   SET_TRACKS,
-  TOGGLE_SINGLE_TRACK,
+  TOGGLE_CHANGE_TRACK,
   TOGGLE_TRACK_FILTERS,
   SET_WORK_TYPES,
   SET_STATUS_TYPES,
@@ -47,7 +47,7 @@ export default function trackReducer(state = initial, action = {}) {
       return Object.assign({}, state, { statusTypes: action.statusTypes });
     case SET_WORK_TYPES:
       return Object.assign({}, state, { workTypes: action.workTypes });
-    case TOGGLE_SINGLE_TRACK:
+    case TOGGLE_CHANGE_TRACK:
       return Object.assign({}, state, {
         trackIsOpen: action.param,
         trackData: action.data ? action.data : initTrackData,

@@ -4,10 +4,12 @@ import { connect } from 'react-redux';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { isEqual } from 'lodash';
+import Select from 'react-select';
+import 'react-select/dist/react-select.css';
 
 // Actions
 import {
-  toggleSingleTrack,
+  toggleChangeTrack,
   createTrack,
   updateTrack
 } from './../../store/actions/trackActions';
@@ -33,7 +35,7 @@ class SingeTrack extends React.Component {
   }
 
   handleClose = () => {
-    this.props.toggleSingleTrack(false);
+    this.props.toggleChangeTrack(false);
   };
 
   handleSaveTrack = () => {
@@ -49,6 +51,11 @@ class SingeTrack extends React.Component {
     this.setState({ [e.target.name]: e.target.value });
   };
 
+  changeWorkType = type_work => {
+    this.props.clearErrorField('type_work');
+    this.setState({ type_work });
+  };
+
   handleChangeDate = date => {
     this.setState({ trackDate: date });
   };
@@ -62,9 +69,12 @@ class SingeTrack extends React.Component {
   };
 
   render() {
-    const workTypes = this.props.workTypes.map((item, i) =>
-      <option key={i} value={item}>{item}</option>
-    );
+    const workTypes = this.props.workTypes.map(r => {
+      return {
+        value: r,
+        label: r
+      };
+    });
 
     const { errors } = this.props;
 
@@ -79,13 +89,13 @@ class SingeTrack extends React.Component {
             {this.props.isTrackEdit ? 'Edit track' : 'Add new track'}
           </h4>
 
-          {this.props.errors.singleTrackError
+          {this.props.errors.changeTrackError
             ? <p className="confirm__error">
                 Sorry, but something gone wrong...
               </p>
             : null}
 
-          <label className="filters__headline">
+          <label className="input-headline">
             <span>Project</span>
             {errors.project
               ? <span className="error__text">{errors.project}</span>
@@ -102,7 +112,7 @@ class SingeTrack extends React.Component {
             onFocus={this.handleFocusInput}
           />
 
-          <label className="filters__headline">
+          <label className="input-headline">
             <span>Task</span>
             {errors.task
               ? <span className="error__text">{errors.task}</span>
@@ -119,26 +129,26 @@ class SingeTrack extends React.Component {
             onFocus={this.handleFocusInput}
           />
 
-          <label className="filters__headline">
+          <label className="input-headline">
             <span>Work type</span>
             {errors.type_work
               ? <span className="error__text">{errors.type_work}</span>
               : null}
           </label>
-          <select
+          <Select
+            multi={false}
+            searchable={false}
+            placeholder=""
             name="type_work"
-            className={classnames('filters__select', {
-              bgError: errors.type_work
-            })}
             value={this.state.type_work}
-            onChange={this.handleInputChange}
-            onFocus={this.handleFocusInput}
-          >
-            <option value="" />
-            {workTypes}
-          </select>
+            options={workTypes}
+            onChange={this.changeWorkType}
+            className={classnames({
+              bgErrorSelect: errors.type_work
+            })}
+          />
 
-          <label className="filters__headline">
+          <label className="input-headline">
             <span>Hours</span>
             {errors.hours
               ? <span className="error__text">{errors.hours}</span>
@@ -155,7 +165,7 @@ class SingeTrack extends React.Component {
             onFocus={this.handleFocusInput}
           />
 
-          <label className="filters__headline">
+          <label className="input-headline">
             <span>Date</span>
             {errors.date_task
               ? <span className="error__text">{errors.date_task}</span>
@@ -165,7 +175,7 @@ class SingeTrack extends React.Component {
             dateFormat="DD-MM-YYYY"
             selected={this.state.trackDate}
             onChange={this.handleChangeDate}
-            className={classnames('filters__select', {
+            className={classnames('datepicker', {
               bgError: errors.date_task
             })}
             onFocus={this.handleDateFocus}
@@ -204,7 +214,7 @@ function mapStateToProps(state) {
 }
 
 export default connect(mapStateToProps, {
-  toggleSingleTrack,
+  toggleChangeTrack,
   createTrack,
   updateTrack,
   clearErrorField

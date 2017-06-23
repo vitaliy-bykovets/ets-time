@@ -7,7 +7,10 @@ import {
   toggleConfirm,
   clearErrors
 } from './../../store/actions/generalActions';
-import { toggleSingleTrack } from './../../store/actions/trackActions';
+import {
+  toggleChangeTrack,
+  changeTrackStatus
+} from './../../store/actions/trackActions';
 
 // Helpers
 import { formatDateToServer } from './../../shared/HelpService';
@@ -18,6 +21,7 @@ class TrackBlockMenu extends React.Component {
     const date = new Date(date_task);
     const dateStr = date ? formatDateToServer(date) : '';
 
+    this.props.toggleMenu();
     this.props.toggleConfirm(
       true,
       `Delete track from ${dateStr} with status: ${status.toLowerCase()}?`,
@@ -27,13 +31,26 @@ class TrackBlockMenu extends React.Component {
   };
 
   handleEdit = () => {
-    this.props.toggleSingleTrack(true, true, this.props.t);
+    this.props.toggleChangeTrack(true, true, this.props.t);
     this.props.clearErrors();
+    this.props.toggleMenu();
   };
 
-  handleDecline = () => {};
+  handleDecline = () => {
+    let { t, token } = this.props;
+    if (t.status !== 'Declined') {
+      this.props.changeTrackStatus(token, t.id, 'Declined');
+      this.props.toggleMenu();
+    }
+  };
 
-  handleAccept = () => {};
+  handleAccept = () => {
+    let { t, token } = this.props;
+    if (t.status !== 'Accepted') {
+      this.props.changeTrackStatus(token, t.id, 'Accepted');
+      this.props.toggleMenu();
+    }
+  };
 
   render() {
     const { t, menuOpen } = this.props;
@@ -77,6 +94,9 @@ class TrackBlockMenu extends React.Component {
   }
 }
 
-export default connect(null, { toggleConfirm, toggleSingleTrack, clearErrors })(
-  TrackBlockMenu
-);
+export default connect(null, {
+  toggleConfirm,
+  toggleChangeTrack,
+  clearErrors,
+  changeTrackStatus
+})(TrackBlockMenu);

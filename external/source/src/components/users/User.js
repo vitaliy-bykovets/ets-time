@@ -4,8 +4,15 @@ import { connect } from 'react-redux';
 // Icons
 import FaPencil from 'react-icons/lib/fa/pencil';
 
+// Actions
+import { toggleChangeUser } from './../../store/actions/userActions';
+import { clearErrors } from './../../store/actions/generalActions';
+
 class User extends React.Component {
-  handleEdit = () => {};
+  handleEdit = () => {
+    this.props.toggleChangeUser(true, true, this.props.user);
+    this.props.clearErrors();
+  };
 
   render() {
     const { user, bgColor } = this.props;
@@ -13,7 +20,7 @@ class User extends React.Component {
     return (
       <div className="track track__line">
         <div className="track__info--line">
-          <h3 className="track__project track__project--line">
+          <h3 className="track__user track__user--line">
             {user.email}
           </h3>
           <h4 className="track__type track__type--line">
@@ -42,4 +49,6 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, {})(User);
+export default connect(mapStateToProps, { toggleChangeUser, clearErrors })(
+  User
+);

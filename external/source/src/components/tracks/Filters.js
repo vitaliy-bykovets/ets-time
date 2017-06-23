@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 import classnames from 'classnames';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import Select from 'react-select';
+import 'react-select/dist/react-select.css';
 
 // Actions
 import {
@@ -10,6 +12,7 @@ import {
   getTracks,
   setTrackFilters
 } from './../../store/actions/trackActions';
+import { getUsers } from './../../store/actions/userActions';
 
 // Helpers
 import { getInitFilters } from './../../shared/HelpService';
@@ -19,6 +22,7 @@ class Filters extends React.Component {
 
   componentDidMount() {
     this.setState(this.props.filters);
+    this.props.getUsers(this.props.token);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -48,14 +52,40 @@ class Filters extends React.Component {
     this.props.getTracks(this.props.token, filters);
   };
 
-  render() {
-    const workTypes = this.props.workTypes.map((item, i) =>
-      <option key={i} value={item}>{item}</option>
-    );
+  changeWorkType = selected => {
+    this.setState({ type_work: selected ? selected.value : '' });
+  };
 
-    const statusTypes = this.props.statusTypes.map((item, i) =>
-      <option key={i} value={item}>{item}</option>
-    );
+  changeStatus = selected => {
+    this.setState({ status: selected ? selected.value : '' });
+  };
+
+  changeUser = selected => {
+    this.setState({ user: selected ? selected.value : '' });
+  };
+
+  render() {
+    const { workTypes: wt, statusTypes: st, users: us } = this.props;
+    const workTypes = wt.map(v => {
+      return {
+        value: v,
+        label: v
+      };
+    });
+
+    const statusTypes = st.map(v => {
+      return {
+        value: v,
+        label: v
+      };
+    });
+
+    const users = us.map(v => {
+      return {
+        value: v.id,
+        label: `${v.first_name} ${v.last_name}`
+      };
+    });
 
     return (
       <div
@@ -66,7 +96,45 @@ class Filters extends React.Component {
         <div className="sidebar__wrapper">
           <h4 className="sidebar__title">Change filters</h4>
 
-          <label className="filters__headline">Project</label>
+          <label className="input-headline">Status</label>
+          <Select
+            multi={false}
+            searchable={false}
+            placeholder=""
+            name="status"
+            value={this.state.status}
+            options={statusTypes}
+            onChange={this.changeStatus}
+          />
+
+          <label className="input-headline">User</label>
+          <Select
+            multi={false}
+            searchable={false}
+            placeholder=""
+            name="user"
+            value={this.state.user}
+            options={users}
+            onChange={this.changeUser}
+          />
+
+          <label className="input-headline">Start date</label>
+          <DatePicker
+            dateFormat="DD-MM-YYYY"
+            selected={this.state.startDate}
+            onChange={this.handleChangeStartDate}
+            className="datepicker"
+          />
+
+          <label className="input-headline">End date</label>
+          <DatePicker
+            dateFormat="DD-MM-YYYY"
+            selected={this.state.endDate}
+            onChange={this.handleEndChange}
+            className="datepicker"
+          />
+
+          <label className="input-headline">Project</label>
           <input
             type="text"
             value={this.state.project}
@@ -75,7 +143,7 @@ class Filters extends React.Component {
             className="input"
           />
 
-          <label className="filters__headline">Task</label>
+          <label className="input-headline">Task</label>
           <input
             type="text"
             value={this.state.task}
@@ -84,43 +152,17 @@ class Filters extends React.Component {
             className="input"
           />
 
-          <label className="filters__headline">Work type</label>
-          <select
+          <label className="input-headline">Work type</label>
+          <Select
+            multi={false}
+            searchable={false}
+            placeholder=""
             name="type_work"
-            className="filters__select"
             value={this.state.type_work}
-            onChange={this.handleInputChange}
-          >
-            <option value="" />
-            {workTypes}
-          </select>
-
-          <label className="filters__headline">Status</label>
-          <select
-            name="status"
-            className="filters__select"
-            value={this.state.status}
-            onChange={this.handleInputChange}
-          >
-            <option value="" />
-            {statusTypes}
-          </select>
-
-          <label className="filters__headline">Start date</label>
-          <DatePicker
-            dateFormat="DD-MM-YYYY"
-            selected={this.state.startDate}
-            onChange={this.handleChangeStartDate}
-            className="filters__select"
+            options={workTypes}
+            onChange={this.changeWorkType}
           />
 
-          <label className="filters__headline">End date</label>
-          <DatePicker
-            dateFormat="DD-MM-YYYY"
-            selected={this.state.endDate}
-            onChange={this.handleEndChange}
-            className="filters__select"
-          />
         </div>
         <div className="sidebarBtns">
           <button
@@ -148,12 +190,14 @@ function mapStateToProps(state) {
     workTypes,
     statusTypes,
     filters,
-    token: state.generalReducer.token
+    token: state.generalReducer.token,
+    users: state.userReducer.users
   };
 }
 
 export default connect(mapStateToProps, {
   toggleTrackFilters,
   getTracks,
-  setTrackFilters
+  setTrackFilters,
+  getUsers
 })(Filters);

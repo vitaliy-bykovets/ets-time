@@ -24,7 +24,31 @@
 }
 
 .track__project {
+  color: #424242;
+  font-weight: normal;
+  margin: 0;
+  font-size: 12px;
+  padding-bottom: 5px;
+}
+
+.track__type {
+  color: #607D8B;
+  font-weight: normal;
+  margin: 0;
+  font-size: 12px;
+}
+
+.track__user {
   margin-bottom: 5px;
+  font-size: 16px;
+}
+
+.track__user--line {
+  margin-bottom: 5px;
+  font-size: 14px;
+  margin: 0;
+  padding-left: 20px;
+  font-weight: normal;
 }
 
 .track__project--line {
@@ -35,19 +59,14 @@
   font-weight: normal;
 }
 
-.track__type {
-  color: #607D8B;
-  font-weight: normal;
-  margin: 0;
-  font-size: 12px;
-}
-
 .track__type--line {
   padding-left: 20px;
+  padding-bottom: 0;
 }
 
 .track__date {
-  margin-top: 20px;
+  margin-top: 15px;
+  margin-bottom: 0;
 }
 
 .track__date--line {
@@ -66,13 +85,14 @@
 }
 
 .track__status {
+  min-width: 50px;
+  text-align: center;
   color: #ffffff;
   padding: 5px;
   border-radius: 2px;
   margin-top: 15px;
   font-size: 12px;
   display: inline-block;
-  text-align: right;
 }
 
 .track__status--line {
