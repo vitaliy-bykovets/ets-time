@@ -21,6 +21,7 @@ import './styles/topbar.css';
 import './styles/sidebar.css';
 import './styles/loading.css';
 import './styles/select.css';
+import './styles/statistic.css';
 import './styles/mobile.css';
 import './styles/general.css';
 

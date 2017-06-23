@@ -1,9 +1,22 @@
+.m-l-20 {
+  margin-left: 20px;
+}
+
 .p-l-20 {
   padding-left: 20px;
 }
 
 .p-r-20 {
   padding-right: 20px;
+}
+
+.m-t-30 {
+  margin-top: 30px;
+}
+
+.flex-left {
+  display: flex;
+  justify-content: flex-start;
 }
 
 .centered {
