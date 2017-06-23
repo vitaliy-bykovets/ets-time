@@ -17,8 +17,11 @@ export const TOGGLE_CONFIRM = 'TOGGLE_CONFIRM';
 
 // Auth
 export const SET_TOKEN = 'SET_TOKEN';
+export const ME_FAILED = 'ME_FAILED';
 
 // Users
 export const SET_ACTIVE_USER = 'SET_ACTIVE_USER';
 export const SET_USERS = 'SET_USERS';
-export const ME_FAILED = 'ME_FAILED';
+export const TOGGLE_SINGLE_USER = 'TOGGLE_SINGLE_USER';
+export const SET_ROLES = 'SET_ROLES';
+export const SET_POSITIONS = 'SET_POSITIONS';

@@ -19,7 +19,9 @@ import {
   SET_STATUS_TYPES,
   SET_TRACK_FILTER,
   CLEAR_TRACK_FILTERS,
-  CHANGE_TRACK_VIEW
+  CHANGE_TRACK_VIEW,
+  SET_ROLES,
+  SET_POSITIONS
 } from './types';
 
 // Helpers
@@ -90,6 +92,8 @@ export function getLibraries(token) {
       if (resp) {
         dispatch(setWorkTypes(resp.type_works));
         dispatch(setStatusTypes(resp.task_status));
+        dispatch(setRoles(resp.roles));
+        dispatch(setPositions(resp.positions));
       }
     });
   };
@@ -141,6 +145,20 @@ function setWorkTypes(workTypes) {
   return {
     type: SET_WORK_TYPES,
     workTypes
+  };
+}
+
+function setRoles(roles) {
+  return {
+    type: SET_ROLES,
+    roles
+  };
+}
+
+function setPositions(positions) {
+  return {
+    type: SET_POSITIONS,
+    positions
   };
 }
 

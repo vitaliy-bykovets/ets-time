@@ -60,3 +60,15 @@ export function getInitNewTrackData() {
     trackDate: moment()
   };
 }
+
+export function getInitNewUserData() {
+  return {
+    first_name: '',
+    last_name: '',
+    email: '',
+    roles: [],
+    position: [],
+    rate: 0,
+    password: ''
+  };
+}

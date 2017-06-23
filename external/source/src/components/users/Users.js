@@ -9,6 +9,7 @@ import { getUsers } from './../../store/actions/userActions';
 
 // Components
 import User from './User';
+import SingleUser from './SingleUser';
 
 class Users extends React.Component {
   componentDidMount() {
@@ -23,6 +24,7 @@ class Users extends React.Component {
     return (
       <div className="container" style={{ background: this.props.bgColor }}>
         {users}
+        <SingleUser />
         <div className="mainBtns">
           <button
             className="mainBtns__btn"

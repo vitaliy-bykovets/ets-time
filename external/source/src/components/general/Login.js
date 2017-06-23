@@ -74,6 +74,7 @@ class Login extends React.Component {
           <h4 className="filters__headline m-0">Selecto tracker</h4>
           <input
             type="email"
+            required
             name="email"
             value={this.state.email}
             onChange={this.handleChangeInput}
@@ -86,6 +87,7 @@ class Login extends React.Component {
 
           <input
             type="password"
+            required
             name="password"
             value={this.state.password}
             onChange={this.handleChangeInput}
@@ -96,7 +98,14 @@ class Login extends React.Component {
             })}
           />
 
-          <button type="submin" className="button login-button">Login</button>
+          <button type="submin" className="button login-button">
+            {this.state.isLoading
+              ? <div className="spinner-btn">
+                  <div className="double-bounce1" />
+                  <div className="double-bounce2" />
+                </div>
+              : <span>Login</span>}
+          </button>
         </form>
       </div>
     );

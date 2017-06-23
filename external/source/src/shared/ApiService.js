@@ -43,6 +43,66 @@ export function createTrackApi(data, token) {
   });
 }
 
+export function createUserApi(data, token) {
+  let {
+    first_name = '',
+    last_name = '',
+    email = '',
+    roles = [],
+    position = [],
+    rate = 0,
+    password = ''
+  } = data;
+
+  return fetch('/api/v1/users', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      authorization: token
+    },
+    body: JSON.stringify({
+      first_name,
+      last_name,
+      email,
+      roles,
+      position,
+      rate,
+      password
+    })
+  });
+}
+
+export function updateUserApi(data, token) {
+  let {
+    first_name = '',
+    last_name = '',
+    email = '',
+    roles = [],
+    position = [],
+    rate = 0,
+    password = '',
+    id = ''
+  } = data;
+
+  return fetch('/api/v1/users', {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
+      authorization: token
+    },
+    body: JSON.stringify({
+      first_name,
+      last_name,
+      email,
+      roles,
+      position,
+      rate,
+      password,
+      id
+    })
+  });
+}
+
 export function updateTrackApi(data, token) {
   let {
     id = '',

@@ -4,8 +4,15 @@ import { connect } from 'react-redux';
 // Icons
 import FaPencil from 'react-icons/lib/fa/pencil';
 
+// Actions
+import { toggleSingleUser } from './../../store/actions/userActions';
+import { clearErrors } from './../../store/actions/generalActions';
+
 class User extends React.Component {
-  handleEdit = () => {};
+  handleEdit = () => {
+    this.props.toggleSingleUser(true, true, this.props.user);
+    this.props.clearErrors();
+  };
 
   render() {
     const { user, bgColor } = this.props;
@@ -42,4 +49,6 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, {})(User);
+export default connect(mapStateToProps, { toggleSingleUser, clearErrors })(
+  User
+);

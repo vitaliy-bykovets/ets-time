@@ -6,6 +6,14 @@
   position: absolute;
 }
 
+.spinner-btn {
+  width: 25px;
+  height: 25px;
+  top: calc((100% - 25px) / 2);
+  left: calc((100% - 25px) / 2);
+  position: absolute;
+}
+
 .double-bounce1, .double-bounce2 {
   width: 100%;
   height: 100%;
