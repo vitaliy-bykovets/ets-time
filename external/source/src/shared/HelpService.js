@@ -76,3 +76,31 @@ export function getInitNewUserData() {
     isLoading: false
   };
 }
+
+export function getTop(data, field, field1, field2) {
+  let grouped = [];
+  let top;
+
+  data.forEach(t => {
+    let founded = grouped.find(i => i[field] === t[field]);
+    if (!founded) {
+      grouped.push({
+        [field]: t[field],
+        [field1]: t[field1],
+        [field2]: t[field2],
+        value: 1
+      });
+    } else {
+      founded.value += 1;
+    }
+  });
+
+  top = grouped[0];
+  grouped.forEach(t => {
+    if (t.value > top.value) {
+      top = t;
+    }
+  });
+
+  return top;
+}

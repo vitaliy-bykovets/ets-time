@@ -9,13 +9,21 @@ import colors from './../../data/colors';
 import FaArrowUp from 'react-icons/lib/fa/arrow-up';
 
 // Actions
-import { changeBgColor } from './../../store/actions/generalActions';
+import {
+  changeBgColor,
+  toggleStatistic
+} from './../../store/actions/generalActions';
 
 class Settings extends React.Component {
-  state = { bgColor: '' };
+  state = { bgColor: '', showStatistic: true };
+
+  changeInput = e => {
+    this.setState({ [e.target.name]: !this.state.showStatistic });
+  };
 
   componentDidMount() {
-    this.setState({ bgColor: this.props.bgColor });
+    let { bgColor, showStatistic } = this.props;
+    this.setState({ bgColor, showStatistic });
   }
 
   handleClickColor = color => {
@@ -23,9 +31,11 @@ class Settings extends React.Component {
   };
 
   saveSettings = () => {
-    const { bgColor } = this.state;
+    const { bgColor, showStatistic } = this.state;
     localStorage.setItem('bdColor', bgColor);
+    localStorage.setItem('showStatistic', showStatistic);
     this.props.changeBgColor(bgColor);
+    this.props.toggleStatistic(showStatistic);
     this.props.toggleSettings();
   };
 
@@ -53,6 +63,21 @@ class Settings extends React.Component {
       >
         <div className="sidebar__wrapper">
           <h4 className="sidebar__title">Settings</h4>
+
+          <label
+            className="input-headline flex-left m-t-30"
+            htmlFor="checkStatistic"
+          >
+            <span>Show statistic</span>
+            <input
+              id="checkStatistic"
+              type="checkbox"
+              name="showStatistic"
+              checked={this.state.showStatistic}
+              onChange={this.changeInput}
+              className="m-l-20"
+            />
+          </label>
           <label className="input-headline">Background color</label>
           <div className="sidebar__colors">
             {colorsSection}
@@ -78,9 +103,13 @@ class Settings extends React.Component {
 }
 
 function mapStateToProps(state) {
+  let { bgColor, showStatistic } = state.generalReducer;
   return {
-    bgColor: state.generalReducer.bgColor
+    bgColor,
+    showStatistic
   };
 }
 
-export default connect(mapStateToProps, { changeBgColor })(Settings);
+export default connect(mapStateToProps, { changeBgColor, toggleStatistic })(
+  Settings
+);

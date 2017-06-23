@@ -12,6 +12,7 @@ import {
   clearErrorField,
   setToken
 } from './../../store/actions/generalActions';
+import { setActiveUser } from './../../store/actions/userActions';
 
 class Login extends React.Component {
   state = {
@@ -44,7 +45,7 @@ class Login extends React.Component {
           let token = resp.token;
           if (token) {
             localStorage.setItem('token', token);
-            //this.props.setActiveUser(resp.user);
+            this.props.setActiveUser(resp);
             this.props.setToken(token);
           }
         });
@@ -135,5 +136,6 @@ function mapStateToProps(state) {
 export default connect(mapStateToProps, {
   setErrors,
   clearErrorField,
-  setToken
+  setToken,
+  setActiveUser
 })(Login);
