@@ -76,3 +76,31 @@ export function getInitNewUserData() {
     isLoading: false
   };
 }
+
+export function getTop(data, field, field1, field2) {
+  let grouped = [];
+  let top;
+
+  data.forEach(t => {
+    let founded = grouped.find(i => i[field] === t[field]);
+    if (!founded) {
+      let obj = {
+        [field]: t[field],
+        hours: t.hours
+      };
+
+      if (field1) obj[field1] = t[field1];
+      if (field2) obj[field2] = t[field2];
+      grouped.push(obj);
+    } else {
+      founded.hours += +t.hours;
+    }
+  });
+
+  top = grouped[0];
+  grouped.forEach(t => {
+    if (t.hours > top.hours) top = t;
+  });
+
+  return top;
+}

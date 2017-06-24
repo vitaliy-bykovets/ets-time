@@ -5,7 +5,8 @@ import {
   SET_ERRORS,
   CLEAR_ERRORS,
   TOGGLE_CONFIRM,
-  SET_TOKEN
+  SET_TOKEN,
+  TOGGLE_STATISTIC
 } from './../actions/types';
 
 export function changeBgColor(color) {
@@ -26,6 +27,13 @@ export function setErrors(errors) {
   return {
     type: SET_ERRORS,
     errors
+  };
+}
+
+export function toggleStatistic(param) {
+  return {
+    type: TOGGLE_STATISTIC,
+    param
   };
 }
 

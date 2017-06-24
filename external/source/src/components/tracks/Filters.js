@@ -21,8 +21,15 @@ class Filters extends React.Component {
   state = getInitFilters();
 
   componentDidMount() {
-    this.setState(this.props.filters);
-    this.props.getUsers(this.props.token);
+    let { activeUser, filters, token } = this.props;
+    this.setState(filters);
+
+    if (
+      activeUser.roles &&
+      (activeUser.roles.includes('owner') || activeUser.roles.includes('pm'))
+    ) {
+      this.props.getUsers(token);
+    }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -65,7 +72,12 @@ class Filters extends React.Component {
   };
 
   render() {
-    const { workTypes: wt, statusTypes: st, users: us } = this.props;
+    const {
+      workTypes: wt,
+      statusTypes: st,
+      users: us,
+      activeUser
+    } = this.props;
     const workTypes = wt.map(v => {
       return {
         value: v,
@@ -79,6 +91,10 @@ class Filters extends React.Component {
         label: v
       };
     });
+
+    const isOwnerOrPm =
+      activeUser.roler &&
+      (activeUser.roles.includes('owner') || activeUser.roles.includes('pm'));
 
     const users = us.map(v => {
       return {
@@ -107,16 +123,18 @@ class Filters extends React.Component {
             onChange={this.changeStatus}
           />
 
-          <label className="input-headline">User</label>
-          <Select
-            multi={false}
-            searchable={false}
-            placeholder=""
-            name="user"
-            value={this.state.user}
-            options={users}
-            onChange={this.changeUser}
-          />
+          {isOwnerOrPm ? <label className="input-headline">User</label> : null}
+          {isOwnerOrPm
+            ? <Select
+                multi={false}
+                searchable={false}
+                placeholder=""
+                name="user"
+                value={this.state.user}
+                options={users}
+                onChange={this.changeUser}
+              />
+            : null}
 
           <label className="input-headline">Start date</label>
           <DatePicker
@@ -132,6 +150,17 @@ class Filters extends React.Component {
             selected={this.state.endDate}
             onChange={this.handleEndChange}
             className="datepicker"
+          />
+
+          <label className="input-headline">Work type</label>
+          <Select
+            multi={false}
+            searchable={false}
+            placeholder=""
+            name="type_work"
+            value={this.state.type_work}
+            options={workTypes}
+            onChange={this.changeWorkType}
           />
 
           <label className="input-headline">Project</label>
@@ -150,17 +179,6 @@ class Filters extends React.Component {
             name="task"
             onChange={this.handleInputChange}
             className="input"
-          />
-
-          <label className="input-headline">Work type</label>
-          <Select
-            multi={false}
-            searchable={false}
-            placeholder=""
-            name="type_work"
-            value={this.state.type_work}
-            options={workTypes}
-            onChange={this.changeWorkType}
           />
 
         </div>

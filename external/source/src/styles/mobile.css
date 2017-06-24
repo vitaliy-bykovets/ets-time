@@ -1,4 +1,22 @@
 @media (max-width: 768px) {
+  .statistic {
+    padding: 5px;
+  }
+
+  .statistic__wrapper {
+    width: 100%;
+    justify-content: flex-start;
+    flex-direction: row;
+  }
+
+  .statistic__number {
+    font-size: 18px;
+  }
+
+  .statistic__label {
+    padding-left: 10px;
+  }
+
   .container {
     width: calc(100% - 20px);
     padding: 55px 10px;
@@ -44,6 +62,10 @@
     margin-top: 10px;
   }
 
+  .topbar {
+    justify-content: flex-end;
+  }
+
   .datepicker {
     height: 30px;
     margin: 0;
@@ -51,6 +73,10 @@
 
   .input {
     padding: 0 10px;
+    margin: 0;
+  }
+
+  .Select-control {
     margin: 0;
   }
 

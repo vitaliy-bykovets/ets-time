@@ -6,6 +6,7 @@ import { isEqual } from 'lodash';
 import Track from './Track';
 import Filters from './Filters';
 import ChangeTrack from './ChangeTrack';
+import TracksStatistic from './TracksStatistic';
 
 // Actions
 import {
@@ -55,15 +56,22 @@ class Tracks extends React.Component {
 
   render() {
     const { showFilters } = this.state;
-    const { bgColor, token } = this.props;
+    const {
+      bgColor,
+      token,
+      tracks,
+      view,
+      activeUser,
+      showStatistic
+    } = this.props;
 
-    const tracks = this.props.tracks.map((t, i) => {
+    const trackComponents = tracks.map((t, i) => {
       return (
         <Track
           token={token}
           trackData={t}
           key={i}
-          view={this.props.view}
+          view={view}
           bgColor={bgColor}
         />
       );
@@ -71,8 +79,15 @@ class Tracks extends React.Component {
 
     return (
       <div className="container" style={{ background: bgColor }}>
-        {tracks}
-        <Filters />
+        {showStatistic
+          ? <TracksStatistic
+              tracks={tracks}
+              view={view}
+              activeUser={activeUser}
+            />
+          : null}
+        {trackComponents}
+        <Filters activeUser={activeUser} />
         <ChangeTrack />
         <div className="mainBtns">
           <button
@@ -106,14 +121,17 @@ class Tracks extends React.Component {
 
 function mapStateToProps(state) {
   let { tracks, filters, view } = state.trackReducer;
-  let { bgColor, token } = state.generalReducer;
+  let { bgColor, token, showStatistic } = state.generalReducer;
+  let { activeUser } = state.userReducer;
 
   return {
     tracks,
     filters,
     view,
     bgColor,
-    token
+    token,
+    activeUser,
+    showStatistic
   };
 }
 

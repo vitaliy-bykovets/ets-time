@@ -4,15 +4,18 @@ import {
   CLEAR_ERROR_FIELD,
   CLEAR_ERRORS,
   TOGGLE_CONFIRM,
-  SET_TOKEN
+  SET_TOKEN,
+  TOGGLE_STATISTIC
 } from './../actions/types';
 
 const bgColor = localStorage.getItem('bdColor');
+const showStatistic = localStorage.getItem('showStatistic');
 const initial = {
   bgColor: bgColor ? bgColor : 'deepskyblue',
   errors: {},
   token: false,
   confirmIsOpen: false,
+  showStatistic: showStatistic ? showStatistic === 'true' : true,
   confirmData: {
     text: 'text',
     action: '',
@@ -24,6 +27,10 @@ export default function userReducer(state = initial, action = {}) {
   switch (action.type) {
     case CHANGE_BG_COLOR:
       return Object.assign({}, state, { bgColor: action.color });
+    case TOGGLE_STATISTIC:
+      return Object.assign({}, state, {
+        showStatistic: action.param
+      });
     case SET_TOKEN:
       return Object.assign({}, state, { token: action.token });
     case TOGGLE_CONFIRM:
