@@ -37,7 +37,6 @@ export default function({ component: Component, props, ...rest }) {
       }}
     />
   );
-
   if (!props.token && !token) {
     return <Route {...rest} render={props => login} />;
   }

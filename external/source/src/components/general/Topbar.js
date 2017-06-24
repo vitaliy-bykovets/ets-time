@@ -58,6 +58,11 @@ class Topbar extends React.Component {
     const { settingsOpen } = this.state;
     const trackUrl =
       location.pathname.includes('tracks') || location.pathname === '/';
+    const userUrl = location.pathname.includes('users');
+    const isOwnerOrPm =
+      (trackUrl || userUrl) &&
+      activeUser.roles &&
+      (activeUser.roles.includes('owner') || activeUser.roles.includes('pm'));
 
     return (
       <div className="topbar">
@@ -67,43 +72,42 @@ class Topbar extends React.Component {
         </h4>
 
         <div className="topbar__menu" style={{ color: bgColor }}>
-          {trackUrl && activeUser.roles && activeUser.roles.includes('owner')
-            ? <FaBlocks
-                className={classnames('topbar__icon', {
-                  'topbar__icon--active': viewType === 'block'
-                })}
-                onClick={() => this.changeView('block')}
-              />
-            : null}
-          {trackUrl && activeUser.roles && activeUser.roles.includes('owner')
-            ? <FaLines
-                className={classnames('topbar__icon', 'p-r-20', {
-                  'topbar__icon--active': viewType === 'line'
-                })}
-                onClick={() => this.changeView('line')}
-              />
-            : null}
 
-          <div className="topbar__menu--wrapper">
-            <Link
-              to="/tracks"
-              className={classnames('topbar__menu--btn', {
-                'topbar__menu--active': trackUrl
-              })}
-              style={{ background: bgColor }}
-            >
-              tracks
-            </Link>
-            <Link
-              to="/users"
-              className={classnames('topbar__menu--btn', {
-                'topbar__menu--active': location.pathname.includes('users')
-              })}
-              style={{ background: bgColor }}
-            >
-              users
-            </Link>
-          </div>
+          <FaBlocks
+            className={classnames('topbar__icon', {
+              'topbar__icon--active': viewType === 'block'
+            })}
+            onClick={() => this.changeView('block')}
+          />
+          <FaLines
+            className={classnames('topbar__icon', 'p-r-20', {
+              'topbar__icon--active': viewType === 'line'
+            })}
+            onClick={() => this.changeView('line')}
+          />
+
+          {isOwnerOrPm
+            ? <div className="topbar__menu--wrapper">
+                <Link
+                  to="/tracks"
+                  className={classnames('topbar__menu--btn', {
+                    'topbar__menu--active': trackUrl
+                  })}
+                  style={{ background: bgColor }}
+                >
+                  tracks
+                </Link>
+                <Link
+                  to="/users"
+                  className={classnames('topbar__menu--btn', {
+                    'topbar__menu--active': userUrl
+                  })}
+                  style={{ background: bgColor }}
+                >
+                  users
+                </Link>
+              </div>
+            : null}
 
           <div className="topbar__icons" style={{ color: bgColor }}>
             <FaCog

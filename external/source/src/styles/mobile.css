@@ -13,6 +13,10 @@
     font-size: 18px;
   }
 
+  .statistic__label {
+    padding-left: 10px;
+  }
+
   .container {
     width: calc(100% - 20px);
     padding: 55px 10px;
