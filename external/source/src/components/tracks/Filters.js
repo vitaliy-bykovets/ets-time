@@ -9,7 +9,6 @@ import 'react-select/dist/react-select.css';
 // Actions
 import {
   toggleTrackFilters,
-  getTracks,
   setTrackFilters
 } from './../../store/actions/trackActions';
 import { getUsers } from './../../store/actions/userActions';
@@ -21,19 +20,21 @@ class Filters extends React.Component {
   state = getInitFilters();
 
   componentDidMount() {
-    let { activeUser, filters, token } = this.props;
+    let { filters } = this.props;
     this.setState(filters);
-
-    if (
-      activeUser.roles &&
-      (activeUser.roles.includes('owner') || activeUser.roles.includes('pm'))
-    ) {
-      this.props.getUsers(token);
-    }
   }
 
   componentWillReceiveProps(nextProps) {
     this.setState(nextProps.filters);
+
+    let roles = nextProps.activeUser.roles;
+    if (
+      nextProps.users.length === 0 &&
+      roles &&
+      (roles.includes('owner') || roles.includes('pm'))
+    ) {
+      this.props.getUsers(nextProps.token);
+    }
   }
 
   handleInputChange = e => {
@@ -56,7 +57,6 @@ class Filters extends React.Component {
     let filters = this.state;
     this.props.toggleTrackFilters();
     this.props.setTrackFilters(filters);
-    this.props.getTracks(this.props.token, filters);
   };
 
   changeWorkType = selected => {
@@ -78,6 +78,7 @@ class Filters extends React.Component {
       users: us,
       activeUser
     } = this.props;
+
     const workTypes = wt.map(v => {
       return {
         value: v,
@@ -93,7 +94,7 @@ class Filters extends React.Component {
     });
 
     const isOwnerOrPm =
-      activeUser.roler &&
+      activeUser.roles &&
       (activeUser.roles.includes('owner') || activeUser.roles.includes('pm'));
 
     const users = us.map(v => {
@@ -127,7 +128,7 @@ class Filters extends React.Component {
           {isOwnerOrPm
             ? <Select
                 multi={false}
-                searchable={false}
+                searchable={true}
                 placeholder=""
                 name="user"
                 value={this.state.user}
@@ -215,7 +216,6 @@ function mapStateToProps(state) {
 
 export default connect(mapStateToProps, {
   toggleTrackFilters,
-  getTracks,
   setTrackFilters,
   getUsers
 })(Filters);

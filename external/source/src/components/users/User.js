@@ -3,15 +3,39 @@ import { connect } from 'react-redux';
 
 // Icons
 import FaPencil from 'react-icons/lib/fa/pencil';
+import FaUnblock from 'react-icons/lib/fa/check-square-o';
+import FaBlock from 'react-icons/lib/fa/ban';
 
 // Actions
-import { toggleChangeUser } from './../../store/actions/userActions';
+import {
+  toggleChangeUser,
+  updateUser
+} from './../../store/actions/userActions';
 import { clearErrors } from './../../store/actions/generalActions';
 
 class User extends React.Component {
   handleEdit = () => {
     this.props.toggleChangeUser(true, true, this.props.user);
     this.props.clearErrors();
+  };
+
+  handleChangeStatus = newStatus => {
+    let { user, token } = this.props;
+
+    let rolesArray = typeof user.roles === 'string'
+      ? user.roles.split(',')
+      : [];
+
+    let positionArray = typeof user.position === 'string'
+      ? user.position.split(',')
+      : [];
+
+    let userObj = Object.assign({}, user, {
+      roles: rolesArray,
+      position: positionArray
+    });
+
+    this.props.updateUser(userObj, token, newStatus);
   };
 
   render() {
@@ -37,6 +61,18 @@ class User extends React.Component {
           <div className="track__menuBtnLine--btn" onClick={this.handleEdit}>
             <FaPencil />
           </div>
+          <div
+            className="track__menuBtnLine--btn"
+            onClick={() => this.handleChangeStatus(0)}
+          >
+            <FaUnblock />
+          </div>
+          <div
+            className="track__menuBtnLine--btn"
+            onClick={() => this.handleChangeStatus(1)}
+          >
+            <FaBlock />
+          </div>
         </div>
       </div>
     );
@@ -45,10 +81,13 @@ class User extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    bgColor: state.generalReducer.bgColor
+    bgColor: state.generalReducer.bgColor,
+    token: state.generalReducer.token
   };
 }
 
-export default connect(mapStateToProps, { toggleChangeUser, clearErrors })(
-  User
-);
+export default connect(mapStateToProps, {
+  toggleChangeUser,
+  clearErrors,
+  updateUser
+})(User);

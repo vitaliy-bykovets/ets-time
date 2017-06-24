@@ -15,6 +15,7 @@
 
 .Select-input {
   height: 30px;
+  padding-left: 5px;
 }
 
 .Select-multi-value-wrapper {
@@ -61,4 +62,8 @@
 .Select-placeholder, .Select--single > .Select-control .Select-value {
   display: flex;
   align-items: center;
+}
+
+.Select-input > input {
+  padding: 6px 0 12px;
 }
