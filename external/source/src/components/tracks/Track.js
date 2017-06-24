@@ -66,7 +66,7 @@ class Track extends React.Component {
             className={classnames('track__date', {
               'track__date--line': view === 'line'
             })}
-            style={view === 'line' ? { color: bgColor } : {}}
+            style={{ color: bgColor }}
           >
             {dateStr}
           </p>
