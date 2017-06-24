@@ -73,18 +73,23 @@ class Topbar extends React.Component {
 
         <div className="topbar__menu" style={{ color: bgColor }}>
 
-          <FaBlocks
-            className={classnames('topbar__icon', {
-              'topbar__icon--active': viewType === 'block'
-            })}
-            onClick={() => this.changeView('block')}
-          />
-          <FaLines
-            className={classnames('topbar__icon', 'p-r-20', {
-              'topbar__icon--active': viewType === 'line'
-            })}
-            onClick={() => this.changeView('line')}
-          />
+          {trackUrl
+            ? <FaBlocks
+                className={classnames('topbar__icon', {
+                  'topbar__icon--active': viewType === 'block'
+                })}
+                onClick={() => this.changeView('block')}
+              />
+            : null}
+
+          {trackUrl
+            ? <FaLines
+                className={classnames('topbar__icon', 'p-r-20', {
+                  'topbar__icon--active': viewType === 'line'
+                })}
+                onClick={() => this.changeView('line')}
+              />
+            : null}
 
           {isOwnerOrPm
             ? <div className="topbar__menu--wrapper">
