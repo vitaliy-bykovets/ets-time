@@ -35,9 +35,9 @@ export function createUser(data, token) {
   };
 }
 
-export function updateUser(data, token) {
+export function updateUser(data, token, status) {
   return dispatch => {
-    updateUserApi(data, token).then(resp => {
+    updateUserApi(data, token, status).then(resp => {
       if (resp.status >= 200 && resp.status < 300) {
         dispatch(getUsers(token));
         dispatch(toggleChangeUser(false));

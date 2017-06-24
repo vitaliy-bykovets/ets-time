@@ -72,7 +72,7 @@ export function createUserApi(data, token) {
   });
 }
 
-export function updateUserApi(data, token) {
+export function updateUserApi(data, token, status) {
   let {
     first_name = '',
     last_name = '',
@@ -81,6 +81,8 @@ export function updateUserApi(data, token) {
     rate = 0,
     id = ''
   } = data;
+
+  let locked = status === 1 ? 1 : 0;
 
   return fetch('/api/v1/users', {
     method: 'PATCH',
@@ -94,7 +96,8 @@ export function updateUserApi(data, token) {
       roles,
       position,
       rate,
-      id
+      id,
+      locked
     })
   });
 }
