@@ -11,12 +11,8 @@ const { role } = require('./../middlewares');
 
 const criteriaForList = function(param) {
   return function() {
-    if (param.user_name) {
-      this.where('u.first_name', 'like', '%' + param.user_name + '%').orWhere(
-        'u.last_name',
-        'like',
-        '%' + param.user_name + '%'
-      );
+    if (param.user) {
+      this.where('tl.user_id', param.user);
     }
     if (param.project) {
       this.where('tl.project', 'like', '%' + param.project + '%');

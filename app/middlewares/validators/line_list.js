@@ -4,7 +4,7 @@ const env = require('./../../config');
 
 module.exports = (req, res, next) => {
   const rules = {
-    user_name: 'string|min:3',
+    user: 'integer|min:1',
     project: 'string|min:2',
     date_start: 'regex:/^\\d{4}-\\d{2}-\\d{2}$/|date',
     date_end: 'regex:/^\\d{4}-\\d{2}-\\d{2}$/|date',

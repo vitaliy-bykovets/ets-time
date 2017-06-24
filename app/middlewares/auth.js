@@ -24,7 +24,7 @@ module.exports = (req, res, next) => {
 
     // login
     userModel.getUserByToken(req.header('authorization'), (err, user) => {
-      if (err) return next(err);
+      if (err) return res.status(401).end();
       if (user) {
         knex('tokens')
           .where('user_id', user.id)
