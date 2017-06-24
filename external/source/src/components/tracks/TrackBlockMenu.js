@@ -53,7 +53,10 @@ class TrackBlockMenu extends React.Component {
   };
 
   render() {
-    const { t, menuOpen } = this.props;
+    const { t, menuOpen, activeUser } = this.props;
+    const isOwnerOrPm =
+      activeUser.roles &&
+      (activeUser.roles.includes('owner') || activeUser.roles.includes('pm'));
 
     return (
       <div
@@ -67,7 +70,7 @@ class TrackBlockMenu extends React.Component {
         <button className="track-menu-btns__btn" onClick={this.handleDelete}>
           Delete
         </button>
-        {t.status !== 'Declined'
+        {t.status !== 'Declined' && isOwnerOrPm
           ? <button
               className="track-menu-btns__btn"
               onClick={this.handleDecline}
@@ -75,7 +78,7 @@ class TrackBlockMenu extends React.Component {
               Decline
             </button>
           : null}
-        {t.status !== 'Accepted'
+        {t.status !== 'Accepted' && isOwnerOrPm
           ? <button
               className="track-menu-btns__btn"
               onClick={this.handleAccept}
@@ -94,7 +97,13 @@ class TrackBlockMenu extends React.Component {
   }
 }
 
-export default connect(null, {
+function mapStateToProps(state) {
+  return {
+    activeUser: state.userReducer.activeUser
+  };
+}
+
+export default connect(mapStateToProps, {
   toggleConfirm,
   toggleChangeTrack,
   clearErrors,

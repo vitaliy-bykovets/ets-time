@@ -54,7 +54,11 @@ class TrackLineMenu extends React.Component {
   };
 
   render() {
-    const { view, bgColor } = this.props;
+    const { view, bgColor, activeUser } = this.props;
+    const isOwnerOrPm =
+      activeUser.roles &&
+      (activeUser.roles.includes('owner') || activeUser.roles.includes('pm'));
+
     return (
       <div>
         {view === 'line'
@@ -71,18 +75,22 @@ class TrackLineMenu extends React.Component {
               >
                 <FaDelete />
               </div>
-              <div
-                className="track__menuBtnLine--btn"
-                onClick={this.handleAccept}
-              >
-                <FaAccept />
-              </div>
-              <div
-                className="track__menuBtnLine--btn"
-                onClick={this.handleDecline}
-              >
-                <FaDecline />
-              </div>
+              {isOwnerOrPm
+                ? <div
+                    className="track__menuBtnLine--btn"
+                    onClick={this.handleAccept}
+                  >
+                    <FaAccept />
+                  </div>
+                : null}
+              {isOwnerOrPm
+                ? <div
+                    className="track__menuBtnLine--btn"
+                    onClick={this.handleDecline}
+                  >
+                    <FaDecline />
+                  </div>
+                : null}
             </div>
           : null}
       </div>
@@ -92,7 +100,8 @@ class TrackLineMenu extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    bgColor: state.generalReducer.bgColor
+    bgColor: state.generalReducer.bgColor,
+    activeUser: state.userReducer.activeUser
   };
 }
 

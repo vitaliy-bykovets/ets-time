@@ -11,6 +11,7 @@ import FaBlocks from 'react-icons/lib/fa/th';
 import FaLines from 'react-icons/lib/fa/align-justify';
 import FaCog from 'react-icons/lib/fa/cog';
 import FaPower from 'react-icons/lib/fa/power-off';
+import logo from './../../data/selecto.svg';
 
 // Actions
 import { changeTrackView } from './../../store/actions/trackActions';
@@ -67,7 +68,8 @@ class Topbar extends React.Component {
     return (
       <div className="topbar">
         <h4 className="topbar__headline">
-          <span>{`${activeUser.first_name} ${activeUser.last_name}`}</span>
+          <img src={logo} alt="Selecto" height="20px" />
+          <span className="p-l-20">{`${activeUser.first_name} ${activeUser.last_name}`}</span>
           <FaPower className="logout" onClick={this.logoutHandler} />
         </h4>
 
