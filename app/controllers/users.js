@@ -40,7 +40,7 @@ router.get('/', users_list, async (req, res) => {
       count: callback => knex('users').where(criteriaForList(param)).first().count('* as c').asCallback(callback),
       list: callback => {
         knex('users')
-          .select('first_name', 'last_name', 'roles', 'position', 'email', 'rate', 'id')
+          .select('first_name', 'last_name', 'roles', 'position', 'email', 'rate', 'id', 'locked')
           .where(criteriaForList(param))
           .orderBy('created_at', 'desc')
           .asCallback(callback);
