@@ -89,7 +89,7 @@ class SingeUser extends React.Component {
   };
 
   render() {
-    const { errors, roles: rs, positions: ps } = this.props;
+    const { errors, roles: rs, positions: ps, isUserEdit } = this.props;
 
     const roles = rs.map(r => {
       return {
@@ -156,22 +156,26 @@ class SingeUser extends React.Component {
             onFocus={this.handleFocusInput}
           />
 
-          <label className="input-headline">
-            <span>Email</span>
-            {errors.email
-              ? <span className="error__text">{errors.email}</span>
-              : null}
-          </label>
-          <input
-            type="email"
-            value={this.state.email}
-            name="email"
-            onChange={this.handleInputChange}
-            className={classnames('input', {
-              bgError: errors.email
-            })}
-            onFocus={this.handleFocusInput}
-          />
+          {!isUserEdit
+            ? <label className="input-headline">
+                <span>Email</span>
+                {errors.email
+                  ? <span className="error__text">{errors.email}</span>
+                  : null}
+              </label>
+            : null}
+          {!isUserEdit
+            ? <input
+                type="email"
+                value={this.state.email}
+                name="email"
+                onChange={this.handleInputChange}
+                className={classnames('input', {
+                  bgError: errors.email
+                })}
+                onFocus={this.handleFocusInput}
+              />
+            : null}
 
           <label className="input-headline">
             <span>Roles</span>
@@ -226,7 +230,7 @@ class SingeUser extends React.Component {
           <input
             type="number"
             value={this.state.rate}
-            name="email"
+            name="rate"
             onChange={this.handleInputChange}
             className={classnames('input', {
               bgError: errors.rate
@@ -234,22 +238,26 @@ class SingeUser extends React.Component {
             onFocus={this.handleFocusInput}
           />
 
-          <label className="input-headline">
-            <span>Password</span>
-            {errors.password
-              ? <span className="error__text">{errors.password}</span>
-              : null}
-          </label>
-          <input
-            type="password"
-            value={this.state.password}
-            name="password"
-            onChange={this.handleInputChange}
-            className={classnames('input', {
-              bgError: errors.password
-            })}
-            onFocus={this.handleFocusInput}
-          />
+          {!isUserEdit
+            ? <label className="input-headline">
+                <span>Password</span>
+                {errors.password
+                  ? <span className="error__text">{errors.password}</span>
+                  : null}
+              </label>
+            : null}
+          {!isUserEdit
+            ? <input
+                type="password"
+                value={this.state.password}
+                name="password"
+                onChange={this.handleInputChange}
+                className={classnames('input', {
+                  bgError: errors.password
+                })}
+                onFocus={this.handleFocusInput}
+              />
+            : null}
 
         </div>
         <div className="sidebarBtns">

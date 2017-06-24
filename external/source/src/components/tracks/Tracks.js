@@ -87,7 +87,7 @@ class Tracks extends React.Component {
             />
           : null}
         {trackComponents}
-        <Filters />
+        <Filters activeUser={activeUser} />
         <ChangeTrack />
         <div className="mainBtns">
           <button

@@ -45,9 +45,11 @@ class App extends React.Component {
 
 function mapStateToProps(state) {
   let { bgColor, token } = state.generalReducer;
+  let { activeUser } = state.userReducer;
   return {
     bgColor,
-    token
+    token,
+    activeUser
   };
 }
 

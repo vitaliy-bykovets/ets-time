@@ -76,11 +76,9 @@ export function updateUserApi(data, token) {
   let {
     first_name = '',
     last_name = '',
-    email = '',
     roles = [],
     position = [],
     rate = 0,
-    password = '',
     id = ''
   } = data;
 
@@ -93,11 +91,9 @@ export function updateUserApi(data, token) {
     body: JSON.stringify({
       first_name,
       last_name,
-      email,
       roles,
       position,
       rate,
-      password,
       id
     })
   });

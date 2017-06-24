@@ -38,8 +38,28 @@ export default function({ component: Component, props, ...rest }) {
     />
   );
 
+  const tracks = (
+    <Redirect
+      to={{
+        pathname: '/tracks',
+        state: { from: props.location }
+      }}
+    />
+  );
+
   if (!props.token && !token) {
     return <Route {...rest} render={props => login} />;
+  }
+
+  if (
+    props.location.pathname === '/users' &&
+    props.activeUser.roles &&
+    !(
+      props.activeUser.roles.includes('owner') ||
+      props.activeUser.roles.includes('pm')
+    )
+  ) {
+    return <Route {...rest} render={props => tracks} />;
   }
 
   if (!props.token) {
