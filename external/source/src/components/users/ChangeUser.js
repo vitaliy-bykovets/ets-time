@@ -64,7 +64,7 @@ class SingeUser extends React.Component {
     });
 
     if (isUserEdit) {
-      this.props.updateUser(user, token);
+      this.props.updateUser(user, token, user.locked);
     } else {
       this.props.createUser(user, token);
     }
@@ -238,26 +238,22 @@ class SingeUser extends React.Component {
             onFocus={this.handleFocusInput}
           />
 
-          {!isUserEdit
-            ? <label className="input-headline">
-                <span>Password</span>
-                {errors.password
-                  ? <span className="error__text">{errors.password}</span>
-                  : null}
-              </label>
-            : null}
-          {!isUserEdit
-            ? <input
-                type="password"
-                value={this.state.password}
-                name="password"
-                onChange={this.handleInputChange}
-                className={classnames('input', {
-                  bgError: errors.password
-                })}
-                onFocus={this.handleFocusInput}
-              />
-            : null}
+          <label className="input-headline">
+            <span>Password</span>
+            {errors.password
+              ? <span className="error__text">{errors.password}</span>
+              : null}
+          </label>
+          <input
+            type="password"
+            value={this.state.password}
+            name="password"
+            onChange={this.handleInputChange}
+            className={classnames('input', {
+              bgError: errors.password
+            })}
+            onFocus={this.handleFocusInput}
+          />
 
         </div>
         <div className="sidebarBtns">

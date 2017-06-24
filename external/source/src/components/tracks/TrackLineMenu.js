@@ -66,12 +66,14 @@ class TrackLineMenu extends React.Component {
               <div
                 className="track__menuBtnLine--btn"
                 onClick={this.handleEdit}
+                title="Edit track"
               >
                 <FaPencil />
               </div>
               <div
                 className="track__menuBtnLine--btn"
                 onClick={this.handleDelete}
+                title="Delete track"
               >
                 <FaDelete />
               </div>
@@ -79,6 +81,7 @@ class TrackLineMenu extends React.Component {
                 ? <div
                     className="track__menuBtnLine--btn"
                     onClick={this.handleAccept}
+                    title="Accept track"
                   >
                     <FaAccept />
                   </div>
@@ -87,6 +90,7 @@ class TrackLineMenu extends React.Component {
                 ? <div
                     className="track__menuBtnLine--btn"
                     onClick={this.handleDecline}
+                    title="Decline track"
                   >
                     <FaDecline />
                   </div>

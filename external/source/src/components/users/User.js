@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import classnames from 'classnames';
 
 // Icons
 import FaPencil from 'react-icons/lib/fa/pencil';
@@ -58,18 +59,32 @@ class User extends React.Component {
           </p>
         </div>
         <div className="track__menuBtn--line" style={{ color: bgColor }}>
-          <div className="track__menuBtnLine--btn" onClick={this.handleEdit}>
+          <div
+            className={classnames('track__status track__status--line', {
+              'track__status--accepted': user.locked === 0,
+              'track__status--declined': user.locked === 1
+            })}
+          >
+            {user.locked ? 'Blocked' : 'Active'}
+          </div>
+          <div
+            className="track__menuBtnLine--btn m-l-10"
+            onClick={this.handleEdit}
+            title="Edit user"
+          >
             <FaPencil />
           </div>
           <div
             className="track__menuBtnLine--btn"
             onClick={() => this.handleChangeStatus(0)}
+            title="Unblock user"
           >
             <FaUnblock />
           </div>
           <div
             className="track__menuBtnLine--btn"
             onClick={() => this.handleChangeStatus(1)}
+            title="Block user"
           >
             <FaBlock />
           </div>

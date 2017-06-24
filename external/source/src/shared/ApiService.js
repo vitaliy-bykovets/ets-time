@@ -83,6 +83,19 @@ export function updateUserApi(data, token, status) {
   } = data;
 
   let locked = status === 1 ? 1 : 0;
+  let userObj = {
+    first_name,
+    last_name,
+    roles,
+    position,
+    rate,
+    id,
+    locked
+  };
+
+  if (data.password) {
+    userObj.password = data.password;
+  }
 
   return fetch('/api/v1/users', {
     method: 'PATCH',
@@ -90,15 +103,7 @@ export function updateUserApi(data, token, status) {
       'Content-Type': 'application/json',
       authorization: token
     },
-    body: JSON.stringify({
-      first_name,
-      last_name,
-      roles,
-      position,
-      rate,
-      id,
-      locked
-    })
+    body: JSON.stringify(userObj)
   });
 }
 
