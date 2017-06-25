@@ -1,6 +1,7 @@
 'use strict';
 const Validator = require('./Validator');
 const env = require('./../../config');
+const hasRole = require('./../../libs/hasRole');
 
 module.exports = (req, res, next) => {
   const rules = {
@@ -16,6 +17,7 @@ module.exports = (req, res, next) => {
   if (validate.fails()) {
     res.status(400).send(validate.errors);
   } else {
+    req._full_list = hasRole(req._user.roles, ['owner', 'pm']);
     next();
   }
 };

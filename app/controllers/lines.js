@@ -1,16 +1,21 @@
 'use strict';
 const express = require('express');
 const router = express.Router();
+const { parallel } = require('async');
+
 const {
   validators: { line_list, line_create, line_edit, line_status, line_delete }
 } = require('./../middlewares/index');
+
 const knex = require('./../libs/knex');
-const _ = require('lodash');
-const async = require('async');
 const { role } = require('./../middlewares');
 
-const criteriaForList = function(param) {
+const criteriaForList = function(request) {
+  let { query: param, _full_list: full_list } = request;
   return function() {
+    if (!full_list) {
+      param.user = request._user.id;
+    }
     if (param.user) {
       this.where('tl.user_id', param.user);
     }
@@ -34,13 +39,11 @@ const criteriaForList = function(param) {
 
 /* Get track lines */
 router.get('/', line_list, async (req, res) => {
-  let param = req.query;
-
-  async.parallel(
+  parallel(
     {
       count: callback => {
         knex('track_lines as tl')
-          .where(criteriaForList(param))
+          .where(criteriaForList(req))
           .leftJoin('users as u', 'u.id', 'tl.user_id')
           .first()
           .count('* as c')
@@ -49,7 +52,7 @@ router.get('/', line_list, async (req, res) => {
       list: callback => {
         knex('track_lines as tl')
           .select('tl.*', 'u.first_name', 'u.last_name', 'u.roles', 'u.position', 'u.locked', 'u.email')
-          .where(criteriaForList(param))
+          .where(criteriaForList(req))
           .leftJoin('users as u', 'u.id', 'tl.user_id')
           .orderBy('tl.created_at', 'desc')
           .limit(200)
