@@ -104,3 +104,7 @@ export function getTop(data, field, field1, field2) {
 
   return top;
 }
+
+export function getFirstLetter(string) {
+  return string ? string.substring(0, 1) : string;
+}

@@ -5,7 +5,7 @@ import classnames from 'classnames';
 import FaEllipsis from 'react-icons/lib/fa/ellipsis-h';
 
 // Helpers
-import { formatDateToServer } from './../../shared/HelpService';
+import { formatDateToServer, getFirstLetter } from './../../shared/HelpService';
 
 // Components
 import TrackBlockMenu from './TrackBlockMenu';
@@ -46,7 +46,7 @@ class Track extends React.Component {
               'track__user--line': view === 'line'
             })}
           >
-            {`${t.first_name} ${t.last_name}`}
+            {`${getFirstLetter(t.first_name)}. ${t.last_name}`}
           </h3>
           <h4
             className={classnames('track__project', {
@@ -92,7 +92,7 @@ class Track extends React.Component {
               'track__hours--line': view === 'line'
             })}
           >
-            {t.hours} hours
+            {t.hours} hour(s)
           </span>
 
           <TrackLineMenu view={view} t={t} token={token} />

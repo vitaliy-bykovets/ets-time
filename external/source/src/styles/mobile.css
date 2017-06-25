@@ -95,11 +95,8 @@
     display: none;
   }
 
-  .track__date--line {
-    display: none;
-  }
-
   .track__user--line {
+    display: none;
     padding-left: 0;
   }
 

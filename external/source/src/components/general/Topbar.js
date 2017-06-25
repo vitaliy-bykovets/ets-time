@@ -20,6 +20,7 @@ import { setToken } from './../../store/actions/generalActions';
 
 // Helpers
 import { logoutApi } from './../../shared/ApiService';
+import { getFirstLetter } from './../../shared/HelpService';
 
 // Actions
 import { getLibraries } from './../../store/actions/trackActions';
@@ -69,7 +70,9 @@ class Topbar extends React.Component {
       <div className="topbar">
         <h4 className="topbar__headline">
           <img src={logo} alt="Selecto" height="20px" />
-          <span className="p-l-20">{`${activeUser.first_name} ${activeUser.last_name}`}</span>
+          <span className="p-l-20">{`${getFirstLetter(
+            activeUser.first_name
+          )}. ${activeUser.last_name}`}</span>
           <FaPower className="logout" onClick={this.logoutHandler} />
         </h4>
 

@@ -2,7 +2,7 @@ import React from 'react';
 import classnames from 'classnames';
 
 // Helpers
-import { getTop } from './../../shared/HelpService';
+import { getTop, getFirstLetter } from './../../shared/HelpService';
 
 class TracksStatistic extends React.Component {
   render() {
@@ -53,7 +53,9 @@ class TracksStatistic extends React.Component {
           ? <div className="statistic__wrapper">
               <span className="statistic__number">
                 {topWorker
-                  ? `${topWorker.first_name} ${topWorker.last_name}`
+                  ? `${getFirstLetter(
+                      topWorker.first_name
+                    )}. ${topWorker.last_name}`
                   : '-'}
               </span>
               <span className="statistic__label">top worker</span>

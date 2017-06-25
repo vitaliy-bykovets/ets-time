@@ -57,6 +57,9 @@ class TrackBlockMenu extends React.Component {
     const isOwnerOrPm =
       activeUser.roles &&
       (activeUser.roles.includes('owner') || activeUser.roles.includes('pm'));
+    const isUserTrack = t.user_id && activeUser.id
+      ? activeUser.id === t.user_id
+      : true;
 
     return (
       <div
@@ -64,12 +67,19 @@ class TrackBlockMenu extends React.Component {
           'track-menu-btns--opened': menuOpen
         })}
       >
-        <button className="track-menu-btns__btn" onClick={this.handleEdit}>
-          Edit
-        </button>
-        <button className="track-menu-btns__btn" onClick={this.handleDelete}>
-          Delete
-        </button>
+        {isUserTrack
+          ? <button className="track-menu-btns__btn" onClick={this.handleEdit}>
+              Edit
+            </button>
+          : null}
+        {isUserTrack
+          ? <button
+              className="track-menu-btns__btn"
+              onClick={this.handleDelete}
+            >
+              Delete
+            </button>
+          : null}
         {t.status !== 'Declined' && isOwnerOrPm
           ? <button
               className="track-menu-btns__btn"
