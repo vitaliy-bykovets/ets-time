@@ -54,29 +54,36 @@ class TrackLineMenu extends React.Component {
   };
 
   render() {
-    const { view, bgColor, activeUser } = this.props;
+    const { view, bgColor, activeUser, t } = this.props;
     const isOwnerOrPm =
       activeUser.roles &&
       (activeUser.roles.includes('owner') || activeUser.roles.includes('pm'));
+    const isUserTrack = t.user_id && activeUser.id
+      ? activeUser.id === t.user_id
+      : true;
 
     return (
       <div>
         {view === 'line'
           ? <div className="track__menuBtn--line" style={{ color: bgColor }}>
-              <div
-                className="track__menuBtnLine--btn"
-                onClick={this.handleEdit}
-                title="Edit track"
-              >
-                <FaPencil />
-              </div>
-              <div
-                className="track__menuBtnLine--btn"
-                onClick={this.handleDelete}
-                title="Delete track"
-              >
-                <FaDelete />
-              </div>
+              {isUserTrack
+                ? <div
+                    className="track__menuBtnLine--btn"
+                    onClick={this.handleEdit}
+                    title="Edit track"
+                  >
+                    <FaPencil />
+                  </div>
+                : null}
+              {isUserTrack
+                ? <div
+                    className="track__menuBtnLine--btn"
+                    onClick={this.handleDelete}
+                    title="Delete track"
+                  >
+                    <FaDelete />
+                  </div>
+                : null}
               {isOwnerOrPm
                 ? <div
                     className="track__menuBtnLine--btn"
