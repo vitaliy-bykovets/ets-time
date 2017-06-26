@@ -33,7 +33,7 @@ app.use(function(err, req, res, next) {
   switch (err.code) {
     // knex error when we try to insert duplicate entrie
     case 'ER_DUP_ENTRY':
-      res.status(409).end();
+      res.status(409).send();
       break;
     case 'ER_BAD_FIELD_ERROR':
       res.status(400).end();

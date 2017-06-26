@@ -4,5 +4,6 @@ module.exports = {
   lines: require('./lines'),
   users: require('./users'),
   skills: require('./skills'),
-  dictionaries: require('./dictionaries')
+  dictionaries: require('./dictionaries'),
+  autocomplete: require('./autocomplete')
 };

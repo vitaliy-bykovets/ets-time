@@ -8,7 +8,7 @@ module.exports = (req, res, next) => {
     id: 'required|integer|min:0|exist_skill',
     name: 'required|min:2',
     desc: 'min:5',
-    parent_id: 'required|min:0|exist_skill'
+    parent_id: 'required|min:1|exist_skill'
   };
 
   const validate = new Validator(req.body, rules);
@@ -27,7 +27,7 @@ module.exports = (req, res, next) => {
           req._vars = vars;
           next();
         } else {
-          res.status(204).end();
+          res.status(404).end();
         }
       })
       .catch(next);
