@@ -67,11 +67,9 @@ class TrackBlockMenu extends React.Component {
           'track-menu-btns--opened': menuOpen
         })}
       >
-        {isUserTrack
-          ? <button className="track-menu-btns__btn" onClick={this.handleEdit}>
-              Edit
-            </button>
-          : null}
+        <button className="track-menu-btns__btn" onClick={this.handleEdit}>
+          Edit
+        </button>
         {isUserTrack
           ? <button
               className="track-menu-btns__btn"
