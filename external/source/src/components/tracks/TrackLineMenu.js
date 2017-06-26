@@ -66,15 +66,13 @@ class TrackLineMenu extends React.Component {
       <div>
         {view === 'line'
           ? <div className="track__menuBtn--line" style={{ color: bgColor }}>
-              {isUserTrack
-                ? <div
-                    className="track__menuBtnLine--btn"
-                    onClick={this.handleEdit}
-                    title="Edit track"
-                  >
-                    <FaPencil />
-                  </div>
-                : null}
+              <div
+                className="track__menuBtnLine--btn"
+                onClick={this.handleEdit}
+                title="Edit track"
+              >
+                <FaPencil />
+              </div>
               {isUserTrack
                 ? <div
                     className="track__menuBtnLine--btn"
