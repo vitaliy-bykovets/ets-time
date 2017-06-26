@@ -79,11 +79,7 @@ router.post('/', line_create, (req, res, next) => {
 
 // Update track-line by id
 router.patch('/', line_edit, (req, res, next) => {
-  knex('track_lines')
-    .where({ id: req.body.id, user_id: req._user.id })
-    .update(req._vars)
-    .then(() => res.send())
-    .catch(next);
+  knex('track_lines').where({ id: req.body.id }).update(req._vars).then(() => res.send()).catch(next);
 });
 
 // delete track line

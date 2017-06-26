@@ -7,7 +7,7 @@ exports.up = knex => {
     table.string('task').notNullable().comment('Description of task');
     table.string('type_work', 50).notNullable().comment('Type of Work');
     table.enum('status', ['Accepted', 'Declined', 'Open']).notNullable().default('Open').comment('Status task');
-    table.integer('hours', 4).default(0).comment('Spent hours');
+    table.decimal('hours', 6, 2).default(0).comment('Spent hours');
     table.decimal('estimated_time', 6, 2).default(0).comment('Estimated hours');
     table.decimal('approved_time', 6, 2).default(0).comment('	Approved time by admin or pm');
     table.decimal('rate', 6, 2).default(0).comment('Price Rate in $');
