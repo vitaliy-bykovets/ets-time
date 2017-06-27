@@ -4,38 +4,27 @@ const router = express.Router();
 const _ = require('lodash');
 const knex = require('./../libs/knex');
 const {
-  validators: { skill_create: create, skill_edit: edit, skill_delete: remove, skill_user_attach: user_attach }
+  validators: {
+    skill_create: create,
+    skill_edit: edit,
+    skill_delete: remove,
+    skill_user_attach: user_attach,
+    skill_list: list
+  }
 } = require('./../middlewares/index');
 
-/* List skills */
-router.get('/', (req, res, next) => {
-  knex('skills')
-    .orderBy('name', 'asc')
+/* List skills users and other */
+router.get('/(:user_id)?', list, (req, res, next) => {
+  knex('skills as s')
+    .select('s.*', knex.raw('ifnull(sg.value,0) as user_value'))
+    .orderBy('s.name', 'asc')
+    .leftJoin('skill_gradation as sg', function() {
+      this.on('sg.skill_id', '=', 's.id').andOn('sg.user_id', knex.raw('?', [req._user_id]));
+    })
     .then(rows => {
       let mainSkill = _.filter(rows, row => row.parent_id === null);
       _.each(mainSkill, row => {
         row['children'] = _.filter(rows, itemrow => itemrow.parent_id === row.id);
-      });
-      res.json(mainSkill);
-    })
-    .catch(next);
-});
-
-router.get('/:user_id', (req, res, next) => {
-  knex('skills as s')
-    .select('s.*', knex.raw('ifnull(sg.value,0) as user_value'))
-    .orderBy('s.parent_id', 'asc')
-    .orderBy('s.name', 'asc')
-    .leftJoin('skill_gradation as sg', 'sg.skill_id', 's.id')
-    .then(rows => {
-      let mainSkill = _.filter(rows, row => row.parent_id === null);
-      _.each(mainSkill, row => {
-        let childrenSkills = _.filter(rows, itemrow => itemrow.parent_id === row.id);
-
-        row['max_value'] = childrenSkills.length * 8;
-        row['user_value'] = _.sum(_.map(childrenSkills, 'user_value'));
-        row['percentage'] = parseFloat(row['user_value'] * 100 / row['max_value']).toFixed(2);
-        row['children'] = childrenSkills;
       });
       res.json(mainSkill);
     })

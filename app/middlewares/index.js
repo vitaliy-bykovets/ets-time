@@ -13,6 +13,7 @@ module.exports = {
     skill_edit: require('./validators/skill_edit'),
     skill_delete: require('./validators/skill_delete'),
     skill_user_attach: require('./validators/skill_user_attach'),
+    skill_list: require('./validators/skill_list'),
     autocompolete: require('./validators/autocompolete')
   },
   role: require('./role'),
