@@ -1,5 +1,6 @@
 let config = {
   port: 3000,
+  secret: 'ZyXHLWg35z',
   type_works: [
     'Development',
     'Design',

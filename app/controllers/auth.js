@@ -4,9 +4,11 @@ const router = express.Router();
 const knex = require('./../libs/knex');
 const bcrypt = require('bcrypt-nodejs');
 const crypto = require('crypto');
-const _ = require('lodash');
+const { pick } = require('lodash');
 const Validator = require('./../middlewares/validators/Validator');
 const { auth } = require('./../middlewares/index');
+const env = require('./../config');
+const jwt = require('jsonwebtoken');
 
 const userModel = require('./../models/user');
 
@@ -23,25 +25,21 @@ router.post('/', (req, res, next) => {
     // get email and check password
     knex('users')
       .where('email', req.body.email)
-      .select('email', 'password', 'id')
+      .select('id', 'password')
       .where('locked', 0)
       .first()
       .then(data => {
         if (data) {
           if (bcrypt.compareSync(req.body.password, data.password)) {
             // generate token
-            let token = crypto.randomBytes(16).toString('hex');
-            knex('tokens')
-              .insert({ token: token, user_id: data.id })
-              .then(() => {
-                userModel.getUserByToken(token, (err, user) => {
-                  if (err) return next(err);
-                  if (user) {
-                    return res.json(user);
-                  }
-                });
-              })
-              .catch(next);
+            const token = jwt.sign(pick(data, 'id'), env.secret, { expiresIn: '120d' });
+            userModel.getUserById(data.id, (err, user) => {
+              if (err) return next(err);
+              if (user) {
+                user['token'] = token;
+                return res.json(user);
+              }
+            });
           } else {
             res.status(401).send();
           }
