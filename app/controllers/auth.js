@@ -55,9 +55,4 @@ router.post('/', (req, res, next) => {
 /* Me */
 router.get('/me', auth, (req, res) => res.json(req._user));
 
-/* Logout */
-router.post('/logout', auth, (req, res, next) => {
-  knex('tokens').where('token', req._user.token).del().then(() => res.status(204).send()).catch(next);
-});
-
 module.exports = router;
