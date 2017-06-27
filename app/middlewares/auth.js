@@ -20,7 +20,8 @@ module.exports = (req, res, next) => {
       if (decoded) {
         require('./../models/user').getUserById(decoded.id, (err, user) => {
           if (err) return next(err);
-          if (user) return res.json(user);
+          req._user = user;
+          next();
         });
       }
     });
