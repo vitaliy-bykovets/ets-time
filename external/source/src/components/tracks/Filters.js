@@ -5,6 +5,7 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import Select from 'react-select';
 import 'react-select/dist/react-select.css';
+import './../../../node_modules/moment/locale/en-gb';
 
 // Actions
 import {
@@ -143,6 +144,7 @@ class Filters extends React.Component {
             selected={this.state.startDate}
             onChange={this.handleChangeStartDate}
             className="datepicker"
+            locale="en-gb"
           />
 
           <label className="input-headline">End date</label>
@@ -151,6 +153,7 @@ class Filters extends React.Component {
             selected={this.state.endDate}
             onChange={this.handleEndChange}
             className="datepicker"
+            locale="en-gb"
           />
 
           <label className="input-headline">Work type</label>
@@ -181,7 +184,6 @@ class Filters extends React.Component {
             onChange={this.handleInputChange}
             className="input"
           />
-
         </div>
         <div className="sidebarBtns">
           <button
