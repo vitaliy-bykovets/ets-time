@@ -19,7 +19,6 @@ import { setActiveUser } from './../../store/actions/userActions';
 import { setToken } from './../../store/actions/generalActions';
 
 // Helpers
-import { logoutApi } from './../../shared/ApiService';
 import { getFirstLetter } from './../../shared/HelpService';
 
 // Actions
@@ -45,14 +44,9 @@ class Topbar extends React.Component {
   };
 
   logoutHandler = () => {
-    logoutApi(this.props.token).then(resp => {
-      if (resp.status >= 200 && resp.status < 300) {
-        this.props.setActiveUser({ first_name: '', last_name: '' });
-        this.props.setToken('');
-        localStorage.removeItem('token');
-        this.props.history.push('/login');
-      }
-    });
+    this.props.setActiveUser({ first_name: '', last_name: '' });
+    this.props.setToken('');
+    localStorage.removeItem('token');
   };
 
   render() {
@@ -77,7 +71,6 @@ class Topbar extends React.Component {
         </h4>
 
         <div className="topbar__menu" style={{ color: bgColor }}>
-
           {trackUrl
             ? <FaBlocks
                 className={classnames('topbar__icon', {

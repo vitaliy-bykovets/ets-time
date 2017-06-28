@@ -203,16 +203,6 @@ export function loginApi(email, password) {
   });
 }
 
-export function logoutApi(token) {
-  return fetch('/api/v1/auth/logout', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      authorization: token
-    }
-  });
-}
-
 export function meApi(token) {
   return fetch('/api/v1/auth/me', {
     method: 'GET',
