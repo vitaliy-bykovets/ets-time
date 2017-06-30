@@ -14,7 +14,8 @@ module.exports = {
     skill_delete: require('./validators/skill_delete'),
     skill_user_attach: require('./validators/skill_user_attach'),
     skill_list: require('./validators/skill_list'),
-    autocompolete: require('./validators/autocompolete')
+    autocompolete: require('./validators/autocompolete'),
+    stat_user: require('./validators/stat_user')
   },
   role: require('./role'),
   auth: require('./auth'),
