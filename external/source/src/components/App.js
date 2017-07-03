@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import Topbar from './general/Topbar';
 import Tracks from './tracks/Tracks';
 import Users from './users/Users';
+import Skills from './skills/Skills';
 import Login from './general/Login';
 import NotFound from './general/NotFound';
 import Confirm from './general/Confirm';
@@ -32,6 +33,12 @@ class App extends React.Component {
             exact
             path="/users"
             component={Users}
+            props={this.props}
+          />
+          <PrivateRoute
+            exact
+            path="/skills"
+            component={Skills}
             props={this.props}
           />
           <Route exact path="/login" component={Login} />

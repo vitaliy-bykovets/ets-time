@@ -55,8 +55,9 @@ class Topbar extends React.Component {
     const trackUrl =
       location.pathname.includes('tracks') || location.pathname === '/';
     const userUrl = location.pathname.includes('users');
+    const skillsUrl = location.pathname.includes('skills');
     const isOwnerOrPm =
-      (trackUrl || userUrl) &&
+      (trackUrl || userUrl || skillsUrl) &&
       activeUser.roles &&
       (activeUser.roles.includes('owner') || activeUser.roles.includes('pm'));
 
@@ -108,6 +109,15 @@ class Topbar extends React.Component {
                   style={{ background: bgColor }}
                 >
                   users
+                </Link>
+                <Link
+                  to="/skills"
+                  className={classnames('topbar__menu--btn', {
+                    'topbar__menu--active': skillsUrl
+                  })}
+                  style={{ background: bgColor }}
+                >
+                  skills
                 </Link>
               </div>
             : null}
