@@ -190,6 +190,31 @@ export function getUsersApi(token) {
   }).then(parseJSON);
 }
 
+export function getAllSkillsApi(token) {
+  return fetch('/api/v1/skills', {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      authorization: token
+    }
+  }).then(parseJSON);
+}
+
+export function addNewSkillApi(token, parent_id, name, desc) {
+  return fetch('/api/v1/skills', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      authorization: token
+    },
+    body: JSON.stringify({
+      name,
+      parent_id,
+      desc
+    })
+  });
+}
+
 export function loginApi(email, password) {
   return fetch('/api/v1/auth', {
     method: 'POST',
