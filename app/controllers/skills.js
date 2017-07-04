@@ -19,19 +19,12 @@ router.get('/(:user_id)?', list, (req, res, next) => {
     .select('s.*', knex.raw('ifnull(sg.value,0) as user_value'))
     .orderBy('s.name', 'asc')
     .leftJoin('skill_gradation as sg', function() {
-      this.on('sg.skill_id', '=', 's.id').andOn(
-        'sg.user_id',
-        knex.raw('?', [req._user_id])
-      );
+      this.on('sg.skill_id', '=', 's.id').andOn('sg.user_id', knex.raw('?', [req._user_id]));
     })
-    .debug(true)
     .then(rows => {
       let mainSkill = _.filter(rows, row => row.parent_id === null);
       _.each(mainSkill, row => {
-        row['children'] = _.filter(
-          rows,
-          itemrow => itemrow.parent_id === row.id
-        );
+        row['children'] = _.filter(rows, itemrow => itemrow.parent_id === row.id);
       });
       res.json(mainSkill);
     })
@@ -52,10 +45,7 @@ router.put('/', user_attach, (req, res, next) => {
           .then(() => res.status(200).end())
           .catch(next);
       } else {
-        knex('skill_gradation')
-          .insert(req._vars)
-          .then(() => res.status(201).end())
-          .catch(next);
+        knex('skill_gradation').insert(req._vars).then(() => res.status(201).end()).catch(next);
       }
     })
     .catch(next);
@@ -63,10 +53,7 @@ router.put('/', user_attach, (req, res, next) => {
 
 /* Create skill */
 router.post('/', create, (req, res, next) => {
-  knex('skills')
-    .insert(req._vars)
-    .then(() => res.status(201).end())
-    .catch(next);
+  knex('skills').insert(req._vars).then(() => res.status(201).end()).catch(next);
 });
 
 /* Edit skill */
@@ -80,11 +67,7 @@ router.patch('/', edit, (req, res, next) => {
 
 /* Remove skill */
 router.delete('/', remove, (req, res, next) => {
-  knex('skills')
-    .where('id', req.body.id)
-    .del()
-    .then(() => res.status(204).end())
-    .catch(next);
+  knex('skills').where('id', req.body.id).del().then(() => res.status(204).end()).catch(next);
 });
 
 module.exports = router;

@@ -25,14 +25,12 @@ import './styles/statistic.css';
 import './styles/skills.css';
 import './styles/mobile.css';
 import './styles/general.css';
+import './styles/stats.css';
 
 // Service worker
 import registerServiceWorker from './registerServiceWorker';
 
-const store = createStore(
-  rootReducer,
-  composeWithDevTools(applyMiddleware(thunk))
-);
+const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(thunk)));
 
 ReactDOM.render(
   <BrowserRouter>
