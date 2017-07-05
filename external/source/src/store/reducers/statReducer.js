@@ -5,7 +5,8 @@ const initial = {
   per_day: [],
   per_status: [],
   per_months: [],
-  history: []
+  history: [],
+  radar: []
 };
 
 export default function userReducer(state = initial, action = {}) {

@@ -53,6 +53,22 @@ router.get('/:user_id', stat_user, (req, res, next) => {
             callback(null, data);
           })
           .catch(next);
+      },
+      radar: callback => {
+        knex('skills as s')
+          .select('s.name')
+          .select(
+            knex.raw(
+              'ifnull((select sum(sg.value) from skill_gradation as sg where sg.skill_id in (select id from skills where parent_id = s.id) and sg.user_id = ?), 0) as total',
+              [req.params.user_id]
+            )
+          )
+          .whereNull('s.parent_id')
+          .orderBy('s.name', 'asc')
+          .then(data => {
+            callback(null, data);
+          })
+          .catch(next);
       }
     },
     (err, results) => {

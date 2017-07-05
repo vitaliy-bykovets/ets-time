@@ -59,6 +59,23 @@ let dataChartPerMonth = {
     maintainAspectRatio: false
   }
 };
+let dataChartRadar = {
+  type: 'radar',
+  data: {
+    datasets: [
+      {
+        label: 'Skill',
+        data: [],
+        borderColor: 'deepskyblue',
+        borderWidth: 2
+      }
+    ],
+    labels: []
+  },
+  options: {
+    maintainAspectRatio: false
+  }
+};
 
 class Stats extends React.Component {
   constructor(props) {
@@ -73,10 +90,12 @@ class Stats extends React.Component {
     let chartPerStatusCtx = document.getElementById('byStatus').getContext('2d');
     let chartPerDayCtx = document.getElementById('byDay').getContext('2d');
     let chartPerMonthCtx = document.getElementById('byMonth').getContext('2d');
+    let chartRadarCtx = document.getElementById('byRadar').getContext('2d');
 
     this.chartPerStatus = new ChartJS(chartPerStatusCtx, dataChartPerStatus);
     this.chartPerDay = new ChartJS(chartPerDayCtx, dataChartPerDay);
     this.chartPerMonth = new ChartJS(chartPerMonthCtx, dataChartPerMonth);
+    this.chartRadar = new ChartJS(chartRadarCtx, dataChartRadar);
   }
 
   componentWillReceiveProps(np) {
@@ -100,19 +119,22 @@ class Stats extends React.Component {
     }
 
     // update chart per months if we need this
-    console.log(sum(map(np.per_months, 'total')));
     if (sum(map(np.per_months, 'total')) !== sum(map(this.props.per_months, 'total'))) {
-      console.log('134');
       dataChartPerMonth.data.labels = map(np.per_months, 'month');
       dataChartPerMonth.data.datasets[0].data = map(np.per_months, 'total');
       this.chartPerMonth.update();
     }
+
+    dataChartRadar.data.labels = map(np.radar, 'name');
+    dataChartRadar.data.datasets[0].data = map(np.radar, 'total');
+    this.chartRadar.update();
   }
 
   componentWillUnmount() {
     this.chartPerStatus = null;
     this.chartPerDay = null;
     this.chartPerMonth = null;
+    this.chartRadar = null;
   }
 
   render() {
@@ -132,6 +154,9 @@ class Stats extends React.Component {
           <div className="stats">
             <canvas id="byMonth" />
           </div>
+          <div className="stats">
+            <canvas id="byRadar" />
+          </div>
         </div>
       </div>
     );
@@ -143,7 +168,8 @@ function mapStateToProps(state) {
     token: state.generalReducer.token,
     per_status: state.statReducer.per_status,
     per_day: state.statReducer.per_day,
-    per_months: state.statReducer.per_months
+    per_months: state.statReducer.per_months,
+    radar: state.statReducer.radar
   };
 }
 

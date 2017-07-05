@@ -14,7 +14,8 @@ export function getStatByUserID(token, user_id) {
             per_day: resp.per_day,
             per_status: resp.per_status,
             per_months: resp.per_months,
-            history: resp.per_day
+            history: resp.per_day,
+            radar: resp.radar
           }
         });
     });
