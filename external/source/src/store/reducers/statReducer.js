@@ -4,6 +4,7 @@ import { SET_STAT } from './../actions/types';
 const initial = {
   per_day: [],
   per_status: [],
+  per_months: [],
   history: []
 };
 

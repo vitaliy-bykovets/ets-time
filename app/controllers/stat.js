@@ -3,7 +3,7 @@ const express = require('express');
 const router = express.Router();
 const { validators: { stat_user } } = require('./../middlewares');
 const knex = require('./../libs/knex');
-const { map, find } = require('lodash');
+const { map, find, each } = require('lodash');
 const moment = require('moment');
 const async = require('async');
 
@@ -38,6 +38,20 @@ router.get('/:user_id', stat_user, (req, res, next) => {
           .whereRaw('DATE_FORMAT(tl.date_task, "%Y-%m") = ?', [req.query.month])
           .groupBy('tl.status')
           .then(data => callback(null, data))
+          .catch(next);
+      },
+      per_months: callback => {
+        knex('track_lines as tl')
+          .select(knex.raw("DATE_FORMAT(tl.date_task, '%Y-%m') as month"))
+          .select(knex.raw('sum(tl.hours) as total'))
+          .where('tl.user_id', req.params.user_id)
+          .where('tl.status', 'Accepted')
+          .groupBy(knex.raw("DATE_FORMAT(tl.date_task, '%Y-%m')"))
+          .orderBy(knex.raw('month'), 'asc')
+          .then(data => {
+            each(data, row => (row.month = moment(row.month).format('YYYY MMM')));
+            callback(null, data);
+          })
           .catch(next);
       }
     },

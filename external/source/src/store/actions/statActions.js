@@ -1,9 +1,6 @@
 // Types
 import { SET_STAT } from './types';
 
-// Actions
-import { setErrors } from './generalActions';
-
 // Helpers
 import { getStatPerUser } from './../../shared/ApiService';
 
@@ -16,6 +13,7 @@ export function getStatByUserID(token, user_id) {
           payload: {
             per_day: resp.per_day,
             per_status: resp.per_status,
+            per_months: resp.per_months,
             history: resp.per_day
           }
         });

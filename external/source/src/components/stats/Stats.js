@@ -23,9 +23,10 @@ let dataChartPerStatus = {
     ],
     labels: []
   },
-  options: {}
+  options: {
+    maintainAspectRatio: false
+  }
 };
-
 let dataChartPerDay = {
   type: 'bar',
   data: {
@@ -38,19 +39,30 @@ let dataChartPerDay = {
     ],
     labels: []
   },
-  options: {}
+  options: {
+    maintainAspectRatio: false
+  }
 };
-
-// Help service
-//import './../../shared/ApiService';
-
-// Icons
-//import FaPlus from 'react-icons/lib/fa/plus-circle';
+let dataChartPerMonth = {
+  type: 'bar',
+  data: {
+    datasets: [
+      {
+        label: 'Total Accepted Hours',
+        data: [],
+        backgroundColor: colors.Accepted
+      }
+    ],
+    labels: []
+  },
+  options: {
+    maintainAspectRatio: false
+  }
+};
 
 class Stats extends React.Component {
   constructor(props) {
     super(props);
-    this.chartPerStatus = null;
     this.state = {
       isGet: false
     };
@@ -60,8 +72,11 @@ class Stats extends React.Component {
   componentDidMount() {
     let chartPerStatusCtx = document.getElementById('byStatus').getContext('2d');
     let chartPerDayCtx = document.getElementById('byDay').getContext('2d');
+    let chartPerMonthCtx = document.getElementById('byMonth').getContext('2d');
+
     this.chartPerStatus = new ChartJS(chartPerStatusCtx, dataChartPerStatus);
     this.chartPerDay = new ChartJS(chartPerDayCtx, dataChartPerDay);
+    this.chartPerMonth = new ChartJS(chartPerMonthCtx, dataChartPerMonth);
   }
 
   componentWillReceiveProps(np) {
@@ -83,24 +98,39 @@ class Stats extends React.Component {
       dataChartPerDay.data.datasets[0].data = map(np.per_day, 'total');
       this.chartPerDay.update();
     }
+
+    // update chart per months if we need this
+    console.log(sum(map(np.per_months, 'total')));
+    if (sum(map(np.per_months, 'total')) !== sum(map(this.props.per_months, 'total'))) {
+      console.log('134');
+      dataChartPerMonth.data.labels = map(np.per_months, 'month');
+      dataChartPerMonth.data.datasets[0].data = map(np.per_months, 'total');
+      this.chartPerMonth.update();
+    }
   }
 
   componentWillUnmount() {
     this.chartPerStatus = null;
+    this.chartPerDay = null;
+    this.chartPerMonth = null;
   }
 
   render() {
     return (
       <div>
+
         <div className="container">
-          <div className="stats" style={{ position: 'relative', height: '40vh', width: '80vw' }}>
+          <div className="statheader statheader--block">
+            by user
+          </div>
+          <div className="stats">
             <canvas id="byStatus" />
           </div>
           <div className="stats">
-            <canvas id="byDay" height="20vh" width="80vw" />
+            <canvas id="byDay" />
           </div>
-          <div className="stats-full">
-            <canvas id="byHistory" height="25vh" width="80vw" />
+          <div className="stats">
+            <canvas id="byMonth" />
           </div>
         </div>
       </div>
@@ -112,7 +142,8 @@ function mapStateToProps(state) {
   return {
     token: state.generalReducer.token,
     per_status: state.statReducer.per_status,
-    per_day: state.statReducer.per_day
+    per_day: state.statReducer.per_day,
+    per_months: state.statReducer.per_months
   };
 }
 
