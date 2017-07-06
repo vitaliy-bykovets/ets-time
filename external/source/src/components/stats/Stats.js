@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import ChartJS from 'chart.js';
-import { sum, map } from 'lodash';
+import { sum, map, each } from 'lodash';
 
 // get api
 import { getStatByUserID } from './../../store/actions/statActions';
@@ -15,12 +15,7 @@ const colors = {
 let dataChartPerStatus = {
   type: 'pie',
   data: {
-    datasets: [
-      {
-        data: [],
-        backgroundColor: []
-      }
-    ],
+    datasets: [],
     labels: []
   },
   options: {
@@ -30,13 +25,7 @@ let dataChartPerStatus = {
 let dataChartPerDay = {
   type: 'bar',
   data: {
-    datasets: [
-      {
-        label: 'Hours',
-        data: [],
-        backgroundColor: colors.Accepted
-      }
-    ],
+    datasets: [],
     labels: []
   },
   options: {
@@ -46,13 +35,7 @@ let dataChartPerDay = {
 let dataChartPerMonth = {
   type: 'bar',
   data: {
-    datasets: [
-      {
-        label: 'Total Accepted Hours',
-        data: [],
-        backgroundColor: colors.Accepted
-      }
-    ],
+    datasets: [],
     labels: []
   },
   options: {
@@ -64,7 +47,7 @@ let dataChartRadar = {
   data: {
     datasets: [
       {
-        label: 'Skill',
+        label: 'Skill percentage',
         data: [],
         borderColor: 'deepskyblue',
         borderWidth: 2
@@ -73,7 +56,13 @@ let dataChartRadar = {
     labels: []
   },
   options: {
-    maintainAspectRatio: false
+    maintainAspectRatio: false,
+    scale: {
+      ticks: {
+        min: 0,
+        max: 100
+      }
+    }
   }
 };
 
@@ -103,30 +92,54 @@ class Stats extends React.Component {
       this.setState({ isGet: true });
       this.props.getStatByUserID(this.props.token, 1);
     }
-    // update chart per status if we need this
+    let { types } = this.props;
+    // pie chart by status in current month
     if (sum(map(np.per_status, 'total')) !== sum(map(this.props.per_status, 'total'))) {
       dataChartPerStatus.data.labels = map(np.per_status, 'status');
-      dataChartPerStatus.data.datasets[0].data = map(np.per_status, 'total');
-      dataChartPerStatus.data.datasets[0].backgroundColor = map(np.per_status, item => colors[item.status]);
+      dataChartPerStatus.data.datasets = [];
+      dataChartPerStatus.data.datasets.push({
+        data: map(np.per_status, 'total'),
+        backgroundColor: map(np.per_status, item => colors[item.status])
+      });
       this.chartPerStatus.update();
     }
 
-    // update chart per day if we need this
+    // update bar chart per day
     if (sum(map(np.per_day, 'total')) !== sum(map(this.props.per_day, 'total'))) {
       dataChartPerDay.data.labels = map(np.per_day, 'date');
-      dataChartPerDay.data.datasets[0].data = map(np.per_day, 'total');
+      dataChartPerDay.data.datasets = [];
+      each(types, type => {
+        dataChartPerDay.data.datasets.push({
+          label: type,
+          data: map(np.per_day, type),
+          backgroundColor: colors[type]
+        });
+      });
       this.chartPerDay.update();
     }
 
     // update chart per months if we need this
     if (sum(map(np.per_months, 'total')) !== sum(map(this.props.per_months, 'total'))) {
       dataChartPerMonth.data.labels = map(np.per_months, 'month');
-      dataChartPerMonth.data.datasets[0].data = map(np.per_months, 'total');
+      each(types, type => {
+        dataChartPerMonth.data.datasets.push({
+          label: type,
+          data: map(np.per_months, type),
+          backgroundColor: colors[type]
+        });
+      });
       this.chartPerMonth.update();
     }
 
+    // update radar chart
+
     dataChartRadar.data.labels = map(np.radar, 'name');
-    dataChartRadar.data.datasets[0].data = map(np.radar, 'total');
+    dataChartRadar.data.datasets = [];
+    dataChartRadar.data.datasets.push({
+      borderColor: 'deepskyblue',
+      borderWidth: 2,
+      data: map(np.radar, 'percent')
+    });
     this.chartRadar.update();
   }
 
@@ -169,7 +182,8 @@ function mapStateToProps(state) {
     per_status: state.statReducer.per_status,
     per_day: state.statReducer.per_day,
     per_months: state.statReducer.per_months,
-    radar: state.statReducer.radar
+    radar: state.statReducer.radar,
+    types: state.trackReducer.statusTypes
   };
 }
 
