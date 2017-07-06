@@ -14,12 +14,9 @@
   flex-wrap: wrap;
 }
 
-.statheader--block {
-  margin: 5px;
-}
 .stats {
   width: 100%;
-  max-width: 490px;
+  max-width: calc(50% - 10px);
   background: #ffffff;
   border-radius: 2px;
   padding: 10px;
@@ -27,8 +24,8 @@
   height: 300px;
   box-sizing: border-box;
 }
-@media (max-width: 1080px) {
-  .stats {
-    max-width: 100%;
-  }
-}
+/*@media (max-width: 1080px) {*/
+  /*.stats {*/
+    /*max-width: 100%;*/
+  /*}*/
+/*}*/

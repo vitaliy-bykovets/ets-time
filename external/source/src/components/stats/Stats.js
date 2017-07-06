@@ -153,10 +153,16 @@ class Stats extends React.Component {
   render() {
     return (
       <div>
-
         <div className="container">
-          <div className="statheader statheader--block">
-            by user
+          <div className="statistic statistic--block">
+            <div className="statistic__wrapper">
+              <span className="statistic__number">0</span>
+              <span className="statistic__label">tracks</span>
+            </div>
+            <div className="statistic__wrapper">
+              <span className="statistic__number">-</span>
+              <span className="statistic__label">top worker</span>
+            </div>
           </div>
           <div className="stats">
             <canvas id="byStatus" />
