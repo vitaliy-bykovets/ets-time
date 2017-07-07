@@ -131,7 +131,8 @@ class Stats extends React.Component {
     dataChartRadar.data.datasets.push({
       borderColor: 'deepskyblue',
       borderWidth: 2,
-      data: map(np.radar, 'percent')
+      data: map(np.radar, 'percent'),
+      label: 'Skill percentage'
     });
     this.chartRadar.update();
   }
