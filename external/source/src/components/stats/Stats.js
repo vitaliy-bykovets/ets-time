@@ -1,10 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import ChartJS from 'chart.js';
-import { sum, map, each } from 'lodash';
+import { map, each } from 'lodash';
 
 // get api
 import { getStatByUserID } from './../../store/actions/statActions';
+import FaFilter from 'react-icons/lib/fa/filter';
+import Filters from './Filters';
 
 const colors = {
   Declined: '#FF6E40',
@@ -70,7 +72,8 @@ class Stats extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      isGet: false
+      isGet: false,
+      showFilters: false
     };
   }
 
@@ -88,51 +91,41 @@ class Stats extends React.Component {
   }
 
   componentWillReceiveProps(np) {
-    if (!this.state.isGet) {
-      this.setState({ isGet: true });
-      this.props.getStatByUserID(this.props.token, 1);
-    }
     let { types } = this.props;
     // pie chart by status in current month
-    if (sum(map(np.per_status, 'total')) !== sum(map(this.props.per_status, 'total'))) {
-      dataChartPerStatus.data.labels = map(np.per_status, 'status');
-      dataChartPerStatus.data.datasets = [];
-      dataChartPerStatus.data.datasets.push({
-        data: map(np.per_status, 'total'),
-        backgroundColor: map(np.per_status, item => colors[item.status])
-      });
-      this.chartPerStatus.update();
-    }
+    dataChartPerStatus.data.labels = map(np.per_status, 'status');
+    dataChartPerStatus.data.datasets = [];
+    dataChartPerStatus.data.datasets.push({
+      data: map(np.per_status, 'total'),
+      backgroundColor: map(np.per_status, item => colors[item.status])
+    });
+    this.chartPerStatus.update();
 
     // update bar chart per day
-    if (sum(map(np.per_day, 'total')) !== sum(map(this.props.per_day, 'total'))) {
-      dataChartPerDay.data.labels = map(np.per_day, 'date');
-      dataChartPerDay.data.datasets = [];
-      each(types, type => {
-        dataChartPerDay.data.datasets.push({
-          label: type,
-          data: map(np.per_day, type),
-          backgroundColor: colors[type]
-        });
+    dataChartPerDay.data.labels = map(np.per_day, 'date');
+    dataChartPerDay.data.datasets = [];
+    each(types, type => {
+      dataChartPerDay.data.datasets.push({
+        label: type,
+        data: map(np.per_day, type),
+        backgroundColor: colors[type]
       });
-      this.chartPerDay.update();
-    }
+    });
+    this.chartPerDay.update();
 
     // update chart per months if we need this
-    if (sum(map(np.per_months, 'total')) !== sum(map(this.props.per_months, 'total'))) {
-      dataChartPerMonth.data.labels = map(np.per_months, 'month');
-      each(types, type => {
-        dataChartPerMonth.data.datasets.push({
-          label: type,
-          data: map(np.per_months, type),
-          backgroundColor: colors[type]
-        });
+    dataChartPerMonth.data.labels = map(np.per_months, 'month');
+    dataChartPerMonth.data.datasets = [];
+    each(types, type => {
+      dataChartPerMonth.data.datasets.push({
+        label: type,
+        data: map(np.per_months, type),
+        backgroundColor: colors[type]
       });
-      this.chartPerMonth.update();
-    }
+    });
+    this.chartPerMonth.update();
 
     // update radar chart
-
     dataChartRadar.data.labels = map(np.radar, 'name');
     dataChartRadar.data.datasets = [];
     dataChartRadar.data.datasets.push({
@@ -150,18 +143,28 @@ class Stats extends React.Component {
     this.chartRadar = null;
   }
 
+  toggleFilters = () => {
+    this.setState({ showFilters: !this.state.showFilters });
+  };
+
+  setHeaderData = (header_period, header_username) => {
+    this.setState({ header_period, header_username });
+  };
+
   render() {
+    const { bgColor } = this.props;
+
     return (
       <div>
         <div className="container">
           <div className="statistic statistic--block">
             <div className="statistic__wrapper">
-              <span className="statistic__number">0</span>
-              <span className="statistic__label">tracks</span>
+              <span className="statistic__number">{this.state.header_period}</span>
+              <span className="statistic__label">Period</span>
             </div>
             <div className="statistic__wrapper">
-              <span className="statistic__number">-</span>
-              <span className="statistic__label">top worker</span>
+              <span className="statistic__number">{this.state.header_username}</span>
+              <span className="statistic__label">Member</span>
             </div>
           </div>
           <div className="stats">
@@ -176,6 +179,18 @@ class Stats extends React.Component {
           <div className="stats">
             <canvas id="byRadar" />
           </div>
+
+          <Filters
+            toggleFilters={this.toggleFilters}
+            parentState={this.state}
+            getStatByUserID={this.props.getStatByUserID}
+            setHeaderData={this.setHeaderData}
+          />
+          <div className="mainBtns">
+            <button className="mainBtns__btn" onClick={this.toggleFilters} style={{ color: bgColor }}>
+              <FaFilter />
+            </button>
+          </div>
         </div>
       </div>
     );
@@ -185,11 +200,13 @@ class Stats extends React.Component {
 function mapStateToProps(state) {
   return {
     token: state.generalReducer.token,
+    bgColor: state.generalReducer.bgColor,
     per_status: state.statReducer.per_status,
     per_day: state.statReducer.per_day,
     per_months: state.statReducer.per_months,
     radar: state.statReducer.radar,
-    types: state.trackReducer.statusTypes
+    types: state.trackReducer.statusTypes,
+    activeUser: state.userReducer.activeUser
   };
 }
 

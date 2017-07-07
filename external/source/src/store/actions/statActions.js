@@ -4,9 +4,9 @@ import { SET_STAT } from './types';
 // Helpers
 import { getStatPerUser } from './../../shared/ApiService';
 
-export function getStatByUserID(token, user_id) {
+export function getStatByUserID(token, user_id, date) {
   return dispatch => {
-    getStatPerUser(token, user_id).then(resp => {
+    getStatPerUser(token, user_id, date).then(resp => {
       if (resp.per_day)
         dispatch({
           type: SET_STAT,

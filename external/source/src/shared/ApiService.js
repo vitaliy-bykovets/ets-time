@@ -1,7 +1,7 @@
 import { parseJSON, formatDateToServer } from './HelpService';
 
-export function getStatPerUser(token, user_id) {
-  return fetch('/api/v1/stat/' + user_id + '?month=2017-06-01', {
+export function getStatPerUser(token, user_id, date) {
+  return fetch('/api/v1/stat/' + user_id + '?month=' + date, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
