@@ -39,17 +39,18 @@ export function showClearFilters(filters) {
 
 // Get initial filters
 export function getInitFilters() {
-  const startWeek = getStartOfWeek();
-  const endWeek = getEndOfWeek();
-
+  let dates = [];
+  for (let i = 0; i < 12; i++) {
+    let label_human = moment().subtract(i, 'month').format('YYYY MMM');
+    let raw_label = moment().subtract(i, 'month').format('YYYY-MM-01');
+    dates.push({ value: i, raw_label: raw_label, label: label_human });
+  }
   return {
-    type_work: '',
-    status: '',
-    project: '',
-    task: '',
-    startDate: startWeek,
-    endDate: endWeek,
-    user: ''
+    user: 0,
+    date: moment().format('YYYY-MM-01'),
+    state_selected_date: 0,
+    state_selected_user: null,
+    dates
   };
 }
 

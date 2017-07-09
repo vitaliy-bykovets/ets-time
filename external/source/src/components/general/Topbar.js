@@ -52,11 +52,13 @@ class Topbar extends React.Component {
   render() {
     const { viewType, location, bgColor, activeUser } = this.props;
     const { settingsOpen } = this.state;
-    const trackUrl =
-      location.pathname.includes('tracks') || location.pathname === '/';
+    const trackUrl = location.pathname.includes('tracks') || location.pathname === '/';
     const userUrl = location.pathname.includes('users');
+    const skillsUrl = location.pathname.includes('skills');
+    const statUrl = location.pathname.includes('stats');
+
     const isOwnerOrPm =
-      (trackUrl || userUrl) &&
+      (trackUrl || userUrl || skillsUrl || statUrl) &&
       activeUser.roles &&
       (activeUser.roles.includes('owner') || activeUser.roles.includes('pm'));
 
@@ -64,9 +66,7 @@ class Topbar extends React.Component {
       <div className="topbar">
         <h4 className="topbar__headline">
           <img src={logo} alt="Selecto" height="20px" />
-          <span className="p-l-20">{`${getFirstLetter(
-            activeUser.first_name
-          )}. ${activeUser.last_name}`}</span>
+          <span className="p-l-20">{`${getFirstLetter(activeUser.first_name)}. ${activeUser.last_name}`}</span>
           <FaPower className="logout" onClick={this.logoutHandler} />
         </h4>
 
@@ -109,18 +109,30 @@ class Topbar extends React.Component {
                 >
                   users
                 </Link>
+                <Link
+                  to="/skills"
+                  className={classnames('topbar__menu--btn', {
+                    'topbar__menu--active': skillsUrl
+                  })}
+                  style={{ background: bgColor }}
+                >
+                  skills
+                </Link>
+                <Link
+                  to="/stats"
+                  className={classnames('topbar__menu--btn', {
+                    'topbar__menu--active': statUrl
+                  })}
+                  style={{ background: bgColor }}
+                >
+                  stats
+                </Link>
               </div>
             : null}
 
           <div className="topbar__icons" style={{ color: bgColor }}>
-            <FaCog
-              className="topbar__icon p-l-20"
-              onClick={this.toggleSettings}
-            />
-            <Settings
-              settingsOpen={settingsOpen}
-              toggleSettings={this.toggleSettings}
-            />
+            <FaCog className="topbar__icon p-l-20" onClick={this.toggleSettings} />
+            <Settings settingsOpen={settingsOpen} toggleSettings={this.toggleSettings} />
           </div>
         </div>
       </div>

@@ -1,5 +1,3 @@
 'use strict';
-let env = require('./../config');
-let knex = require('knex')(env.db);
-
-module.exports = knex;
+const knex_config = require('./../config').db;
+module.exports = require('knex')(knex_config);
