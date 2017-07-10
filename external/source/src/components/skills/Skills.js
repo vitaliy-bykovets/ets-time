@@ -1,16 +1,15 @@
-import React from 'react';
-import { connect } from 'react-redux';
+import React from "react";
+import { connect } from "react-redux";
 
 // Help service
-import { getAllSkillsApi, addNewSkillApi } from './../../shared/ApiService';
-
+import { getAllSkillsApi, addNewSkillApi } from "./../../shared/ApiService";
 // Icons
-import FaPlus from 'react-icons/lib/fa/plus-circle';
+import FaPlus from "react-icons/lib/fa/plus-circle";
 
 class Skills extends React.Component {
   state = {
     skills: [],
-    newSkillText: ''
+    newSkillText: ""
   };
 
   componentDidMount() {
@@ -29,14 +28,14 @@ class Skills extends React.Component {
       s.showInput = false;
     });
     skills[index].showInput = true;
-    this.setState({ skills, newSkillText: '' });
+    this.setState({ skills, newSkillText: "" });
   };
 
   addNewSkillHandler = index => {
     let { token } = this.props;
     let parentId = this.state.skills[index].id;
 
-    addNewSkillApi(token, parentId, this.state.newSkillText, '').then(resp => {
+    addNewSkillApi(token, parentId, this.state.newSkillText, "").then(resp => {
       if (resp.status >= 200 && resp.status < 300) {
         getAllSkillsApi(token).then(resp => {
           this.setState({ skills: resp });
@@ -46,17 +45,17 @@ class Skills extends React.Component {
   };
 
   render() {
-    const allSkills = this.state.skills.map((s, index) =>
+    const allSkills = this.state.skills.map((s, index) => (
       <div key={index} className="skills-wrapper">
         <span className="skills__parent">
           {s.name}
         </span>
 
-        {s.children.map((c, index) =>
+        {s.children.map((c, index) => (
           <p key={index} className="skills__children">
             - {c.name}
           </p>
-        )}
+        ))}
 
         {!s.showInput
           ? <button
@@ -86,7 +85,7 @@ class Skills extends React.Component {
             </div>
           : null}
       </div>
-    );
+    ));
 
     return (
       <div
@@ -103,7 +102,8 @@ class Skills extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    token: state.generalReducer.token
+    token: state.generalReducer.token,
+    users: state.userReducer.users
   };
 }
 

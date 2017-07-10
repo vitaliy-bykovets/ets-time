@@ -1,0 +1,17 @@
+.select-user {
+    max-width: 200px;
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 10px;
+}
+
+.skills__parent {
+    margin-bottom: 20px;
+    display: block;
+}
+
+.skills__children {
+    display: flex;
+    justify-content: space-between;
+}

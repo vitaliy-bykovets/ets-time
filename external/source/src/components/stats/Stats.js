@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import ChartJS from 'chart.js';
+import ChartJS from 'chart';
 import { map, each } from 'lodash';
 
 // get api
