@@ -5,86 +5,35 @@ import { map, each } from 'lodash';
 
 // get api
 import { getStatByUserID } from './../../store/actions/statActions';
+
+// Icons
 import FaFilter from 'react-icons/lib/fa/filter';
+
+// Components
 import Filters from './Filters';
 
-const colors = {
-  Declined: '#FF6E40',
-  Accepted: '#4CAF50',
-  Open: '#FFC107'
-};
-
-let dataChartPerStatus = {
-  type: 'pie',
-  data: {
-    datasets: [],
-    labels: []
-  },
-  options: {
-    maintainAspectRatio: false
-  }
-};
-let dataChartPerDay = {
-  type: 'bar',
-  data: {
-    datasets: [],
-    labels: []
-  },
-  options: {
-    maintainAspectRatio: false
-  }
-};
-let dataChartPerMonth = {
-  type: 'bar',
-  data: {
-    datasets: [],
-    labels: []
-  },
-  options: {
-    maintainAspectRatio: false
-  }
-};
-let dataChartRadar = {
-  type: 'radar',
-  data: {
-    datasets: [
-      {
-        label: 'Skill percentage',
-        data: [],
-        borderColor: 'deepskyblue',
-        borderWidth: 2
-      }
-    ],
-    labels: []
-  },
-  options: {
-    maintainAspectRatio: false,
-    scale: {
-      ticks: {
-        min: 0,
-        max: 100
-      }
-    }
-  }
-};
+// Chart settings
+import {
+  colors,
+  dataChartPerStatus,
+  dataChartPerDay,
+  dataChartPerMonth,
+  dataChartRadar
+} from './chartSettings';
 
 class Stats extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      isGet: false,
-      showFilters: false
-    };
-  }
+  state = {
+    isGet: false,
+    showFilters: false
+  };
 
   /* init charts */
   componentDidMount() {
-    let chartPerStatusCtx = document
-      .getElementById('byStatus')
-      .getContext('2d');
-    let chartPerDayCtx = document.getElementById('byDay').getContext('2d');
-    let chartPerMonthCtx = document.getElementById('byMonth').getContext('2d');
-    let chartRadarCtx = document.getElementById('byRadar').getContext('2d');
+    const { byStatus, byDay, byMonth, byRadar } = this.refs;
+    const chartPerStatusCtx = byStatus.getContext('2d');
+    const chartPerDayCtx = byDay.getContext('2d');
+    const chartPerMonthCtx = byMonth.getContext('2d');
+    const chartRadarCtx = byRadar.getContext('2d');
 
     this.chartPerStatus = new ChartJS(chartPerStatusCtx, dataChartPerStatus);
     this.chartPerDay = new ChartJS(chartPerDayCtx, dataChartPerDay);
@@ -93,7 +42,8 @@ class Stats extends React.Component {
   }
 
   componentWillReceiveProps(np) {
-    let { types } = this.props;
+    const { types } = this.props;
+
     // pie chart by status in current month
     dataChartPerStatus.data.labels = map(np.per_status, 'status');
     dataChartPerStatus.data.datasets = [];
@@ -175,16 +125,16 @@ class Stats extends React.Component {
             </div>
           </div>
           <div className="stats">
-            <canvas id="byStatus" />
+            <canvas ref="byStatus" />
           </div>
           <div className="stats">
-            <canvas id="byDay" />
+            <canvas ref="byDay" />
           </div>
           <div className="stats">
-            <canvas id="byMonth" />
+            <canvas ref="byMonth" />
           </div>
           <div className="stats">
-            <canvas id="byRadar" />
+            <canvas ref="byRadar" />
           </div>
 
           <Filters

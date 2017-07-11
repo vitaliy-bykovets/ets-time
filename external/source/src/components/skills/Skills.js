@@ -45,20 +45,22 @@ class Skills extends React.Component {
   };
 
   render() {
-    const allSkills = this.state.skills.map((s, index) => (
+    const allSkills = this.state.skills.map((s, index) =>
       <div key={index} className="skills-wrapper">
         <span className="skills__parent">
-          <span>{s.name}</span>
+          <span>
+            {s.name}
+          </span>
           <span className="f-s-14 font-regular">
-            {' '}-{' '}{s.children.length ? s.children.length : 0}
+            {' '}- {s.children.length ? s.children.length : 0}
           </span>
         </span>
 
-        {s.children.map((c, index) => (
+        {s.children.map((c, index) =>
           <p key={index} className="skills__children">
             - {c.name}
           </p>
-        ))}
+        )}
 
         {!s.showInput
           ? <button
@@ -88,16 +90,18 @@ class Skills extends React.Component {
             </div>
           : null}
       </div>
-    ));
+    );
 
     return (
       <div
         className="container skills-container"
         style={{ background: this.props.bgColor }}
       >
-        <div className="skills">
-          {allSkills}
-        </div>
+        {this.state.skills.length
+          ? <div className="skills">
+              {allSkills}
+            </div>
+          : null}
       </div>
     );
   }
