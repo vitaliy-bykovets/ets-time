@@ -1,11 +1,11 @@
-import React from "react";
-import { connect } from "react-redux";
+import React from 'react';
+import { connect } from 'react-redux';
 import {
   getSkillsFromUserApi,
   attachSkillUser
-} from "./../../shared/ApiService";
-import { getUsers } from "./../../store/actions/userActions";
-import { UsersSelect, ParentSkill } from "./index";
+} from './../../shared/ApiService';
+import { getUsers } from './../../store/actions/userActions';
+import { UsersSelect, ParentSkill } from './index';
 
 class SkillsUser extends React.Component {
   state = {
@@ -20,7 +20,7 @@ class SkillsUser extends React.Component {
 
   changeState = (props, selected) => {
     switch (props) {
-      case "user":
+      case 'user':
         const _id = !selected ? null : selected.id;
         this.cacheSelectedUser(_id);
         this.setState({ state_selected_user: _id });
@@ -38,12 +38,12 @@ class SkillsUser extends React.Component {
   };
 
   cacheSelectedUser = _id => {
-    localStorage.setItem("selected-user-skills", _id);
+    localStorage.setItem('selected-user-skills', _id);
   };
 
   getCacheSelectedUser = () => {
-    if (localStorage.getItem("selected-user-skills")) {
-      let _id = +localStorage.getItem("selected-user-skills");
+    if (localStorage.getItem('selected-user-skills')) {
+      let _id = +localStorage.getItem('selected-user-skills');
 
       this.setState({ state_selected_user: _id });
       getSkillsFromUserApi(this.props.token, _id).then(resp => {
@@ -61,14 +61,14 @@ class SkillsUser extends React.Component {
   render() {
     const { state_selected_user } = this.state;
 
-    const allSkills = this.state.skills.map((skill, index) => (
+    const allSkills = this.state.skills.map((skill, index) =>
       <ParentSkill
         key={index}
         parentSkill={skill}
         selectedUser={state_selected_user}
         saveSkillUser={this.saveSkillUser}
       />
-    ));
+    );
 
     return (
       <div className="container skills-user-wrapper">
@@ -77,9 +77,11 @@ class SkillsUser extends React.Component {
           state_selected_user={state_selected_user}
           changeState={this.changeState}
         />
-        <div className="skills">
-          {allSkills}
-        </div>
+        {this.state.skills.length
+          ? <div className="skills">
+              {allSkills}
+            </div>
+          : null}
       </div>
     );
   }
