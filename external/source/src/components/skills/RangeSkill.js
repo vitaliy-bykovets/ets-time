@@ -32,6 +32,11 @@ class RangeSkill extends React.Component {
     this.updateColor(value);
   }
 
+  componentWillReceiveProps(nextProps) {
+    const { value } = nextProps;
+    this.handleChange(value);
+  }
+
   handleChange = (value) => {
     this.setState({
       value: value
