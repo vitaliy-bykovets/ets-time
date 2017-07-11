@@ -6,7 +6,7 @@ class RangeSkill extends React.Component {
   classesGrad = {
     junior: 'slider--yellow',
     middle: 'slider--orange',
-    senior: 'slider--green'
+    senior: 'slider--red'
   };
 
   state = {

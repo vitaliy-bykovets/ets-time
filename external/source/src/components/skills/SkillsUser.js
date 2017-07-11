@@ -80,16 +80,17 @@ class SkillsUser extends React.Component {
         <span className="skills__parent">
           {s.name}
         </span>
-
-        {s.children.map((c, index) => (
-          <div key={index} className="skills__children">
-            - {c.name}
+        <div className="skills__children__outer">
+          {s.children.map((c, index) => (
+            <div key={index} className="skills__children">
+              - {c.name}
               <RangeSkill value={c.user_value}
                           user_id={state_selected_user}
                           skillId={c.id}
                           onSave={this.saveSkillUser} />
-          </div>
-        ))}
+            </div>
+          ))}
+        </div>
       </div>
     ));
 
