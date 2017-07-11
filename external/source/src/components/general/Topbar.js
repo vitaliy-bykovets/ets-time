@@ -52,6 +52,7 @@ class Topbar extends React.Component {
     this.props.setActiveUser({ first_name: '', last_name: '' });
     this.props.setToken('');
     localStorage.removeItem('token');
+    this.props.history.push('/login');
   };
 
   render() {
@@ -74,7 +75,9 @@ class Topbar extends React.Component {
         <h4 className="topbar__headline">
           <img src={logo} alt="Selecto" height="20px" />
           <span className="p-l-20">
-            {`${getFirstLetter(activeUser.first_name)}. ${activeUser.last_name}`}
+            {`${getFirstLetter(
+              activeUser.first_name
+            )}. ${activeUser.last_name}`}
           </span>
           <FaPower className="logout" onClick={this.logoutHandler} />
         </h4>
