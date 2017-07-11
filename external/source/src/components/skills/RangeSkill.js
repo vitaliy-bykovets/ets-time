@@ -50,7 +50,6 @@ class RangeSkill extends React.Component {
 
     return (
       <div className='slider'>
-        <div className="value">{value}</div>
         <Slider
           className={classRange}
           min={min}
@@ -64,7 +63,7 @@ class RangeSkill extends React.Component {
             value: value
           })}
         />
-        <div className='value value--max'>{max}</div>
+        <div className="value">{value}</div>
       </div>
     )
   }
