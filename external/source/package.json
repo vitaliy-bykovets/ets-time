@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "chart": "^0.1.2",
     "classnames": "^2.2.5",
     "lodash": "^4.17.4",
     "moment": "^2.18.1",
@@ -10,6 +11,7 @@
     "react-datepicker": "^0.47.0",
     "react-dom": "^15.5.4",
     "react-icons": "^2.2.5",
+    "react-rangeslider": "^2.1.0",
     "react-redux": "^5.0.5",
     "react-router-dom": "^4.1.1",
     "react-select": "^1.0.0-rc.5",
