@@ -24,18 +24,8 @@ app.use(function(req, res, next) {
   next(err);
 });
 
-
-app.use(function (req, res, next) {
-    res.setHeader("Access-Control-Allow-Origin", "http://127.0.0.1:4200");
-    res.setHeader("Access-Control-Allow-Credentials", "true");
-    res.setHeader("Access-Control-Allow-Methods", "POST, GET, HEAD, PATCH");
-    res.setHeader("Access-Control-Allow-Headers", "accept");
-    next();
-});
-
 // error handler
 app.use(function(err, req, res, next) {
-
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};

@@ -1,5 +1,5 @@
 'use strict';
-const _ = require('lodash');
+const { pick } = require('lodash');
 const Validator = require('./Validator');
 const env = require('./../../config');
 const knex = require('./../../libs/knex');
@@ -30,8 +30,7 @@ module.exports = (req, res, next) => {
       .count('* as c')
       .then(count => {
         if (count.c) {
-          let vars = _.pick(req.body, ['project', 'task', 'type_work', 'hours', 'date_task']);
-          vars.updated_at = new Date();
+          let vars = pick(req.body, ['project', 'task', 'type_work', 'hours', 'date_task']);
           vars.status = 'Open';
           req._vars = vars;
           next();

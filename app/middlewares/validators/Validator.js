@@ -47,7 +47,7 @@ Validator.registerAsync('email_exist', (email_exist, attribute, req, passes) => 
     .then(count => {
       passes(count.c === 1, 'Email not found');
     })
-    .catch(e => {
+    .catch(() => {
       passes(false, 'Error in Validator.js:50');
     });
 });

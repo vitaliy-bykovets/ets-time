@@ -4,13 +4,12 @@ const router = express.Router();
 const knex = require('./../libs/knex');
 const bcrypt = require('bcrypt-nodejs');
 const crypto = require('crypto');
-const { pick } = require('lodash');
 const Validator = require('./../middlewares/validators/Validator');
-const { auth } = require('./../middlewares/index');
+const { auth } = require('./../middlewares');
 const env = require('./../config');
 const jwt = require('jsonwebtoken');
 
-const userModel = require('./../models/user');
+const User = require('./../models/user');
 
 /* Auth user */
 router.post('/', (req, res, next) => {
@@ -32,8 +31,8 @@ router.post('/', (req, res, next) => {
         if (data) {
           if (bcrypt.compareSync(req.body.password, data.password)) {
             // generate token
-            const token = jwt.sign(pick(data, 'id'), env.secret, { expiresIn: '120d' });
-            userModel.getUserById(data.id, (err, user) => {
+            const token = jwt.sign({ id: data.id }, env.secret, { expiresIn: '120d' });
+            User.getById(data.id, (err, user) => {
               if (err) return next(err);
               if (user) {
                 user['token'] = token;
@@ -47,7 +46,7 @@ router.post('/', (req, res, next) => {
           res.status(401).send();
         }
       })
-      .catch(() => res.status(500).send());
+      .catch(next);
   });
   validate.fails(() => res.status(400).send(validate.errors));
 });

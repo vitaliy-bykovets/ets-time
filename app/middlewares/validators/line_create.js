@@ -1,7 +1,7 @@
 'use strict';
 const Validator = require('./Validator');
 const env = require('./../../config');
-const _ = require('lodash');
+const { pick } = require('lodash');
 
 module.exports = (req, res, next) => {
   const rules = {
@@ -16,10 +16,8 @@ module.exports = (req, res, next) => {
   if (validate.fails()) {
     res.status(400).send(validate.errors);
   } else {
-    let vars = _.pick(req.body, ['project', 'task', 'type_work', 'hours', 'date_task']);
+    let vars = pick(req.body, ['project', 'task', 'type_work', 'hours', 'date_task']);
     vars.user_id = req._user.id;
-    vars.created_at = new Date();
-    vars.updated_at = new Date();
     req._vars = vars;
     next();
   }

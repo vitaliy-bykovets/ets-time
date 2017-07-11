@@ -16,7 +16,5 @@ module.exports = app => {
   app.use('/api/v1/dictionaries', nc, auth, dictionariesCtrl);
   app.use('/api/v1/autocomplete', nc, auth, autocompleteCtrl);
   app.use('/api/v1/stat', nc, auth, statCtrl);
-
-  // skills
   app.use('/api/v1/skills', nc, auth, role(['owner', 'pm']), skillsCtrl);
 };

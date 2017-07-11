@@ -12,7 +12,8 @@ exports.up = knex => {
     table.decimal('approved_time', 6, 2).default(0).comment('	Approved time by admin or pm');
     table.decimal('rate', 6, 2).default(0).comment('Price Rate in $');
     table.date('date_task');
-    table.timestamps();
+    table.timestamp('created_at').defaultTo(knex.fn.now());
+    table.timestamp('updated_at').defaultTo(knex.raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
     table.collate('utf8_general_ci');
   });
 };

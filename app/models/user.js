@@ -1,10 +1,9 @@
 'use strict';
-
 const knex = require('./../libs/knex');
 const { omit } = require('lodash');
 
 module.exports = {
-  getUserById: (user_id, cb) => {
+  getById: (user_id, cb) => {
     knex('users')
       .where('id', user_id)
       .first()

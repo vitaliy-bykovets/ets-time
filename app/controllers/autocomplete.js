@@ -1,11 +1,11 @@
 'use strict';
 const express = require('express');
 const router = express.Router();
-const { validators: { autocompolete } } = require('./../middlewares/index');
+const { validators: { autocomplete } } = require('./../middlewares');
 const knex = require('./../libs/knex');
 
 /* Projects */
-router.get('/project', autocompolete, (req, res, next) => {
+router.get('/project', autocomplete, (req, res, next) => {
   knex('track_lines')
     .pluck('project')
     .distinct()

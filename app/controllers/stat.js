@@ -83,7 +83,7 @@ router.get('/:user_id', stat_user, (req, res, next) => {
           .select('s.name')
           .select(
             knex.raw(
-              'ifnull(ROUND((( select sum(sg.value) from skill_gradation as sg where sg.user_id = ? && sg.skill_id in (select id from skills where parent_id = s.id) )) * 100 / (8*(select count(id) from skills where parent_id = s.id))),0) as percent',
+              'ifnull(ROUND((( select sum(sg.value) from skill_gradation as sg where sg.user_id = ? && sg.skill_id in (select id from skills where parent_id = s.id) )) * 100 / (select count(id) * 10 from skills where parent_id = s.id)),0) as percent',
               [req.params.user_id]
             )
           )

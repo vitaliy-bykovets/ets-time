@@ -18,7 +18,6 @@ module.exports = (req, res, next) => {
   validate.passes(() => {
     req.query.month = req.query.month ? moment(req.query.month).format('YYYY-MM') : moment().format('YYYY-MM');
     req.month_days = getDatesInMounth(req.query.month);
-
     next();
   });
   validate.fails(() => res.status(400).send(validate.errors));

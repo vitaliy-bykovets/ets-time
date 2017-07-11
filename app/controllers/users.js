@@ -28,7 +28,7 @@ router.post('/', user_create, (req, res, next) => {
 
 /* Update user */
 router.patch('/', user_edit, (req, res, next) => {
-  knex('users').where({ id: req._vars.id }).update(req._vars).then(() => res.send()).catch(next);
+  knex('users').where({ id: req._vars.id }).update(req._vars).then(() => res.status(202).send()).catch(next);
 });
 
 /* GET users listing. */
