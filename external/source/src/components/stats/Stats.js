@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import ChartJS from 'chart';
+import ChartJS from 'chart.js';
 import { map, each } from 'lodash';
 
 // get api
@@ -79,7 +79,9 @@ class Stats extends React.Component {
 
   /* init charts */
   componentDidMount() {
-    let chartPerStatusCtx = document.getElementById('byStatus').getContext('2d');
+    let chartPerStatusCtx = document
+      .getElementById('byStatus')
+      .getContext('2d');
     let chartPerDayCtx = document.getElementById('byDay').getContext('2d');
     let chartPerMonthCtx = document.getElementById('byMonth').getContext('2d');
     let chartRadarCtx = document.getElementById('byRadar').getContext('2d');
@@ -160,11 +162,15 @@ class Stats extends React.Component {
         <div className="container">
           <div className="statistic statistic--block">
             <div className="statistic__wrapper">
-              <span className="statistic__number">{this.state.header_period}</span>
+              <span className="statistic__number">
+                {this.state.header_period}
+              </span>
               <span className="statistic__label">Period</span>
             </div>
             <div className="statistic__wrapper">
-              <span className="statistic__number">{this.state.header_username}</span>
+              <span className="statistic__number">
+                {this.state.header_username}
+              </span>
               <span className="statistic__label">Member</span>
             </div>
           </div>
@@ -188,7 +194,11 @@ class Stats extends React.Component {
             setHeaderData={this.setHeaderData}
           />
           <div className="mainBtns">
-            <button className="mainBtns__btn" onClick={this.toggleFilters} style={{ color: bgColor }}>
+            <button
+              className="mainBtns__btn"
+              onClick={this.toggleFilters}
+              style={{ color: bgColor }}
+            >
               <FaFilter />
             </button>
           </div>

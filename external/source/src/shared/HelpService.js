@@ -54,6 +54,21 @@ export function getInitFilters() {
   };
 }
 
+export function getInitFiltersForTrack() {
+  const startWeek = getStartOfWeek();
+  const endWeek = getEndOfWeek();
+
+  return {
+    type_work: '',
+    status: '',
+    project: '',
+    task: '',
+    startDate: startWeek,
+    endDate: endWeek,
+    user: ''
+  };
+}
+
 export function getInitNewTrackData() {
   return {
     project: '',

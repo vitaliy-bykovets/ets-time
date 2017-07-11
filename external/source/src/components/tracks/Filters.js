@@ -15,10 +15,10 @@ import {
 import { getUsers } from './../../store/actions/userActions';
 
 // Helpers
-import { getInitFilters } from './../../shared/HelpService';
+import { getInitFiltersForTrack } from './../../shared/HelpService';
 
 class Filters extends React.Component {
-  state = getInitFilters();
+  state = getInitFiltersForTrack();
 
   componentDidMount() {
     let { filters } = this.props;

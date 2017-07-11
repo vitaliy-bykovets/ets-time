@@ -12,11 +12,11 @@ import {
 
 // Helpers
 import {
-  getInitFilters,
+  getInitFiltersForTrack,
   getInitNewTrackData
 } from './../../shared/HelpService';
 
-const initFilters = getInitFilters();
+const initFilters = getInitFiltersForTrack();
 const initTrackData = getInitNewTrackData();
 const view = localStorage.getItem('viewType');
 const initial = {
