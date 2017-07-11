@@ -7,7 +7,9 @@ import { meApi } from './../../shared/ApiService';
 // Components
 import LoadingPage from './LoadingPage';
 
+// Constants
 const token = localStorage.getItem('token');
+const hiddenFromMember = ['/users', '/skills', '/user-skills', '/stats'];
 
 const checkMe = async props => {
   let auth = await meApi(token);
@@ -47,12 +49,14 @@ export default function({ component: Component, props, ...rest }) {
     />
   );
 
+  // If there is no token in localstorage
   if (!props.token && !token) {
     return <Route {...rest} render={props => login} />;
   }
 
+  // Hide private url if user is member
   if (
-    props.location.pathname === '/users' &&
+    hiddenFromMember.includes(props.location.pathname) &&
     props.activeUser.roles &&
     !(
       props.activeUser.roles.includes('owner') ||
