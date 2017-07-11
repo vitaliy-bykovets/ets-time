@@ -75,8 +75,6 @@ class SkillsUser extends React.Component {
   render() {
     const { state_selected_user } = this.state;
 
-    console.log(this.state.skills);
-
     const allSkills = this.state.skills.map((s, index) => (
       <div key={index} className="skills-wrapper">
         <span className="skills__parent">

@@ -3,45 +3,63 @@ import Slider from 'react-rangeslider'
 import 'react-rangeslider/lib/index.css'
 
 class RangeSkill extends React.Component {
+  classesGrad = {
+    junior: 'slider--yellow',
+    middle: 'slider--orange',
+    senior: 'slider--green'
+  };
+
   state = {
-    value: 5
+    value: 0,
+    max: 10,
+    min: 0,
+    classRange: this.classesGrad.junior
+  };
+
+  updateColor = val => {
+    if(val <= 3) {
+      this.setState({classRange: this.classesGrad.junior});
+    } else if(val > 3 && val <= 7) {
+      this.setState({classRange: this.classesGrad.middle});
+    } else if(val > 6 && val <= 10) {
+      this.setState({classRange: this.classesGrad.senior});
+    }
   };
 
   componentDidMount() {
     const { value } = this.props;
     this.setState({ value: value });
+    this.updateColor(value);
   }
 
   handleChange = (value) => {
     this.setState({
       value: value
-    })
+    });
+    this.updateColor(value);
   };
 
   render() {
-    const { value } = this.state;
-    const { onSave } = this.props;
-    const { skillId } = this.props;
-    const { user_id } = this.props;
+    const { value, max, min, classRange } = this.state;
+    const { user_id, onSave, skillId } = this.props;
 
     return (
       <div className='slider'>
-        <div className='value'>{value}</div>
+        <div className="value">{value}</div>
         <Slider
-          min={0}
-          max={8}
+          className={classRange}
+          min={min}
+          max={max}
           value={value}
           tooltip={false}
           onChange={this.handleChange}
+          onChangeComplete={onSave.bind(null, {
+            user_id: user_id,
+            skill_id: skillId,
+            value: value
+          })}
         />
-        <button type="button"
-                onClick={onSave.bind(null, {
-                  user_id: user_id,
-                  skill_id: skillId,
-                  value: value
-                })}>
-          save
-        </button>
+        <div className='value value--max'>{max}</div>
       </div>
     )
   }
