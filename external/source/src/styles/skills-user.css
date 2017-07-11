@@ -11,10 +11,6 @@
     font-weight: bold;
 }
 
-.skills__children__outer {
-
-}
-
 .skills__children {
     display: flex;
     align-items: center;

@@ -33,10 +33,6 @@ class Tracks extends React.Component {
     this.props.getTracks(token, filters);
   }
 
-  openFilters = () => {
-    this.props.toggleTrackFilters();
-  };
-
   componentWillReceiveProps(nextProps) {
     this.setState({ showFilters: showClearFilters(nextProps.filters) });
 
@@ -44,6 +40,10 @@ class Tracks extends React.Component {
       this.props.getTracks(nextProps.token, nextProps.filters);
     }
   }
+
+  openFilters = () => {
+    this.props.toggleTrackFilters();
+  };
 
   clearFilters = () => {
     this.props.clearTrackFilters();

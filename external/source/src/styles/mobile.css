@@ -1,4 +1,7 @@
 @media (max-width: 768px) {
+  .topbar__menu--btn {
+    width: 40px;
+  }
 
   .stats {
     width: 100%;

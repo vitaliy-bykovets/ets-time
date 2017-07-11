@@ -1,15 +1,15 @@
-import React from "react";
-import { connect } from "react-redux";
+import React from 'react';
+import { connect } from 'react-redux';
 
 // Help service
-import { getAllSkillsApi, addNewSkillApi } from "./../../shared/ApiService";
+import { getAllSkillsApi, addNewSkillApi } from './../../shared/ApiService';
 // Icons
-import FaPlus from "react-icons/lib/fa/plus-circle";
+import FaPlus from 'react-icons/lib/fa/plus-circle';
 
 class Skills extends React.Component {
   state = {
     skills: [],
-    newSkillText: ""
+    newSkillText: ''
   };
 
   componentDidMount() {
@@ -28,14 +28,14 @@ class Skills extends React.Component {
       s.showInput = false;
     });
     skills[index].showInput = true;
-    this.setState({ skills, newSkillText: "" });
+    this.setState({ skills, newSkillText: '' });
   };
 
   addNewSkillHandler = index => {
     let { token } = this.props;
     let parentId = this.state.skills[index].id;
 
-    addNewSkillApi(token, parentId, this.state.newSkillText, "").then(resp => {
+    addNewSkillApi(token, parentId, this.state.newSkillText, '').then(resp => {
       if (resp.status >= 200 && resp.status < 300) {
         getAllSkillsApi(token).then(resp => {
           this.setState({ skills: resp });
@@ -48,7 +48,10 @@ class Skills extends React.Component {
     const allSkills = this.state.skills.map((s, index) => (
       <div key={index} className="skills-wrapper">
         <span className="skills__parent">
-          {s.name}
+          <span>{s.name}</span>
+          <span className="f-s-14 font-regular">
+            {' '}-{' '}{s.children.length ? s.children.length : 0}
+          </span>
         </span>
 
         {s.children.map((c, index) => (
