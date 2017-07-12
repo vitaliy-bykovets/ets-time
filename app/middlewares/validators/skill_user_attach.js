@@ -1,12 +1,12 @@
 'use strict';
 const Validator = require('./Validator');
-const { pick } = require('lodash');
+const { pick, range } = require('lodash');
 
 module.exports = (req, res, next) => {
   const rules = {
     skill_id: 'required|integer|min:1|exist_skill',
     user_id: 'required|integer|min:1|user_exist',
-    value: 'required|in:0,1,2,3,5,8'
+    value: 'required|in:' + range(0, 11).join()
   };
 
   const validate = new Validator(req.body, rules);

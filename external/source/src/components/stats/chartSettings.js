@@ -22,7 +22,19 @@ export const dataChartPerDay = {
     labels: []
   },
   options: {
-    maintainAspectRatio: false
+    maintainAspectRatio: false,
+    scales: {
+      xAxes: [
+        {
+          stacked: true
+        }
+      ],
+      yAxes: [
+        {
+          stacked: true
+        }
+      ]
+    }
   }
 };
 
@@ -33,7 +45,19 @@ export const dataChartPerMonth = {
     labels: []
   },
   options: {
-    maintainAspectRatio: false
+    maintainAspectRatio: false,
+    scales: {
+      xAxes: [
+        {
+          stacked: true
+        }
+      ],
+      yAxes: [
+        {
+          stacked: true
+        }
+      ]
+    }
   }
 };
 

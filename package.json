@@ -10,7 +10,6 @@
     "async": "^2.4.1",
     "bcrypt-nodejs": "^0.0.3",
     "body-parser": "~1.17.1",
-    "chart.js": "^2.6.0",
     "cookie-parser": "~1.4.3",
     "debug": "~2.6.3",
     "express": "~4.15.2",

@@ -28,7 +28,7 @@ router.get('/:user_id', stat_user, (req, res, next) => {
                 let count = find(data, item => moment(item.date).format('YYYY-MM-DD') === row && item.status === key);
                 statusesPerDay[key] = count ? count.total : 0;
               });
-              return extend({ date: row }, statusesPerDay);
+              return extend({ date: moment(row).format('MMM D') }, statusesPerDay);
             });
             callback(null, per_date);
           })

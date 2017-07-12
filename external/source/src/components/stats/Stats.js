@@ -13,13 +13,7 @@ import FaFilter from 'react-icons/lib/fa/filter';
 import Filters from './Filters';
 
 // Chart settings
-import {
-  colors,
-  dataChartPerStatus,
-  dataChartPerDay,
-  dataChartPerMonth,
-  dataChartRadar
-} from './chartSettings';
+import { colors, dataChartPerStatus, dataChartPerDay, dataChartPerMonth, dataChartRadar } from './chartSettings';
 
 class Stats extends React.Component {
   state = {
@@ -144,11 +138,7 @@ class Stats extends React.Component {
             setHeaderData={this.setHeaderData}
           />
           <div className="mainBtns">
-            <button
-              className="mainBtns__btn"
-              onClick={this.toggleFilters}
-              style={{ color: bgColor }}
-            >
+            <button className="mainBtns__btn" onClick={this.toggleFilters} style={{ color: bgColor }}>
               <FaFilter />
             </button>
           </div>

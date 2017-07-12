@@ -58,8 +58,7 @@ class Topbar extends React.Component {
   render() {
     const { viewType, location, bgColor, activeUser } = this.props;
     const { settingsOpen } = this.state;
-    const trackUrl =
-      location.pathname.includes('tracks') || location.pathname === '/';
+    const trackUrl = location.pathname.includes('tracks') || location.pathname === '/';
     const userUrl = location.pathname.includes('users');
     const skillsUrl = location.pathname === '/skills';
     const userSkillsUrl = location.pathname === '/user-skills';
@@ -75,9 +74,7 @@ class Topbar extends React.Component {
         <h4 className="topbar__headline">
           <img src={logo} alt="Selecto" height="20px" />
           <span className="p-l-20">
-            {`${getFirstLetter(
-              activeUser.first_name
-            )}. ${activeUser.last_name}`}
+            {`${getFirstLetter(activeUser.first_name)}. ${activeUser.last_name}`}
           </span>
           <FaPower className="logout" onClick={this.logoutHandler} />
         </h4>
@@ -152,14 +149,8 @@ class Topbar extends React.Component {
             : null}
 
           <div className="topbar__icons" style={{ color: bgColor }}>
-            <FaCog
-              className="topbar__icon p-l-20"
-              onClick={this.toggleSettings}
-            />
-            <Settings
-              settingsOpen={settingsOpen}
-              toggleSettings={this.toggleSettings}
-            />
+            <FaCog className="topbar__icon p-l-20" onClick={this.toggleSettings} />
+            <Settings settingsOpen={settingsOpen} toggleSettings={this.toggleSettings} />
           </div>
         </div>
       </div>
