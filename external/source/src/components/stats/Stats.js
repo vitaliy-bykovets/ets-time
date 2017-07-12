@@ -119,15 +119,19 @@ class Stats extends React.Component {
             </div>
           </div>
           <div className="stats">
+            <div className="stats__label">Current Month</div>
             <canvas ref="byStatus" />
           </div>
           <div className="stats">
+            <div className="stats__label">Current Month</div>
             <canvas ref="byDay" />
           </div>
           <div className="stats">
+            <div className="stats__label">All Activity</div>
             <canvas ref="byMonth" />
           </div>
           <div className="stats">
+            <div className="stats__label">Skill Radar</div>
             <canvas ref="byRadar" />
           </div>
 
