@@ -15,7 +15,15 @@ class SkillsUser extends React.Component {
 
   componentDidMount() {
     this.props.getUsers(this.props.token);
-    this.getCacheSelectedUser();
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if(nextProps.location.state) {
+      const _id = nextProps.location.state.userId;
+      this.changeState('user', {id: _id});
+    } else {
+      this.getCacheSelectedUser();
+    }
   }
 
   changeState = (props, selected) => {
