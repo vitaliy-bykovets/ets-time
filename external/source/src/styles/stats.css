@@ -26,8 +26,9 @@
 }
 
 .stats__label {
-  font-size: 24px;
+  font-size: 18px;
   font-weight: 500;
   margin-bottom: 10px;
-  padding: 10px;
+  padding: 0 10px;
+  text-align: right;
 }
