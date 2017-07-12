@@ -26,9 +26,9 @@ import {
 } from './types';
 
 // Helpers
-import { getInitFilters } from './../../shared/HelpService';
+import { getInitFiltersForTrack } from './../../shared/HelpService';
 
-export function getTracks(token, filters = getInitFilters()) {
+export function getTracks(token, filters = getInitFiltersForTrack()) {
   return dispatch => {
     getTracksApi(token, filters).then(resp => {
       if (resp.data) dispatch(setTracks(resp.data));
