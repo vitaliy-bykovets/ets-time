@@ -22,7 +22,8 @@ import {
   CLEAR_TRACK_FILTERS,
   CHANGE_TRACK_VIEW,
   SET_ROLES,
-  SET_POSITIONS
+  SET_POSITIONS,
+  SET_PROJECTS
 } from './types';
 
 // Helpers
@@ -105,6 +106,7 @@ export function getLibraries(token) {
         dispatch(setStatusTypes(resp.task_status));
         dispatch(setRoles(resp.roles));
         dispatch(setPositions(resp.positions));
+        dispatch(setProjects(resp.projects));
       }
     });
   };
@@ -170,6 +172,12 @@ function setPositions(positions) {
   return {
     type: SET_POSITIONS,
     positions
+  };
+}
+function setProjects(projects) {
+  return {
+    type: SET_PROJECTS,
+    projects
   };
 }
 

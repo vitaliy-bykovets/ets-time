@@ -15,6 +15,7 @@ const initUserData = getInitNewUserData();
 const initial = {
   roles: [],
   positions: [],
+  projects: [],
   activeUser: {
     first_name: '',
     last_name: '',

@@ -4,6 +4,7 @@ const router = express.Router();
 const env = require('./../config');
 const knex = require('./../libs/knex');
 const async = require('async');
+const moment = require('moment');
 
 router.get('/', (req, res, next) => {
   async.parallel(
@@ -12,10 +13,11 @@ router.get('/', (req, res, next) => {
         knex('track_lines')
           .pluck('project')
           .distinct()
-          .limit(100)
+          .limit(20)
+          .orderBy('project', 'asc')
           .orderByRaw('CHAR_LENGTH(project) asc')
-          .then(results => cb(null, results))
-          .catch(cb);
+          .where('created_at', '>', moment().subtract('60', 'day').format('YYYY-MM-DD HH:mm:ss'))
+          .asCallback(cb);
       }
     },
     (err, results) => {

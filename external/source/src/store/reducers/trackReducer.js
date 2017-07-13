@@ -1,6 +1,7 @@
 // Types
 import {
   SET_TRACKS,
+  SET_PROJECTS,
   TOGGLE_CHANGE_TRACK,
   TOGGLE_TRACK_FILTERS,
   SET_WORK_TYPES,
@@ -11,10 +12,7 @@ import {
 } from './../actions/types';
 
 // Helpers
-import {
-  getInitFiltersForTrack,
-  getInitNewTrackData
-} from './../../shared/HelpService';
+import { getInitFiltersForTrack, getInitNewTrackData } from './../../shared/HelpService';
 
 const initFilters = getInitFiltersForTrack();
 const initTrackData = getInitNewTrackData();
@@ -45,6 +43,8 @@ export default function trackReducer(state = initial, action = {}) {
       });
     case SET_STATUS_TYPES:
       return Object.assign({}, state, { statusTypes: action.statusTypes });
+    case SET_PROJECTS:
+      return Object.assign({}, state, { projects: action.projects });
     case SET_WORK_TYPES:
       return Object.assign({}, state, { workTypes: action.workTypes });
     case TOGGLE_CHANGE_TRACK:
