@@ -20,7 +20,8 @@ import {
   dataChartPerTypeWork,
   dataChartPerDay,
   dataChartPerMonth,
-  dataChartRadar
+  dataChartRadar,
+  dataChartPerProjects
 } from './chartSettings';
 
 class Stats extends React.Component {
@@ -31,13 +32,15 @@ class Stats extends React.Component {
 
   /* init charts */
   componentDidMount() {
-    const { byStatus, byDay, byMonth, byRadar, byTypeWork } = this.refs;
+    const { byStatus, byDay, byMonth, byRadar, byTypeWork, byProjects } = this.refs;
     const chartPerStatusCtx = byStatus.getContext('2d');
     const chartPerTypeWorkCtx = byTypeWork.getContext('2d');
+    const chartPerProjectsCtx = byProjects.getContext('2d');
     const chartPerDayCtx = byDay.getContext('2d');
     const chartPerMonthCtx = byMonth.getContext('2d');
     const chartRadarCtx = byRadar.getContext('2d');
 
+    this.chartPerProjects = new ChartJS(chartPerProjectsCtx, dataChartPerProjects);
     this.chartPerTypeWork = new ChartJS(chartPerTypeWorkCtx, dataChartPerTypeWork);
     this.chartPerStatus = new ChartJS(chartPerStatusCtx, dataChartPerStatus);
     this.chartPerDay = new ChartJS(chartPerDayCtx, dataChartPerDay);
@@ -65,6 +68,15 @@ class Stats extends React.Component {
       backgroundColor: randomcolor.randomColor({ luminosity: 'bright', count: np.per_type_work.length })
     });
     this.chartPerTypeWork.update();
+
+    // pie chart by type work in current month
+    dataChartPerProjects.data.labels = map(np.per_projects, 'project');
+    dataChartPerProjects.data.datasets = [];
+    dataChartPerProjects.data.datasets.push({
+      data: map(np.per_projects, 'total'),
+      backgroundColor: randomcolor.randomColor({ luminosity: 'bright', count: np.per_projects.length })
+    });
+    this.chartPerProjects.update();
 
     // update bar chart per day
     dataChartPerDay.data.labels = map(np.per_day, 'date');
@@ -107,6 +119,8 @@ class Stats extends React.Component {
     this.chartPerDay = null;
     this.chartPerMonth = null;
     this.chartRadar = null;
+    this.chartPerProjects = null;
+    this.chartPerTypeWork = null;
   }
 
   toggleFilters = () => {
@@ -138,24 +152,28 @@ class Stats extends React.Component {
             </div>
           </div>
           <div className="stats">
-            <div className="stats__label">Current Month (per tasks)</div>
+            <div className="stats__label">By status (per tasks)</div>
             <canvas ref="byStatus" />
           </div>
           <div className="stats">
-            <div className="stats__label">Current Month (per hours)</div>
+            <div className="stats__label">By type of work (per hours)</div>
             <canvas ref="byTypeWork" />
+          </div>
+          <div className="stats">
+            <div className="stats__label">By project (per hours)</div>
+            <canvas ref="byProjects" />
           </div>
           <div className="stats">
             <div className="stats__label">Current Month</div>
             <canvas ref="byDay" />
           </div>
           <div className="stats">
-            <div className="stats__label">All Activity</div>
-            <canvas ref="byMonth" />
-          </div>
-          <div className="stats">
             <div className="stats__label">Skill Radar</div>
             <canvas ref="byRadar" />
+          </div>
+          <div className="stats">
+            <div className="stats__label">All Activity</div>
+            <canvas ref="byMonth" />
           </div>
 
           <Filters
@@ -183,6 +201,7 @@ function mapStateToProps(state) {
     per_type_work: state.statReducer.per_type_work,
     per_day: state.statReducer.per_day,
     per_months: state.statReducer.per_months,
+    per_projects: state.statReducer.per_projects,
     radar: state.statReducer.radar,
     types: state.trackReducer.statusTypes,
     activeUser: state.userReducer.activeUser

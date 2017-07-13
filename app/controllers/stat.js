@@ -12,6 +12,16 @@ const async = require('async');
 router.get('/:user_id', stat_user, (req, res, next) => {
   async.parallel(
     {
+      per_projects: callback => {
+        knex('track_lines as tl')
+          .select('tl.project')
+          .select(knex.raw('sum(hours) as total'))
+          .where('tl.user_id', req.params.user_id)
+          .whereRaw('DATE_FORMAT(tl.date_task, "%Y-%m") = ?', [req.query.month])
+          .groupBy('tl.project')
+          .asCallback(callback)
+          .catch(next);
+      },
       per_day: callback => {
         knex('track_lines as tl')
           .select('tl.date_task as date', 'tl.status')
