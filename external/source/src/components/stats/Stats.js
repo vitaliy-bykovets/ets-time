@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import ChartJS from 'chart.js';
 import { map, each } from 'lodash';
+import randomcolor from 'randomcolor';
 
 // get api
 import { getStatByUserID } from './../../store/actions/statActions';
@@ -13,7 +14,14 @@ import FaFilter from 'react-icons/lib/fa/filter';
 import Filters from './Filters';
 
 // Chart settings
-import { colors, dataChartPerStatus, dataChartPerDay, dataChartPerMonth, dataChartRadar } from './chartSettings';
+import {
+  colors,
+  dataChartPerStatus,
+  dataChartPerTypeWork,
+  dataChartPerDay,
+  dataChartPerMonth,
+  dataChartRadar
+} from './chartSettings';
 
 class Stats extends React.Component {
   state = {
@@ -23,12 +31,14 @@ class Stats extends React.Component {
 
   /* init charts */
   componentDidMount() {
-    const { byStatus, byDay, byMonth, byRadar } = this.refs;
+    const { byStatus, byDay, byMonth, byRadar, byTypeWork } = this.refs;
     const chartPerStatusCtx = byStatus.getContext('2d');
+    const chartPerTypeWorkCtx = byTypeWork.getContext('2d');
     const chartPerDayCtx = byDay.getContext('2d');
     const chartPerMonthCtx = byMonth.getContext('2d');
     const chartRadarCtx = byRadar.getContext('2d');
 
+    this.chartPerTypeWork = new ChartJS(chartPerTypeWorkCtx, dataChartPerTypeWork);
     this.chartPerStatus = new ChartJS(chartPerStatusCtx, dataChartPerStatus);
     this.chartPerDay = new ChartJS(chartPerDayCtx, dataChartPerDay);
     this.chartPerMonth = new ChartJS(chartPerMonthCtx, dataChartPerMonth);
@@ -46,6 +56,15 @@ class Stats extends React.Component {
       backgroundColor: map(np.per_status, item => colors[item.status])
     });
     this.chartPerStatus.update();
+
+    // pie chart by type work in current month
+    dataChartPerTypeWork.data.labels = map(np.per_type_work, 'type_work');
+    dataChartPerTypeWork.data.datasets = [];
+    dataChartPerTypeWork.data.datasets.push({
+      data: map(np.per_type_work, 'total'),
+      backgroundColor: randomcolor.randomColor({ luminosity: 'bright', count: np.per_type_work.length })
+    });
+    this.chartPerTypeWork.update();
 
     // update bar chart per day
     dataChartPerDay.data.labels = map(np.per_day, 'date');
@@ -119,8 +138,12 @@ class Stats extends React.Component {
             </div>
           </div>
           <div className="stats">
-            <div className="stats__label">Current Month</div>
+            <div className="stats__label">Current Month (per tasks)</div>
             <canvas ref="byStatus" />
+          </div>
+          <div className="stats">
+            <div className="stats__label">Current Month (per hours)</div>
+            <canvas ref="byTypeWork" />
           </div>
           <div className="stats">
             <div className="stats__label">Current Month</div>
@@ -157,6 +180,7 @@ function mapStateToProps(state) {
     token: state.generalReducer.token,
     bgColor: state.generalReducer.bgColor,
     per_status: state.statReducer.per_status,
+    per_type_work: state.statReducer.per_type_work,
     per_day: state.statReducer.per_day,
     per_months: state.statReducer.per_months,
     radar: state.statReducer.radar,

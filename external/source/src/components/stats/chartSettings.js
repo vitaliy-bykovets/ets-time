@@ -15,6 +15,17 @@ export const dataChartPerStatus = {
   }
 };
 
+export const dataChartPerTypeWork = {
+  type: 'pie',
+  data: {
+    datasets: [],
+    labels: []
+  },
+  options: {
+    maintainAspectRatio: false
+  }
+};
+
 export const dataChartPerDay = {
   type: 'bar',
   data: {

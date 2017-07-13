@@ -13,6 +13,7 @@ export function getStatByUserID(token, user_id, date) {
           payload: {
             per_day: resp.per_day,
             per_status: resp.per_status,
+            per_type_work: resp.per_type_work,
             per_months: resp.per_months,
             history: resp.per_day,
             radar: resp.radar
