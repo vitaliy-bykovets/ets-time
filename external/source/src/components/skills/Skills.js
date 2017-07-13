@@ -2,9 +2,16 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 // Help service
-import { getAllSkillsApi, addNewSkillApi } from './../../shared/ApiService';
+import {
+  getAllSkillsApi,
+  addNewSkillApi,
+  deleteSkillApi
+} from './../../shared/ApiService';
+
 // Icons
 import FaPlus from 'react-icons/lib/fa/plus-circle';
+import FaCircle from 'react-icons/lib/fa/circle';
+import FaTrash from 'react-icons/lib/fa/trash-o';
 
 class Skills extends React.Component {
   state = {
@@ -31,6 +38,17 @@ class Skills extends React.Component {
     this.setState({ skills, newSkillText: '' });
   };
 
+  deleteSkill = id => {
+    const { token } = this.props;
+    deleteSkillApi(token, id).then(resp => {
+      if (resp.status >= 200 && resp.status < 300) {
+        getAllSkillsApi(token).then(resp => {
+          this.setState({ skills: resp });
+        });
+      }
+    });
+  };
+
   addNewSkillHandler = index => {
     let { token } = this.props;
     let parentId = this.state.skills[index].id;
@@ -45,22 +63,31 @@ class Skills extends React.Component {
   };
 
   render() {
-    const allSkills = this.state.skills.map((s, index) =>
+    const allSkills = this.state.skills.map((s, index) => (
       <div key={index} className="skills-wrapper">
         <span className="skills__parent">
           <span>
             {s.name}
           </span>
           <span className="f-s-14 font-regular">
-            {' '}- {s.children.length ? s.children.length : 0}
+            {' - '}{s.children.length ? s.children.length : 0}
           </span>
         </span>
 
-        {s.children.map((c, index) =>
-          <p key={index} className="skills__children">
-            - {c.name}
-          </p>
-        )}
+        {s.children.map((c, index) => (
+          <div key={index} className="skills__children">
+            <div className="centered p-t-5 p-b-5">
+              <FaCircle />
+              <span className="p-l-5 p-r-5">{c.name}</span>
+              <FaTrash
+                className="pointer"
+                onClick={() => {
+                  this.deleteSkill(c.id);
+                }}
+              />
+            </div>
+          </div>
+        ))}
 
         {!s.showInput
           ? <button
@@ -90,7 +117,7 @@ class Skills extends React.Component {
             </div>
           : null}
       </div>
-    );
+    ));
 
     return (
       <div

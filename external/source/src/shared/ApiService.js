@@ -54,7 +54,15 @@ export function createTrackApi(data, token) {
 }
 
 export function createUserApi(data, token) {
-  let { first_name = '', last_name = '', email = '', roles = '', position = '', rate = 0, password = '' } = data;
+  let {
+    first_name = '',
+    last_name = '',
+    email = '',
+    roles = '',
+    position = '',
+    rate = 0,
+    password = ''
+  } = data;
 
   return fetch('/api/v1/users', {
     method: 'POST',
@@ -75,7 +83,14 @@ export function createUserApi(data, token) {
 }
 
 export function updateUserApi(data, token, status) {
-  let { first_name = '', last_name = '', roles = [], position = [], rate = 0, id = '' } = data;
+  let {
+    first_name = '',
+    last_name = '',
+    roles = [],
+    position = [],
+    rate = 0,
+    id = ''
+  } = data;
 
   let locked = status === 1 ? 1 : 0;
   let userObj = {
@@ -103,7 +118,14 @@ export function updateUserApi(data, token, status) {
 }
 
 export function updateTrackApi(data, token) {
-  let { id = '', project = '', task = '', type_work = '', hours = 0, trackDate } = data;
+  let {
+    id = '',
+    project = '',
+    task = '',
+    type_work = '',
+    hours = 0,
+    trackDate
+  } = data;
 
   return fetch('/api/v1/lines', {
     method: 'PATCH',
@@ -123,9 +145,15 @@ export function updateTrackApi(data, token) {
 }
 
 export function getTracksApi(token, filters) {
-  let { type_work = '', status = '', project = '', task = '', startDate = '', endDate = '', user = '' } = filters
-    ? filters
-    : {};
+  let {
+    type_work = '',
+    status = '',
+    project = '',
+    task = '',
+    startDate = '',
+    endDate = '',
+    user = ''
+  } = filters ? filters : {};
 
   let sDate = startDate ? formatDateToServer(startDate) : '';
   let eDate = endDate ? formatDateToServer(endDate) : '';
@@ -186,7 +214,7 @@ export function getSkillsFromUserApi(token, user_id) {
   }).then(parseJSON);
 }
 
-export function attachSkillUser(token, {user_id, skill_id, value}) {
+export function attachSkillUser(token, { user_id, skill_id, value }) {
   return fetch('/api/v1/skills', {
     method: 'PUT',
     headers: {
@@ -212,6 +240,19 @@ export function addNewSkillApi(token, parent_id, name, desc) {
       name,
       parent_id,
       desc
+    })
+  });
+}
+
+export function deleteSkillApi(token, id) {
+  return fetch('/api/v1/skills', {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+      authorization: token
+    },
+    body: JSON.stringify({
+      id
     })
   });
 }
