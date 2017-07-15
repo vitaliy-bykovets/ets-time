@@ -18,6 +18,9 @@ import { clearErrorField } from './../../store/actions/generalActions';
 // Helpers
 import { getInitNewTrackData } from './../../shared/HelpService';
 
+// Components
+import InputAutoSuggest from './../general/InputAutoSuggest';
+
 const initialState = getInitNewTrackData();
 
 class SingeTrack extends React.Component {
@@ -64,6 +67,10 @@ class SingeTrack extends React.Component {
     this.props.clearErrorField(e.target.name);
   };
 
+  changeProject = project => {
+    this.setState({ project });
+  };
+
   handleDateFocus = () => {
     this.props.clearErrorField('date_task');
   };
@@ -76,7 +83,8 @@ class SingeTrack extends React.Component {
       };
     });
 
-    const { errors } = this.props;
+    const { errors, projects, isTrackEdit } = this.props;
+    const { project } = this.state;
 
     return (
       <div
@@ -98,24 +106,26 @@ class SingeTrack extends React.Component {
           <label className="input-headline">
             <span>Project</span>
             {errors.project
-              ? <span className="error__text">{errors.project}</span>
+              ? <span className="error__text">
+                  {errors.project}
+                </span>
               : null}
           </label>
-          <input
-            type="text"
-            value={this.state.project}
-            name="project"
-            onChange={this.handleInputChange}
-            className={classnames('input', {
-              bgError: errors.project
-            })}
-            onFocus={this.handleFocusInput}
+
+          <InputAutoSuggest
+            suggestions={projects}
+            fieldName="project"
+            field={project}
+            changeField={this.changeProject}
+            needClearOnInit={!isTrackEdit}
           />
 
           <label className="input-headline">
             <span>Task</span>
             {errors.task
-              ? <span className="error__text">{errors.task}</span>
+              ? <span className="error__text">
+                  {errors.task}
+                </span>
               : null}
           </label>
           <textarea
@@ -132,7 +142,9 @@ class SingeTrack extends React.Component {
           <label className="input-headline">
             <span>Work type</span>
             {errors.type_work
-              ? <span className="error__text">{errors.type_work}</span>
+              ? <span className="error__text">
+                  {errors.type_work}
+                </span>
               : null}
           </label>
           <Select
@@ -151,7 +163,9 @@ class SingeTrack extends React.Component {
           <label className="input-headline">
             <span>Hours</span>
             {errors.hours
-              ? <span className="error__text">{errors.hours}</span>
+              ? <span className="error__text">
+                  {errors.hours}
+                </span>
               : null}
           </label>
           <input
@@ -168,7 +182,9 @@ class SingeTrack extends React.Component {
           <label className="input-headline">
             <span>Date</span>
             {errors.date_task
-              ? <span className="error__text">{errors.date_task}</span>
+              ? <span className="error__text">
+                  {errors.date_task}
+                </span>
               : null}
           </label>
           <DatePicker
@@ -201,15 +217,23 @@ class SingeTrack extends React.Component {
 }
 
 function mapStateToProps(state) {
-  let { trackIsOpen, workTypes, trackData, isTrackEdit } = state.trackReducer;
-  let { errors, token } = state.generalReducer;
+  const {
+    trackIsOpen,
+    workTypes,
+    trackData,
+    isTrackEdit,
+    projects
+  } = state.trackReducer;
+  const { errors, token } = state.generalReducer;
+
   return {
     trackIsOpen,
     workTypes,
     trackData,
     isTrackEdit,
     errors,
-    token
+    token,
+    projects
   };
 }
 
