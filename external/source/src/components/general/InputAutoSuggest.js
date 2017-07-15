@@ -24,6 +24,12 @@ class InputAutoSuggest extends React.Component {
   // On chage input get suggestion and change field from parent
   autoSuggest = e => {
     const value = e.target.value;
+
+    if (value.length < 2) {
+      this.setState({ field: value, suggestions: [] });
+      return false;
+    }
+
     const { suggestions, changeField } = this.props;
     const sgs = suggestions
       .filter(s => value && s.toLowerCase().indexOf(value.toLowerCase()) !== -1)
