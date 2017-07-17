@@ -22,13 +22,14 @@ import {
   CLEAR_TRACK_FILTERS,
   CHANGE_TRACK_VIEW,
   SET_ROLES,
-  SET_POSITIONS
+  SET_POSITIONS,
+  SET_PROJECTS
 } from './types';
 
 // Helpers
-import { getInitFilters } from './../../shared/HelpService';
+import { getInitFiltersForTrack } from './../../shared/HelpService';
 
-export function getTracks(token, filters = getInitFilters()) {
+export function getTracks(token, filters = getInitFiltersForTrack()) {
   return dispatch => {
     getTracksApi(token, filters).then(resp => {
       if (resp.data) dispatch(setTracks(resp.data));
@@ -97,14 +98,19 @@ export function updateTrack(data, token) {
   };
 }
 
-export function getLibraries(token) {
+export function getLibraries(token, onlyProjects) {
   return dispatch => {
     getDictionariesApi(token).then(resp => {
       if (resp) {
-        dispatch(setWorkTypes(resp.type_works));
-        dispatch(setStatusTypes(resp.task_status));
-        dispatch(setRoles(resp.roles));
-        dispatch(setPositions(resp.positions));
+        if (onlyProjects) {
+          dispatch(setProjects(resp.projects));
+        } else {
+          dispatch(setWorkTypes(resp.type_works));
+          dispatch(setStatusTypes(resp.task_status));
+          dispatch(setRoles(resp.roles));
+          dispatch(setPositions(resp.positions));
+          dispatch(setProjects(resp.projects));
+        }
       }
     });
   };
@@ -170,6 +176,12 @@ function setPositions(positions) {
   return {
     type: SET_POSITIONS,
     positions
+  };
+}
+function setProjects(projects) {
+  return {
+    type: SET_PROJECTS,
+    projects
   };
 }
 

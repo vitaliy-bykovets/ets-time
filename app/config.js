@@ -10,7 +10,9 @@ let config = {
     'Study',
     'Testing',
     'Meeting',
-    'Vacation'
+    'Vacation',
+    'SickDay',
+    'DayOff'
   ],
   task_status: ['Accepted', 'Declined', 'Open'],
   roles: ['owner', 'pm', 'member'],

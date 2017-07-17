@@ -4,7 +4,7 @@ const router = express.Router();
 const { validators: { stat_user } } = require('./../middlewares');
 const knex = require('./../libs/knex');
 const env = require('./../config');
-const { map, find, each, zipObject, range, extend, cloneDeep, uniq } = require('lodash');
+const { map, find, each, zipObject, range, extend, cloneDeep, uniq, filter } = require('lodash');
 const moment = require('moment');
 const async = require('async');
 
@@ -12,6 +12,16 @@ const async = require('async');
 router.get('/:user_id', stat_user, (req, res, next) => {
   async.parallel(
     {
+      per_projects: callback => {
+        knex('track_lines as tl')
+          .select('tl.project')
+          .select(knex.raw('sum(hours) as total'))
+          .where('tl.user_id', req.params.user_id)
+          .whereRaw('DATE_FORMAT(tl.date_task, "%Y-%m") = ?', [req.query.month])
+          .groupBy('tl.project')
+          .asCallback(callback)
+          .catch(next);
+      },
       per_day: callback => {
         knex('track_lines as tl')
           .select('tl.date_task as date', 'tl.status')
@@ -31,6 +41,25 @@ router.get('/:user_id', stat_user, (req, res, next) => {
               return extend({ date: moment(row).format('MMM D') }, statusesPerDay);
             });
             callback(null, per_date);
+          })
+          .catch(next);
+      },
+      per_type_work: callback => {
+        knex('track_lines as tl')
+          .select('tl.type_work')
+          .select(knex.raw('sum(hours) as total'))
+          .where('tl.user_id', req.params.user_id)
+          .whereRaw('DATE_FORMAT(tl.date_task, "%Y-%m") = ?', [req.query.month])
+          .groupBy('tl.type_work')
+          .then(data => {
+            let newData = map(env.type_works, item => {
+              let total = find(data, { type_work: item });
+              return {
+                type_work: item,
+                total: total ? total.total : 0
+              };
+            });
+            callback(null, filter(newData, item => item.total > 0));
           })
           .catch(next);
       },

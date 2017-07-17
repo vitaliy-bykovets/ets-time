@@ -5,6 +5,8 @@ const initial = {
   per_day: [],
   per_status: [],
   per_months: [],
+  per_type_work: [],
+  per_projects: [],
   history: [],
   radar: []
 };
