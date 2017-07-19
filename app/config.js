@@ -37,8 +37,8 @@ let config = {
 };
 switch (process.env.NODE_ENV) {
   case 'production':
-    config.db.connection.user = 'ets';
-    config.db.connection.password = 'ets13#';
+    config.db.connection.user = process.env.MYSQL_USER;
+    config.db.connection.password = process.env.MYSQL_PASS;
     break;
   default:
     break;
