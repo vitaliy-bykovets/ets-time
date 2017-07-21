@@ -40,6 +40,10 @@ switch (process.env.NODE_ENV) {
     config.db.connection.user = process.env.MYSQL_USER;
     config.db.connection.password = process.env.MYSQL_PASS;
     break;
+  case 'testing':
+    config.db.connection.database = 'ets_test';
+    config.db.connection.password = '123456';
+    break;
   default:
     break;
 }
