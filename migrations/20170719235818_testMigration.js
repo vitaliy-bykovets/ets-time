@@ -4,4 +4,8 @@ exports.up = function(knex, Promise) {
   });
 };
 
-exports.down = function(knex, Promise) {};
+exports.down = knex => {
+  return knex.schema.table('knex_migrations', t => {
+    t.timestamp('migration_time').alter();
+  });
+};

@@ -13,7 +13,7 @@ let roles = [
   [['pm'], ['owner', 'member'], false]
 ];
 
-describe('Libs.test.js', () => {
+describe('hasRole', () => {
   it('test roles', () => {
     roles.forEach((spec, key) => {
       let [roles, user_roles, resultOfAssert] = spec;
