@@ -1,54 +1,35 @@
 const assert = require('assert');
-const { auth } = require('./../app/controllers');
 const app = require('./../app');
 const agent = require('supertest').agent(app);
 const knex = require('../app/libs/knex');
 const jwt = require('jsonwebtoken');
 const env = require('./../app/config');
-const async = require('async');
+const { difference } = require('lodash');
 
-let urls = {
+const token_owner = jwt.sign({ id: 1 }, env.secret);
+const urls = {
   dict: '/api/v1/dictionaries'
 };
 
-let token_owner = null;
-
-async.parallel(
-  {
-    owner: cb => {
-      knex('users as u').select('u.id').where('u.roles', 'owner').first().asCallback(cb);
-    }
-  },
-  (err, results) => {
-    if (err) return next(err);
-    token_owner = jwt.sign({ id: results.owner.id }, env.secret, { expiresIn: '120d' });
-  }
-);
-
-describe('dictionaries tests', () => {
+describe('Dictionaries controller', () => {
   before(done => {
-    knex.migrate
-      .rollback()
-      .then(() => {
-        knex.migrate
-          .latest()
-          .then(() => {
-            done();
-          })
-          .catch(err => {
-            done(err);
-          });
-      })
-      .catch(err => {
-        done(err);
-      });
+    require('./TestCase')(knex, done);
   });
 
-  it('get dictionaries', done => {
+  it('dictionaries', done => {
+    const need_keys = ['type_works', 'task_status', 'positions', 'roles', 'projects'];
     agent.get(urls.dict).set('authorization', token_owner).end((err, res) => {
-      assert.equal(null, err);
-      assert.equal(200, res.statusCode, 'status code must be 200');
+      assert.equal(200, res.statusCode);
+      assert.deepEqual([], difference(need_keys, Object.keys(res.body)), 'difference in keys');
+      assert.equal(true, res.body.type_works.includes('Development'));
+      assert.equal(true, res.body.type_works.length > 0);
+      assert.deepEqual([], difference(res.body.task_status, env.task_status));
+      assert.deepEqual([], difference(res.body.positions, env.positions));
+      assert.deepEqual([], difference(res.body.roles, env.roles));
       done();
     });
+  });
+  it('dictionaries (without auth)', done => {
+    agent.get(urls.dict).expect(401, done);
   });
 });

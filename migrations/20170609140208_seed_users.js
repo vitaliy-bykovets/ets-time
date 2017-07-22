@@ -4,6 +4,7 @@ const salt = bcrypt.genSaltSync(10);
 exports.up = knex => {
   return knex.table('users').insert([
     {
+      id: 1,
       email: 'owner@mail.com',
       first_name: 'Owner',
       last_name: 'Owner',
@@ -14,6 +15,7 @@ exports.up = knex => {
       updated_at: new Date()
     },
     {
+      id: 2,
       email: 'pm@mail.com',
       first_name: 'Pm',
       last_name: 'Pm',
@@ -24,6 +26,7 @@ exports.up = knex => {
       updated_at: new Date()
     },
     {
+      id: 3,
       email: 'member@mail.com',
       first_name: 'Member',
       last_name: 'Member',
@@ -36,4 +39,6 @@ exports.up = knex => {
   ]);
 };
 
-exports.down = knex => {};
+exports.down = knex => {
+  return knex('users').truncate();
+};
