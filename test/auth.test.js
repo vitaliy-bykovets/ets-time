@@ -1,5 +1,4 @@
 const assert = require('assert');
-const { auth } = require('./../app/controllers');
 const app = require('./../app');
 const agent = require('supertest').agent(app);
 const knex = require('../app/libs/knex');
@@ -13,11 +12,85 @@ const urls = {
 };
 
 let token_owner = jwt.sign({ id: 1 }, env.secret);
-let token_member = jwt.sign({ id: 2 }, env.secret);
+
+const authCredentials = [
+  [
+    {
+      email: 'notexist@mail.com',
+      password: 'password'
+    },
+    400,
+    'Email not exist'
+  ],
+  [
+    {
+      password: 'password'
+    },
+    400,
+    'Without email'
+  ],
+  [
+    {
+      email: 'owner@mail.com'
+    },
+    400,
+    'Without password'
+  ],
+  [
+    {
+      email: 'email',
+      password: 'password'
+    },
+    400,
+    'With invalid email'
+  ],
+  [
+    {
+      email: 'owner@mail.com',
+      password: 'pass'
+    },
+    400,
+    'Short password'
+  ],
+  [
+    {
+      email: 'locked@tmail.com',
+      password: 'password'
+    },
+    401,
+    'Locked user'
+  ],
+  [
+    {
+      email: 'owner@mail.com',
+      password: 'incorrectpassword'
+    },
+    401,
+    'Incorrect password'
+  ]
+];
 
 describe('Authorize controller', () => {
   before(done => {
     require('./TestCase')(knex, done);
+  });
+
+  it('auth errors', done => {
+    async.each(
+      authCredentials,
+      (item, cb) => {
+        agent.post(urls.auth).send(item[0]).end((err, res) => {
+          if (item[1] === res.statusCode) {
+            cb();
+          } else {
+            cb(new Error(item[2]));
+          }
+        });
+      },
+      err => {
+        done(err);
+      }
+    );
   });
 
   it('auth', done => {
@@ -33,74 +106,6 @@ describe('Authorize controller', () => {
         assert.equal('owner@mail.com', res.body.email);
         done();
       });
-  });
-
-  it('auth (email that not exist)', done => {
-    agent
-      .post(urls.auth)
-      .send({
-        email: 'notexist@mail.com',
-        password: 'password'
-      })
-      .expect(400, done);
-  });
-
-  it('auth (without email)', done => {
-    agent
-      .post(urls.auth)
-      .send({
-        password: 'password'
-      })
-      .expect(400, done);
-  });
-
-  it('auth (without password)', done => {
-    agent
-      .post(urls.auth)
-      .send({
-        email: 'owner@mail.com'
-      })
-      .expect(400, done);
-  });
-
-  it('auth (invalid email)', done => {
-    agent
-      .post(urls.auth)
-      .send({
-        email: 'email',
-        password: 'password'
-      })
-      .expect(400, done);
-  });
-
-  it('auth (short password)', done => {
-    agent
-      .post(urls.auth)
-      .send({
-        email: 'owner@mail.com',
-        password: 'pass'
-      })
-      .expect(400, done);
-  });
-
-  it('auth (locked user)', done => {
-    agent
-      .post(urls.auth)
-      .send({
-        email: 'locked@tmail.com',
-        password: 'password'
-      })
-      .expect(401, done);
-  });
-
-  it('auth (right email and not right password)', done => {
-    agent
-      .post(urls.auth)
-      .send({
-        email: 'owner@mail.com',
-        password: 'incorrectpassword'
-      })
-      .expect(401, done);
   });
 
   it('me', done => {

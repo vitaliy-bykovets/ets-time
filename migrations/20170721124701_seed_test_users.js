@@ -9,7 +9,7 @@ exports.up = knex => {
         first_name: 'Wilson',
         last_name: 'Martinez',
         password: password,
-        position: 'default',
+        position: 'other',
         roles: 'owner,pm'
       },
       {
@@ -17,7 +17,7 @@ exports.up = knex => {
         first_name: 'Harris',
         last_name: 'Clark',
         password: password,
-        position: 'default',
+        position: 'other',
         roles: 'member,pm'
       },
       {
@@ -25,7 +25,7 @@ exports.up = knex => {
         first_name: 'Scott',
         last_name: 'Allen',
         password: password,
-        position: 'default',
+        position: 'other',
         roles: 'owner,member'
       },
       {
