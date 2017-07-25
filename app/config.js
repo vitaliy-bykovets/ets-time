@@ -22,7 +22,7 @@ let config = {
     connection: {
       host: 'localhost',
       user: 'root',
-      password: '123456',
+      password: '1',
       database: 'ets',
       port: '3306'
     },
@@ -42,7 +42,7 @@ switch (process.env.NODE_ENV) {
     break;
   case 'testing':
     config.db.connection.database = 'ets_test';
-    config.db.connection.password = '123456';
+    config.db.connection.password = '1';
     break;
   default:
     break;
