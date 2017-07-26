@@ -244,29 +244,11 @@ const attachCredentials = [
   ]
 ];
 
-const deleteCredentials = [
-  [{}, 400, 'Id not exist'],
-  [
-    {
-      id: 'id'
-    },
-    400,
-    'Id must be integer'
-  ],
-  [
-    {
-      id: -1
-    },
-    400,
-    'Id must be at least 0'
-  ],
-  [
-    {
-      id: 100
-    },
-    400,
-    'Id not found'
-  ]
+const deleteCredentialsPatched = [
+  [null, 400, 'Id not exist'],
+  ['id', 400, 'Id must be integer'],
+  [-1, 400, 'Id must be at least 0'],
+  [100, 400, 'Id not found']
 ];
 
 describe('Skill controller', () => {
@@ -521,9 +503,9 @@ describe('Skill controller', () => {
 
   it('delete errors', done => {
     async.each(
-      deleteCredentials,
+      deleteCredentialsPatched,
       (item, cb) => {
-        agent.delete(urls.skills).set('authorization', token_owner).send(item[0]).end((err, res) => {
+        agent.delete(urls.skills).set('authorization', token_owner).send({ id: item[0] }).end((err, res) => {
           if (item[1] === res.statusCode) {
             cb();
           } else {

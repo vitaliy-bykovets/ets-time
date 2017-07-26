@@ -490,9 +490,9 @@ const updateCredentials = [
 ];
 
 const listCredentials = [
-  ['?username=na&position=other&role=owner', 400, 'Username must be at least 3 characters'],
-  ['?username=name&position=otherr&role=owner', 400, 'Invalid position'],
-  ['?username=name&position=other&role=owne', 400, 'Invalid role']
+  [{ username: 'na', position: 'other', role: 'owner' }, 400, 'Username must be at least 3 characters'],
+  [{ username: 'name', position: 'otherr', role: 'owner' }, 400, 'Invalid position'],
+  [{ username: 'name', position: 'other', role: 'owne' }, 400, 'Invalid role']
 ];
 
 describe('User controller', () => {
@@ -629,7 +629,7 @@ describe('User controller', () => {
     async.each(
       listCredentials,
       (item, cb) => {
-        agent.get(urls.users + item[0]).set('authorization', token_owner).end((err, res) => {
+        agent.get(urls.users).query(item[0]).set('authorization', token_owner).end((err, res) => {
           if (item[1] === res.statusCode) {
             cb();
           } else {

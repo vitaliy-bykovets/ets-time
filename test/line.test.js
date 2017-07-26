@@ -466,30 +466,13 @@ describe('Line controller', () => {
     async.each(
       listCredentials,
       (item, cb) => {
-        agent
-          .get(
-            urls.lines +
-              '?user=' +
-              item[0].user +
-              '&project=' +
-              item[0].project +
-              '&date_start=' +
-              item[0].date_start +
-              '&date_end=' +
-              item[0].date_end +
-              '&status=' +
-              item[0].status +
-              '&type_work=' +
-              item[0].type_work
-          )
-          .set('authorization', token_owner)
-          .end((err, res) => {
-            if (item[1] === res.statusCode) {
-              cb();
-            } else {
-              cb(new Error(item[2]));
-            }
-          });
+        agent.get(urls.lines).query(item[0]).set('authorization', token_owner).end((err, res) => {
+          if (item[1] === res.statusCode) {
+            cb();
+          } else {
+            cb(new Error(item[2]));
+          }
+        });
       },
       err => {
         done(err);
@@ -656,7 +639,7 @@ describe('Line controller', () => {
       .patch(urls.lines_status)
       .set('authorization', token_owner)
       .send({
-        id: '100',
+        id: 100,
         status: 'Accepted'
       })
       .expect(404, done);
@@ -704,7 +687,7 @@ describe('Line controller', () => {
       .delete(urls.lines)
       .set('authorization', token_owner)
       .send({
-        id: '1'
+        id: 1
       })
       .expect(404, done);
   });
@@ -714,7 +697,7 @@ describe('Line controller', () => {
       .delete(urls.lines)
       .set('authorization', token_owner)
       .send({
-        id: '100'
+        id: 100
       })
       .expect(404, done);
   });

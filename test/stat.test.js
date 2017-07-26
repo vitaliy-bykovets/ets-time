@@ -5,10 +5,13 @@ const knex = require('../app/libs/knex');
 const jwt = require('jsonwebtoken');
 const env = require('./../app/config');
 const async = require('async');
+const { difference } = require('lodash');
 
 const urls = {
   stat: '/api/v1/stat'
 };
+
+const stat_keys = ['per_months', 'per_status', 'per_day', 'per_type_work', 'per_projects', 'radar'];
 
 let token_owner = jwt.sign({ id: 1 }, env.secret);
 let token_member = jwt.sign({ id: 3 }, env.secret);
@@ -51,6 +54,14 @@ const getStatsCredentials = [
     },
     400,
     'Invalid month format'
+  ],
+  [
+    {
+      user_id: 1,
+      month: '2017-50-02'
+    },
+    400,
+    'Invalid month format'
   ]
 ];
 
@@ -61,28 +72,22 @@ describe('Stat controller', () => {
 
   it('get stats', done => {
     agent.get(urls.stat + '/1').set('authorization', token_owner).end((err, res) => {
-      assert.notEqual(null, res.body);
-      assert.notEqual(null, res.body.per_months);
-      assert.notEqual(null, res.body.per_status);
-      assert.notEqual(null, res.body.per_day);
-      assert.notEqual(null, res.body.per_type_work);
-      assert.notEqual(null, res.body.per_projects);
-      assert.notEqual(null, res.body.radar);
       assert.equal(200, res.statusCode);
+      assert.deepEqual([], difference(res.body, stat_keys));
+      stat_keys.forEach(item => {
+        assert.notEqual(null, res.body[item]);
+      });
       done();
     });
   });
 
   it('get stats with month', done => {
     agent.get(urls.stat + '/1?month=2017-06-01').set('authorization', token_owner).end((err, res) => {
-      assert.notEqual(null, res.body);
-      assert.notEqual(null, res.body.per_months);
-      assert.notEqual(null, res.body.per_status);
-      assert.notEqual(null, res.body.per_day);
-      assert.notEqual(null, res.body.per_type_work);
-      assert.notEqual(null, res.body.per_projects);
-      assert.notEqual(null, res.body.radar);
       assert.equal(200, res.statusCode);
+      assert.deepEqual([], difference(res.body, stat_keys));
+      stat_keys.forEach(item => {
+        assert.notEqual(null, res.body[item]);
+      });
       done();
     });
   });
