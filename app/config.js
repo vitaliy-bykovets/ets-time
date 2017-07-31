@@ -43,7 +43,7 @@ switch (process.env.NODE_ENV) {
     break;
   case 'testing':
     config.db.connection.user = process.env.MYSQL_USER;
-    config.db.connection.database = process.env.TEST_ENV_NUMBER + '_test';
+    config.db.connection.database = 'test' + process.env.TEST_ENV_NUMBER;
     config.db.connection.password = process.env.MYSQL_PASS;
     break;
   default:
