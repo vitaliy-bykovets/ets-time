@@ -8,10 +8,7 @@ import 'react-select/dist/react-select.css';
 import './../../../node_modules/moment/locale/en-gb';
 
 // Actions
-import {
-  toggleTrackFilters,
-  setTrackFilters
-} from './../../store/actions/trackActions';
+import { toggleTrackFilters, setTrackFilters } from './../../store/actions/trackActions';
 import { getUsers } from './../../store/actions/userActions';
 
 // Helpers
@@ -74,12 +71,7 @@ class Filters extends React.Component {
   };
 
   render() {
-    const {
-      workTypes: wt,
-      statusTypes: st,
-      users: us,
-      activeUser
-    } = this.props;
+    const { workTypes: wt, statusTypes: st, users: us, activeUser } = this.props;
 
     const workTypes = wt.map(v => {
       return {
@@ -95,9 +87,7 @@ class Filters extends React.Component {
       };
     });
 
-    const isOwnerOrPm =
-      activeUser.roles &&
-      (activeUser.roles.includes('owner') || activeUser.roles.includes('pm'));
+    const isOwnerOrPm = activeUser.roles && (activeUser.roles.includes('owner') || activeUser.roles.includes('pm'));
 
     const users = us.map(v => {
       return {
@@ -152,7 +142,7 @@ class Filters extends React.Component {
           <DatePicker
             dateFormat="DD-MM-YYYY"
             selected={this.state.endDate}
-            onChange={this.handleEndChange}
+            onChange={this.handleChangeEndDate}
             className="datepicker"
             locale="en-gb"
           />
@@ -178,25 +168,13 @@ class Filters extends React.Component {
           />
 
           <label className="input-headline">Task</label>
-          <input
-            type="text"
-            value={this.state.task}
-            name="task"
-            onChange={this.handleInputChange}
-            className="input"
-          />
+          <input type="text" value={this.state.task} name="task" onChange={this.handleInputChange} className="input" />
         </div>
         <div className="sidebarBtns">
-          <button
-            className="sidebarBtns__btn sidebarBtns__btn--save"
-            onClick={this.handleUseFilters}
-          >
+          <button className="sidebarBtns__btn sidebarBtns__btn--save" onClick={this.handleUseFilters}>
             Apply filters
           </button>
-          <button
-            className="sidebarBtns__btn sidebarBtns__btn--cancel"
-            onClick={this.handleClose}
-          >
+          <button className="sidebarBtns__btn sidebarBtns__btn--cancel" onClick={this.handleClose}>
             Cancel
           </button>
         </div>

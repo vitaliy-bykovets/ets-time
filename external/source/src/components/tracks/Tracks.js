@@ -13,7 +13,8 @@ import {
   getTracks,
   toggleTrackFilters,
   clearTrackFilters,
-  toggleChangeTrack
+  toggleChangeTrack,
+  setVars
 } from './../../store/actions/trackActions';
 import { clearErrors } from './../../store/actions/generalActions';
 
@@ -39,6 +40,11 @@ class Tracks extends React.Component {
     if (!isEqual(nextProps.filters, this.props.filters)) {
       this.props.getTracks(nextProps.token, nextProps.filters);
     }
+
+    if (nextProps._need_upd_list) {
+      this.props.setVars({ _need_upd_list: false });
+      this.props.getTracks(nextProps.token, nextProps.filters);
+    }
   }
 
   openFilters = () => {
@@ -56,60 +62,27 @@ class Tracks extends React.Component {
 
   render() {
     const { showFilters } = this.state;
-    const {
-      bgColor,
-      token,
-      tracks,
-      view,
-      activeUser,
-      showStatistic
-    } = this.props;
+    const { bgColor, token, tracks, view, activeUser, showStatistic } = this.props;
 
     const trackComponents = tracks.map((t, i) => {
-      return (
-        <Track
-          token={token}
-          trackData={t}
-          key={i}
-          view={view}
-          bgColor={bgColor}
-        />
-      );
+      return <Track token={token} trackData={t} key={i} view={view} bgColor={bgColor} />;
     });
 
     return (
       <div className="container" style={{ background: bgColor }}>
-        {showStatistic
-          ? <TracksStatistic
-              tracks={tracks}
-              view={view}
-              activeUser={activeUser}
-            />
-          : null}
+        {showStatistic ? <TracksStatistic tracks={tracks} view={view} activeUser={activeUser} /> : null}
         {trackComponents}
         <Filters activeUser={activeUser} />
         <ChangeTrack />
         <div className="mainBtns">
-          <button
-            className="mainBtns__btn"
-            onClick={this.openChangeTrack}
-            style={{ color: bgColor }}
-          >
+          <button className="mainBtns__btn" onClick={this.openChangeTrack} style={{ color: bgColor }}>
             <FaPlus />
           </button>
-          <button
-            className="mainBtns__btn"
-            onClick={this.openFilters}
-            style={{ color: bgColor }}
-          >
+          <button className="mainBtns__btn" onClick={this.openFilters} style={{ color: bgColor }}>
             <FaFilter />
           </button>
           {showFilters
-            ? <button
-                className="mainBtns__btn"
-                onClick={this.clearFilters}
-                style={{ color: bgColor }}
-              >
+            ? <button className="mainBtns__btn" onClick={this.clearFilters} style={{ color: bgColor }}>
                 <FaTimes />
               </button>
             : null}
@@ -120,11 +93,12 @@ class Tracks extends React.Component {
 }
 
 function mapStateToProps(state) {
-  let { tracks, filters, view } = state.trackReducer;
+  let { tracks, filters, view, _need_upd_list } = state.trackReducer;
   let { bgColor, token, showStatistic } = state.generalReducer;
   let { activeUser } = state.userReducer;
 
   return {
+    _need_upd_list,
     tracks,
     filters,
     view,
@@ -140,5 +114,6 @@ export default connect(mapStateToProps, {
   toggleTrackFilters,
   clearTrackFilters,
   toggleChangeTrack,
-  clearErrors
+  clearErrors,
+  setVars
 })(Tracks);
