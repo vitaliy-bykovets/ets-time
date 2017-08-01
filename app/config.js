@@ -16,7 +16,7 @@ let config = {
   ],
   task_status: ['Accepted', 'Declined', 'Open'],
   roles: ['owner', 'pm', 'member'],
-  positions: ['php', 'nodejs', 'ios', 'android', 'qa', 'ui/ux', 'fed', 'other'],
+  positions: ['php', 'nodejs', 'python', 'ios', 'android', 'qa', 'ui/ux', 'fed', 'ba', 'other'],
   db: {
     client: 'mysql',
     connection: {
