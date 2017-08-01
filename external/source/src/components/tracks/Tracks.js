@@ -38,7 +38,6 @@ class Tracks extends React.Component {
     this.setState({ showFilters: showClearFilters(nextProps.filters) });
 
     if (!isEqual(nextProps.filters, this.props.filters)) {
-      console.log('filters');
       this.props.getTracks(nextProps.token, nextProps.filters);
     }
 
