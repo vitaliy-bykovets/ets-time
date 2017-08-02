@@ -51,30 +51,30 @@ const listCredentials = [
     400,
     'Project must be at least 2 characters'
   ],
-  //[
-  //  {
-  //    user: 1,
-  //    project: 'ets',
-  //    date_start: '2017-07-50',
-  //    date_end: '2017-07-26',
-  //    status: 'Open',
-  //    type_work: 'Development'
-  //  },
-  //  400,
-  //  'Date start must be valid date format'
-  //],
-  //[
-  //  {
-  //    user: 1,
-  //    project: 'ets',
-  //    date_start: '2017-07-24',
-  //    date_end: '2017-41-26',
-  //    status: 'Open',
-  //    type_work: 'Development'
-  //  },
-  //  400,
-  //  'Date end must be valid date format'
-  //],
+  [
+    {
+      user: 1,
+      project: 'ets',
+      date_start: '2017-07-50',
+      date_end: '2017-07-26',
+      status: 'Open',
+      type_work: 'Development'
+    },
+    400,
+    'Date start must be valid date format'
+  ],
+  [
+    {
+      user: 1,
+      project: 'ets',
+      date_start: '2017-07-24',
+      date_end: '2017-41-26',
+      status: 'Open',
+      type_work: 'Development'
+    },
+    400,
+    'Date end must be valid date format'
+  ],
   [
     {
       user: 1,
