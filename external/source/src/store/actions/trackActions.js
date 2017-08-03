@@ -62,7 +62,7 @@ export function removeTrack(id, token) {
   return dispatch => {
     deleteTrackApi(id, token).then(resp => {
       if (resp.status >= 200 && resp.status < 300) {
-        dispatch(getTracks(token));
+        dispatch({ type: 'NEED_UPD_LIST', payload: { _need_upd_list: true } });
         dispatch(toggleConfirm(false, 'text'));
       } else {
         dispatch(setErrors({ deleteTrack: true }));
@@ -94,7 +94,7 @@ export function updateTrack(data, token) {
   return dispatch => {
     updateTrackApi(data, token).then(resp => {
       if (resp.status >= 200 && resp.status < 300) {
-        dispatch(getTracks(token));
+        dispatch({ type: 'NEED_UPD_LIST', payload: { _need_upd_list: true } });
         dispatch(toggleChangeTrack(false));
       } else {
         if (resp.status === 404) {

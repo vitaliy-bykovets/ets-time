@@ -2,7 +2,56 @@
 const Validator = require('validatorjs');
 const knex = require('./../../libs/knex');
 
+function leapYear(year) {
+  return (year % 4 === 0 && year % 100 !== 0) || year % 400 === 0;
+}
+
+function isValidDate(inDate) {
+  let valid = true;
+
+  // reformat if supplied as mm.dd.yyyy (period delimiter)
+  if (typeof inDate === 'string') {
+    let pos = inDate.indexOf('.');
+    if (pos > 0 && pos <= 6) {
+      inDate = inDate.replace(/\./g, '-');
+    }
+  }
+
+  let testDate = new Date(inDate);
+  let yr = testDate.getFullYear();
+  let mo = testDate.getMonth();
+  let day = testDate.getDate();
+
+  let daysInMonth = [31, leapYear(yr) ? 29 : 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+
+  if (yr < 1000) {
+    return false;
+  }
+  if (isNaN(mo)) {
+    return false;
+  }
+  if (mo > 12) {
+    return false;
+  }
+  if (isNaN(day)) {
+    return false;
+  }
+  if (day > daysInMonth[mo]) {
+    return false;
+  }
+
+  return valid;
+}
+
 // add custom validate rules here
+
+Validator.register(
+  'my_date',
+  (value, requirement, attribute) => {
+    return isValidDate(value);
+  },
+  'The :attribute is not a valid date format'
+);
 
 /**
  * Get unique email from users
