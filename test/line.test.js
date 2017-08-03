@@ -79,6 +79,30 @@ const listCredentials = [
     {
       user: 1,
       project: 'ets',
+      date_start: '2017-07-29',
+      date_end: '2017-00-31',
+      status: 'Open',
+      type_work: 'Development'
+    },
+    400,
+    'Date end must be valid'
+  ],
+  [
+    {
+      user: 1,
+      project: 'ets',
+      date_start: '2017-07-29',
+      date_end: '2017-02-31',
+      status: 'Open',
+      type_work: 'Development'
+    },
+    400,
+    'Date end must be valid'
+  ],
+  [
+    {
+      user: 1,
+      project: 'ets',
       date_start: '2017-07-24',
       date_end: '2017-41-26',
       status: 'Open',
@@ -479,7 +503,6 @@ describe('Line controller', () => {
       listCredentials,
       (item, cb) => {
         agent.get(urls.lines).query(item[0]).set('authorization', token_owner).end((err, res) => {
-          console.log(res.statusCode);
           if (item[1] === res.statusCode) {
             cb();
           } else {
