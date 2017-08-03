@@ -97,7 +97,7 @@ const listCredentials = [
       type_work: 'Development'
     },
     400,
-    'Date end must be valid'
+    'Date end should be valid'
   ],
   [
     {
