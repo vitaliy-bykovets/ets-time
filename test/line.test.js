@@ -67,6 +67,66 @@ const listCredentials = [
     {
       user: 1,
       project: 'ets',
+      date_start: '2017-07-29',
+      date_end: '2017-08-31',
+      status: 'Open',
+      type_work: 'Development'
+    },
+    400,
+    'Date end must be valid (0)'
+  ],
+  [
+    {
+      user: 1,
+      project: 'ets',
+      date_start: '2017-07-29',
+      date_end: '2017-00-31',
+      status: 'Open',
+      type_work: 'Development'
+    },
+    400,
+    'Date end must be valid (1)'
+  ],
+  [
+    {
+      user: 1,
+      project: 'ets',
+      date_start: '2016-01-29',
+      date_end: '2016-02-29',
+      status: 'Open',
+      type_work: 'Development'
+    },
+    200,
+    'Date end must be valid (2)'
+  ],
+  [
+    {
+      user: 1,
+      project: 'ets',
+      date_start: '2016-05-29',
+      date_end: '2016-02-29',
+      status: 'Open',
+      type_work: 'Development'
+    },
+    400,
+    'Date end must be after date to'
+  ],
+  [
+    {
+      user: 1,
+      project: 'ets',
+      date_start: '2017-07-29',
+      date_end: '2017-02-31',
+      status: 'Open',
+      type_work: 'Development'
+    },
+    400,
+    'Date end should be valid'
+  ],
+  [
+    {
+      user: 1,
+      project: 'ets',
       date_start: '2017-07-24',
       date_end: '2017-41-26',
       status: 'Open',

@@ -16,11 +16,10 @@ function isValidDate(inDate) {
       inDate = inDate.replace(/\./g, '-');
     }
   }
-
-  let testDate = new Date(inDate);
-  let yr = testDate.getFullYear();
-  let mo = testDate.getMonth();
-  let day = testDate.getDate();
+  let splited_date = inDate.split('-');
+  let yr = parseInt(splited_date[0]);
+  let mo = parseInt(splited_date[1]);
+  let day = parseInt(splited_date[2]);
 
   let daysInMonth = [31, leapYear(yr) ? 29 : 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
 
@@ -30,13 +29,13 @@ function isValidDate(inDate) {
   if (isNaN(mo)) {
     return false;
   }
-  if (mo > 12) {
+  if (mo > 12 || mo < 1) {
     return false;
   }
   if (isNaN(day)) {
     return false;
   }
-  if (day > daysInMonth[mo]) {
+  if (day > daysInMonth[mo - 1]) {
     return false;
   }
 
