@@ -18,6 +18,18 @@ const listCredentials = [
   [
     {
       user: 'user',
+      project: 'Very looooong titleeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee!!!!!!!!',
+      date_start: '2017-07-24',
+      date_end: '2017-07-26',
+      status: 'Open',
+      type_work: 'Development'
+    },
+    400,
+    'Very long project name'
+  ],
+  [
+    {
+      user: 'user',
       project: 'ets',
       date_start: '2017-07-24',
       date_end: '2017-07-26',
@@ -171,6 +183,28 @@ const createCredentials = [
     },
     400,
     'Project not exist'
+  ],
+  [
+    {
+      project: 'Very looooong titleeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee!!!!!!!!',
+      task: 'test other controllers',
+      type_work: 'Development',
+      hours: '5.0',
+      date_task: '2017-07-26'
+    },
+    400,
+    'Very long project'
+  ],
+  [
+    {
+      project: 'NOrmal title of project',
+      task: new Array(500).join('x'),
+      type_work: 'Development',
+      hours: '5.0',
+      date_task: '2017-07-26'
+    },
+    400,
+    'Very long project'
   ],
   [
     {
