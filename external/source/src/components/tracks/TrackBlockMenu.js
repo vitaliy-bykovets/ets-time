@@ -3,14 +3,8 @@ import classnames from 'classnames';
 import { connect } from 'react-redux';
 
 // Actions
-import {
-  toggleConfirm,
-  clearErrors
-} from './../../store/actions/generalActions';
-import {
-  toggleChangeTrack,
-  changeTrackStatus
-} from './../../store/actions/trackActions';
+import { toggleConfirm, clearErrors } from './../../store/actions/generalActions';
+import { toggleChangeTrack, changeTrackStatus } from './../../store/actions/trackActions';
 
 // Helpers
 import { formatDateToServer } from './../../shared/HelpService';
@@ -54,12 +48,8 @@ class TrackBlockMenu extends React.Component {
 
   render() {
     const { t, menuOpen, activeUser } = this.props;
-    const isOwnerOrPm =
-      activeUser.roles &&
-      (activeUser.roles.includes('owner') || activeUser.roles.includes('pm'));
-    const isUserTrack = t.user_id && activeUser.id
-      ? activeUser.id === t.user_id
-      : true;
+    const isOwnerOrPm = activeUser.roles && (activeUser.roles.includes('owner') || activeUser.roles.includes('pm'));
+    const isUserTrack = t.user_id && activeUser.id ? activeUser.id === t.user_id : true;
 
     return (
       <div
@@ -71,33 +61,21 @@ class TrackBlockMenu extends React.Component {
           Edit
         </button>
         {isUserTrack
-          ? <button
-              className="track-menu-btns__btn"
-              onClick={this.handleDelete}
-            >
+          ? <button className="track-menu-btns__btn" onClick={this.handleDelete}>
               Delete
             </button>
           : null}
         {t.status !== 'Declined' && isOwnerOrPm
-          ? <button
-              className="track-menu-btns__btn"
-              onClick={this.handleDecline}
-            >
+          ? <button className="track-menu-btns__btn" onClick={this.handleDecline}>
               Decline
             </button>
           : null}
         {t.status !== 'Accepted' && isOwnerOrPm
-          ? <button
-              className="track-menu-btns__btn"
-              onClick={this.handleAccept}
-            >
+          ? <button className="track-menu-btns__btn" onClick={this.handleAccept}>
               Accept
             </button>
           : null}
-        <button
-          className="track-menu-btns__btn"
-          onClick={this.props.toggleMenu}
-        >
+        <button className="track-menu-btns__btn" onClick={this.props.toggleMenu}>
           Cancel
         </button>
       </div>

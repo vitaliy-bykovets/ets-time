@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "PORT=1337 nodemon app.js",
+    "start": "PORT=1337 nodemon app.js --ignore external/",
     "test": "NODE_ENV=testing mocha --timeout 15000"
   },
   "dependencies": {

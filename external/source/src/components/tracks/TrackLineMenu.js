@@ -33,17 +33,10 @@ class TrackLineMenu extends React.Component {
     this.props.clearErrors();
   };
 
-  handleDecline = () => {
+  handleChangeStatus = action => {
     let { t, token } = this.props;
-    if (t.status !== 'Declined') {
-      this.props.changeTrackStatus(token, t.id, 'Declined');
-    }
-  };
-
-  handleAccept = () => {
-    let { t, token } = this.props;
-    if (t.status !== 'Accepted') {
-      this.props.changeTrackStatus(token, t.id, 'Accepted');
+    if (t.status !== action) {
+      this.props.changeTrackStatus(token, t.id, action);
     }
   };
 
@@ -65,12 +58,20 @@ class TrackLineMenu extends React.Component {
                   </div>
                 : null}
               {isOwnerOrPm
-                ? <div className="track__menuBtnLine--btn" onClick={this.handleAccept} title="Accept track">
+                ? <div
+                    className="track__menuBtnLine--btn"
+                    onClick={this.handleChangeStatus.bind(this, 'Accepted')}
+                    title="Accept track"
+                  >
                     <FaAccept />
                   </div>
                 : null}
               {isOwnerOrPm
-                ? <div className="track__menuBtnLine--btn" onClick={this.handleDecline} title="Decline track">
+                ? <div
+                    className="track__menuBtnLine--btn"
+                    onClick={this.handleChangeStatus.bind(this, 'Declined')}
+                    title="Decline track"
+                  >
                     <FaDecline />
                   </div>
                 : null}

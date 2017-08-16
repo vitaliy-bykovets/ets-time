@@ -75,7 +75,7 @@ export function createTrack(data, token) {
   return dispatch => {
     createTrackApi(data, token).then(resp => {
       if (resp.status >= 200 && resp.status < 300) {
-        dispatch(getTracks(token));
+        dispatch({ type: 'NEED_UPD_LIST', payload: { _need_upd_list: true } });
         dispatch(toggleChangeTrack(false));
       } else {
         if (resp.status === 404) {

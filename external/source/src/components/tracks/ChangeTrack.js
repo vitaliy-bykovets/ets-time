@@ -8,12 +8,7 @@ import Select from 'react-select';
 import 'react-select/dist/react-select.css';
 
 // Actions
-import {
-  toggleChangeTrack,
-  createTrack,
-  updateTrack,
-  getLibraries
-} from './../../store/actions/trackActions';
+import { toggleChangeTrack, createTrack, updateTrack, getLibraries } from './../../store/actions/trackActions';
 import { clearErrorField } from './../../store/actions/generalActions';
 
 // Helpers
@@ -49,7 +44,6 @@ class SingeTrack extends React.Component {
     } else {
       this.props.createTrack(this.state, token);
     }
-
     this.props.getLibraries(token, true);
   };
 
@@ -201,16 +195,10 @@ class SingeTrack extends React.Component {
           />
         </div>
         <div className="sidebarBtns">
-          <button
-            className="sidebarBtns__btn sidebarBtns__btn--save"
-            onClick={this.handleSaveTrack}
-          >
+          <button className="sidebarBtns__btn sidebarBtns__btn--save" onClick={this.handleSaveTrack}>
             Save
           </button>
-          <button
-            className="sidebarBtns__btn sidebarBtns__btn--cancel"
-            onClick={this.handleClose}
-          >
+          <button className="sidebarBtns__btn sidebarBtns__btn--cancel" onClick={this.handleClose}>
             Cancel
           </button>
         </div>
@@ -220,13 +208,7 @@ class SingeTrack extends React.Component {
 }
 
 function mapStateToProps(state) {
-  const {
-    trackIsOpen,
-    workTypes,
-    trackData,
-    isTrackEdit,
-    projects
-  } = state.trackReducer;
+  const { trackIsOpen, workTypes, trackData, isTrackEdit, projects } = state.trackReducer;
   const { errors, token } = state.generalReducer;
 
   return {

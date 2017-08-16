@@ -18,6 +18,8 @@ class InputAutoSuggest extends React.Component {
       this.setState({ field: nextProps.field });
     } else if (!nextProps.field && nextProps.needClearOnInit) {
       this.setState({ field: '' });
+    } else {
+      this.setState({ field: nextProps.field });
     }
   }
 
@@ -31,14 +33,12 @@ class InputAutoSuggest extends React.Component {
     }
 
     const { suggestions, changeField } = this.props;
-    const sgs = suggestions
-      .filter(s => value && s.toLowerCase().indexOf(value.toLowerCase()) !== -1)
-      .map(s => {
-        return {
-          value: s,
-          active: false
-        };
-      });
+    const sgs = suggestions.filter(s => value && s.toLowerCase().indexOf(value.toLowerCase()) !== -1).map(s => {
+      return {
+        value: s,
+        active: false
+      };
+    });
 
     this.setState({ suggestions: sgs, field: value, activeSuggestion: 1 });
     changeField(value);
@@ -97,7 +97,6 @@ class InputAutoSuggest extends React.Component {
           activeSuggestion: this._findActiveSuggestion(true)
         });
         break;
-
       // On arrow up press
       case 38:
         event.preventDefault();
@@ -113,7 +112,6 @@ class InputAutoSuggest extends React.Component {
           activeSuggestion: this._findActiveSuggestion(false)
         });
         break;
-
       // On enter press
       case 13:
         const value = suggestions[activeSuggestion - 1].value;
@@ -123,7 +121,6 @@ class InputAutoSuggest extends React.Component {
         });
         this.props.changeField(value);
         break;
-
       // On escape press
       case 27:
         this.setState({ suggestions: [] });
@@ -139,9 +136,7 @@ class InputAutoSuggest extends React.Component {
     const { activeSuggestion, suggestions } = this.state;
 
     if (positive) {
-      return activeSuggestion
-        ? activeSuggestion === suggestions.length ? 1 : activeSuggestion + 1
-        : 1;
+      return activeSuggestion ? (activeSuggestion === suggestions.length ? 1 : activeSuggestion + 1) : 1;
     } else {
       return activeSuggestion
         ? activeSuggestion === 1 ? suggestions.length : activeSuggestion - 1
@@ -155,7 +150,7 @@ class InputAutoSuggest extends React.Component {
 
     const Suggestions = (
       <div className="suggestions__values" ref="suggestions">
-        {suggestions.map((sg, index) =>
+        {suggestions.map((sg, index) => (
           <div
             key={index}
             className={classnames('suggestions__value', {
@@ -168,7 +163,7 @@ class InputAutoSuggest extends React.Component {
           >
             {sg.value}
           </div>
-        )}
+        ))}
       </div>
     );
 
