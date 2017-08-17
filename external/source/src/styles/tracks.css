@@ -85,13 +85,13 @@
 }
 
 .track__status {
-  min-width: 50px;
+  /*min-width: 50px;*/
   text-align: center;
   color: #ffffff;
-  padding: 5px;
-  border-radius: 2px;
+  padding: 10px;
+  border-radius: 10px;
   margin-top: 15px;
-  font-size: 12px;
+  /*font-size: 12px;*/
   display: inline-block;
 }
 

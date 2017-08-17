@@ -85,15 +85,14 @@ class Track extends React.Component {
               'track__status--declined': t.status === 'Declined',
               'track__status--line': view === 'line'
             })}
-          >
-            {t.status}
-          </div>
+            title={t.status}
+          />
           <span
             className={classnames('track__hours', {
               'track__hours--line': view === 'line'
             })}
           >
-            {numeraljs(t.hours).format('0.[00]')} hour(s)
+            {numeraljs(t.hours).format('0.[00]')}h.
           </span>
 
           <TrackLineMenu view={view} t={t} token={token} />

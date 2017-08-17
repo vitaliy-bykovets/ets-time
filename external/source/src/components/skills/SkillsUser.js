@@ -1,11 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import {
-  getSkillsFromUserApi,
-  attachSkillUser
-} from './../../shared/ApiService';
+import { getSkillsFromUserApi, attachSkillUser } from './../../shared/ApiService';
 import { getUsers } from './../../store/actions/userActions';
 import { UsersSelect, ParentSkill } from './index';
+import { filter } from 'lodash';
 
 class SkillsUser extends React.Component {
   state = {
@@ -18,9 +16,9 @@ class SkillsUser extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if(nextProps.location.state) {
+    if (nextProps.location.state) {
       const _id = nextProps.location.state.userId;
-      this.changeState('user', {id: _id});
+      this.changeState('user', { id: _id });
     } else {
       this.getCacheSelectedUser();
     }
@@ -61,22 +59,20 @@ class SkillsUser extends React.Component {
   };
 
   saveSkillUser = event => {
-    attachSkillUser(this.props.token, event).then(resp => {
-      console.log(resp);
-    });
+    attachSkillUser(this.props.token, event).then(resp => {});
   };
 
   render() {
     const { state_selected_user } = this.state;
 
-    const allSkills = this.state.skills.map((skill, index) =>
+    const allSkills = this.state.skills.map((skill, index) => (
       <ParentSkill
         key={index}
         parentSkill={skill}
         selectedUser={state_selected_user}
         saveSkillUser={this.saveSkillUser}
       />
-    );
+    ));
 
     return (
       <div className="container skills-user-wrapper">
@@ -101,7 +97,7 @@ function mapStateToProps(state) {
   return {
     token,
     activeUser: state.userReducer.activeUser,
-    users: state.userReducer.users
+    users: filter(state.userReducer.users, { locked: 0 })
   };
 }
 
