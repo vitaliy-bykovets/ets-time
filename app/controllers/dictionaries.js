@@ -13,10 +13,10 @@ router.get('/', (req, res, next) => {
         knex('track_lines')
           .pluck('project')
           .distinct()
-          .limit(20)
+          .limit(100)
           .orderBy('project', 'asc')
           .orderByRaw('CHAR_LENGTH(project) asc')
-          .where('created_at', '>', moment().subtract('60', 'day').format('YYYY-MM-DD HH:mm:ss'))
+          .where('created_at', '>', moment().subtract(60, 'days').format('YYYY-MM-DD HH:mm:ss'))
           .asCallback(cb);
       }
     },
