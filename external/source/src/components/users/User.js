@@ -1,20 +1,17 @@
-import React from "react";
-import { connect } from "react-redux";
-import classnames from "classnames";
-import { withRouter } from "react-router-dom";
+import React from 'react';
+import { connect } from 'react-redux';
+import classnames from 'classnames';
+import { withRouter } from 'react-router-dom';
 
 // Icons
-import FaPencil from "react-icons/lib/fa/pencil";
-import FaUnblock from "react-icons/lib/fa/check-square-o";
-import FaBlock from "react-icons/lib/fa/ban";
-import FaGraduationCap from "react-icons/lib/fa/graduation-cap";
+import FaPencil from 'react-icons/lib/fa/pencil';
+import FaUnblock from 'react-icons/lib/fa/check-square-o';
+import FaBlock from 'react-icons/lib/fa/ban';
+import FaGraduationCap from 'react-icons/lib/fa/graduation-cap';
 
 // Actions
-import {
-toggleChangeUser,
-updateUser
-} from "./../../store/actions/userActions";
-import { clearErrors } from "./../../store/actions/generalActions";
+import { toggleChangeUser, updateUser } from './../../store/actions/userActions';
+import { clearErrors } from './../../store/actions/generalActions';
 
 class User extends React.Component {
   handleEdit = () => {
@@ -25,13 +22,9 @@ class User extends React.Component {
   handleChangeStatus = newStatus => {
     let { user, token } = this.props;
 
-    let rolesArray = typeof user.roles === "string"
-      ? user.roles.split(",")
-      : [];
+    let rolesArray = typeof user.roles === 'string' ? user.roles.split(',') : [];
 
-    let positionArray = typeof user.position === "string"
-      ? user.position.split(",")
-      : [];
+    let positionArray = typeof user.position === 'string' ? user.position.split(',') : [];
 
     let userObj = Object.assign({}, user, {
       roles: rolesArray,
@@ -43,9 +36,9 @@ class User extends React.Component {
 
   goToSkills = userId => {
     this.props.history.push({
-        pathname: '/user-skills',
-        state: { userId: userId }
-      });
+      pathname: '/user-skills',
+      state: { userId: userId }
+    });
   };
 
   render() {
@@ -63,44 +56,27 @@ class User extends React.Component {
             {user.position}
           </h4>
           <p className="track__date track__date--line">
-            {user.first_name + " " + user.last_name}
+            {user.first_name + ' ' + user.last_name}
           </p>
         </div>
         <div className="track__menuBtn--line" style={{ color: bgColor }}>
           <div
-            className={classnames("track__status track__status--line", {
-              "track__status--accepted": user.locked === 0,
-              "track__status--declined": user.locked === 1
+            className={classnames('track__status track__status--line', {
+              'track__status--accepted': user.locked === 0,
+              'track__status--declined': user.locked === 1
             })}
-          >
-            {user.locked ? "Blocked" : "Active"}
-          </div>
-          <div
-            className="track__menuBtnLine--btn m-l-10"
-            onClick={this.handleEdit}
-            title="Edit user"
-          >
+            title={user.locked ? 'Blocked' : 'Active'}
+          />
+          <div className="track__menuBtnLine--btn m-l-10" onClick={this.handleEdit} title="Edit user">
             <FaPencil />
           </div>
-          <div
-            className="track__menuBtnLine--btn"
-            onClick={() => this.handleChangeStatus(0)}
-            title="Unblock user"
-          >
+          <div className="track__menuBtnLine--btn" onClick={() => this.handleChangeStatus(0)} title="Unblock user">
             <FaUnblock />
           </div>
-          <div
-            className="track__menuBtnLine--btn"
-            onClick={() => this.goToSkills(user.id)}
-            title="Skills user"
-          >
+          <div className="track__menuBtnLine--btn" onClick={() => this.goToSkills(user.id)} title="Skills user">
             <FaGraduationCap />
           </div>
-          <div
-            className="track__menuBtnLine--btn"
-            onClick={() => this.handleChangeStatus(1)}
-            title="Block user"
-          >
+          <div className="track__menuBtnLine--btn" onClick={() => this.handleChangeStatus(1)} title="Block user">
             <FaBlock />
           </div>
         </div>
