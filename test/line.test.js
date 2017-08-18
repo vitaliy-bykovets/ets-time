@@ -84,7 +84,7 @@ const listCredentials = [
       status: 'Open',
       type_work: 'Development'
     },
-    400,
+    200,
     'Date end must be valid (0)'
   ],
   [
@@ -110,18 +110,6 @@ const listCredentials = [
     },
     200,
     'Date end must be valid (2)'
-  ],
-  [
-    {
-      user: 1,
-      project: 'ets',
-      date_start: '2016-05-29',
-      date_end: '2016-02-29',
-      status: 'Open',
-      type_work: 'Development'
-    },
-    400,
-    'Date end must be after date to'
   ],
   [
     {

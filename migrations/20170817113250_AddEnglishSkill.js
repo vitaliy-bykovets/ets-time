@@ -7,6 +7,4 @@ exports.up = knex => {
     }
   ]);
 };
-exports.down = knex => {
-  return new Promise();
-};
+exports.down = knex => knex('users').count('* as c');
