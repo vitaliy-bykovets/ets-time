@@ -44,7 +44,6 @@ switch (process.env.NODE_ENV) {
     config.db.migrations.directory = process.env.MIGRATION_PATH;
     break;
   case 'testing':
-    config.db.connection.host = '127.0.0.1';
     config.db.connection.user = process.env.MYSQL_USER || 'root';
     config.db.connection.database = process.env.MYSQL_USER ? 'test' : 'ets_test';
     config.db.connection.password = process.env.MYSQL_PASSWORD || '1';
