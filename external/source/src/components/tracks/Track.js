@@ -38,39 +38,52 @@ class Track extends React.Component {
       >
         <div
           className={classnames({
-            'track__info--line': view === 'line',
-            'track__info--block': view === 'block'
+            'track__container': view === 'line',
           })}
         >
-          <h3
-            className={classnames('track__user', {
-              'track__user--line': view === 'line'
+          <div
+            className={classnames({
+              'track__info--line': view === 'line',
+              'track__info--block': view === 'block'
             })}
           >
-            {`${getFirstLetter(t.first_name)}. ${t.last_name}`}
-          </h3>
-          <h4
-            className={classnames('track__project', {
-              'track__type--line': view === 'line'
-            })}
-          >
-            {project}
-          </h4>
-          <h4
-            className={classnames('track__type', {
-              'track__type--line': view === 'line'
-            })}
-          >
-            {t.type_work}
-          </h4>
-          <p
-            className={classnames('track__date', {
-              'track__date--line': view === 'line'
-            })}
-            style={{ color: bgColor }}
-          >
-            {dateStr}
-          </p>
+            <h3
+              className={classnames('track__user', {
+                'track__user--line': view === 'line'
+              })}
+            >
+              {`${getFirstLetter(t.first_name)}. ${t.last_name}`}
+            </h3>
+            <h4
+              className={classnames('track__project', {
+                'track__type--line': view === 'line'
+              })}
+            >
+              {project}
+            </h4>
+            <h4
+              className={classnames('track__type', {
+                'track__type--line': view === 'line'
+              })}
+            >
+              {t.type_work}
+            </h4>
+            <p
+              className={classnames('track__date', {
+                'track__date--line': view === 'line'
+              })}
+              style={{ color: bgColor }}
+            >
+              {dateStr}
+            </p>
+          </div>
+          { view === 'line'
+            ? <p
+              className="track__task"
+            >
+              "{t.task}"
+            </p>
+            : null }
         </div>
 
         <div

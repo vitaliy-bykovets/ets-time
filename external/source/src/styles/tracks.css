@@ -10,6 +10,12 @@
   overflow: hidden;
 }
 
+.track__container {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
 .track__block {
   width: 300px;
   margin: 5px;
@@ -19,8 +25,8 @@
 .track__line {
   width: 100%;
   margin: 1px;
-  padding: 0 0 0 20px;
-  height: 50px;
+  padding: 0 20px;
+  height: 70px;
 }
 
 .track__project {
@@ -67,6 +73,16 @@
 .track__date {
   margin-top: 15px;
   margin-bottom: 0;
+}
+
+.track__task {
+  margin: 0;
+  font-size: 14px;
+  margin-top: 10px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  max-width: calc(100vw - 320px);
 }
 
 .track__date--line {
@@ -199,7 +215,6 @@
 
 .track__info--line {
   display: flex;
-  justify-content: center;
   align-items: center;
 }
 
