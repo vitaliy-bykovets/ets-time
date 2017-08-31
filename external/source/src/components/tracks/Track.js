@@ -41,6 +41,14 @@ class Track extends React.Component {
             'track__info--block': view === 'block'
           })}
         >
+          <p
+            className={classnames('track__date', {
+              'track__date--line': view === 'line'
+            })}
+            style={{ color: bgColor }}
+          >
+            {dateStr}
+          </p>
           <div
             className={classnames('track__type', {
               'track__type--line': view === 'line'
@@ -62,19 +70,8 @@ class Track extends React.Component {
           >
             {project}
           </h4>
-          <p
-            className={classnames('track__date', {
-              'track__date--line': view === 'line'
-            })}
-            style={{ color: bgColor }}
-          >
-            {dateStr}
-          </p>
-          {view === 'line'
-            ? <p className="track__task">
-                "{t.task}"
-              </p>
-            : null}
+
+          {view === 'line' ? <p className="track__task">"{t.task}"</p> : null}
         </div>
 
         <div
@@ -102,22 +99,22 @@ class Track extends React.Component {
           <TrackLineMenu view={view} t={t} token={token} />
         </div>
 
-        {view === 'block'
-          ? <button
-              className="track__menuBtn"
-              onClick={this.toggleMenu}
-              style={{
-                borderColor: bgColor,
-                color: bgColor
-              }}
-            >
-              <FaEllipsis />
-            </button>
-          : null}
+        {view === 'block' ? (
+          <button
+            className="track__menuBtn"
+            onClick={this.toggleMenu}
+            style={{
+              borderColor: bgColor,
+              color: bgColor
+            }}
+          >
+            <FaEllipsis />
+          </button>
+        ) : null}
 
-        {view === 'block'
-          ? <TrackBlockMenu t={t} menuOpen={this.state.menuOpen} toggleMenu={this.toggleMenu} token={token} />
-          : null}
+        {view === 'block' ? (
+          <TrackBlockMenu t={t} menuOpen={this.state.menuOpen} toggleMenu={this.toggleMenu} token={token} />
+        ) : null}
       </div>
     );
   }

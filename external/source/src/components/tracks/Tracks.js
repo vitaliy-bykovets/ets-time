@@ -26,7 +26,6 @@ import {
   FaPlus,
   FaFilter,
   FaTimes,
-  FaPencil,
   FaBug,
   FaCogs,
   FaPaintBrush,

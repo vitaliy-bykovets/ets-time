@@ -34,14 +34,17 @@
   font-weight: normal;
   margin: 0;
   font-size: 12px;
-  padding-bottom: 5px;
+  padding-bottom: 3px;
+  border: 1px solid #424242;
+  border-radius: 3px;
+  white-space: nowrap;
 }
 
 .track__type {
   color: #607d8b;
   font-weight: normal;
   margin: 0;
-  font-size: 12px;
+  font-size: 14px;
 }
 
 .track__user {
@@ -55,6 +58,7 @@
   margin: 0;
   padding-left: 20px;
   font-weight: normal;
+  min-width: 100px;
 }
 
 .track__project--line {
@@ -67,23 +71,24 @@
 
 .track__type--line {
   margin-left: 20px;
-  padding-bottom: 0;
-  padding: 3px;
+  /*padding-bottom: 0;*/
+  padding: 3px 5px;
 }
 
 .track__date {
   margin-top: 15px;
   margin-bottom: 0;
+  white-space: nowrap;
 }
 
 .track__task {
   margin: 0;
+  margin-left: 20px;
   font-size: 14px;
-  margin-top: 10px;
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
-  max-width: calc(100vw - 320px);
+  max-width: calc(50vw - 280px);
 }
 
 .track__date--line {
