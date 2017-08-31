@@ -66,8 +66,9 @@
 }
 
 .track__type--line {
-  padding-left: 20px;
+  margin-left: 20px;
   padding-bottom: 0;
+  padding: 3px;
 }
 
 .track__date {

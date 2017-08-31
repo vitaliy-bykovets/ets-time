@@ -22,12 +22,11 @@ class Track extends React.Component {
   };
 
   render() {
-    const { trackData: t, view, bgColor, token } = this.props;
+    const { trackData: t, view, bgColor, token, TypeWorkIcon } = this.props;
     const date = new Date(t.date_task);
     const dateStr = date ? formatDateToServer(date) : '';
-    const project = typeof t.project === 'string' && t.project.length > 20
-      ? t.project.substring(0, 20) + ' ...'
-      : t.project;
+    const project =
+      typeof t.project === 'string' && t.project.length > 20 ? t.project.substring(0, 20) + ' ...' : t.project;
 
     return (
       <div
@@ -38,52 +37,44 @@ class Track extends React.Component {
       >
         <div
           className={classnames({
-            'track__container': view === 'line',
+            'track__info--line': view === 'line',
+            'track__info--block': view === 'block'
           })}
         >
           <div
-            className={classnames({
-              'track__info--line': view === 'line',
-              'track__info--block': view === 'block'
+            className={classnames('track__type', {
+              'track__type--line': view === 'line'
             })}
           >
-            <h3
-              className={classnames('track__user', {
-                'track__user--line': view === 'line'
-              })}
-            >
-              {`${getFirstLetter(t.first_name)}. ${t.last_name}`}
-            </h3>
-            <h4
-              className={classnames('track__project', {
-                'track__type--line': view === 'line'
-              })}
-            >
-              {project}
-            </h4>
-            <h4
-              className={classnames('track__type', {
-                'track__type--line': view === 'line'
-              })}
-            >
-              {t.type_work}
-            </h4>
-            <p
-              className={classnames('track__date', {
-                'track__date--line': view === 'line'
-              })}
-              style={{ color: bgColor }}
-            >
-              {dateStr}
-            </p>
+            {TypeWorkIcon(t.type_work)}
           </div>
-          { view === 'line'
-            ? <p
-              className="track__task"
-            >
-              "{t.task}"
-            </p>
-            : null }
+          <h3
+            className={classnames('track__user', {
+              'track__user--line': view === 'line'
+            })}
+          >
+            {`${getFirstLetter(t.first_name)}. ${t.last_name}`}
+          </h3>
+          <h4
+            className={classnames('track__project', {
+              'track__type--line': view === 'line'
+            })}
+          >
+            {project}
+          </h4>
+          <p
+            className={classnames('track__date', {
+              'track__date--line': view === 'line'
+            })}
+            style={{ color: bgColor }}
+          >
+            {dateStr}
+          </p>
+          {view === 'line'
+            ? <p className="track__task">
+                "{t.task}"
+              </p>
+            : null}
         </div>
 
         <div
@@ -127,7 +118,6 @@ class Track extends React.Component {
         {view === 'block'
           ? <TrackBlockMenu t={t} menuOpen={this.state.menuOpen} toggleMenu={this.toggleMenu} token={token} />
           : null}
-
       </div>
     );
   }

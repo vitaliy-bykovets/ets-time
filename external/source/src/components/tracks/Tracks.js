@@ -22,9 +22,87 @@ import { clearErrors } from './../../store/actions/generalActions';
 import { showClearFilters } from './../../shared/HelpService';
 
 // Icons
-import FaPlus from 'react-icons/lib/fa/plus';
-import FaFilter from 'react-icons/lib/fa/filter';
-import FaTimes from 'react-icons/lib/fa/ban';
+import {
+  FaPlus,
+  FaFilter,
+  FaTimes,
+  FaPencil,
+  FaBug,
+  FaCogs,
+  FaPaintBrush,
+  FaBook,
+  FaGroup,
+  FaLeanpub,
+  FaCheckCircle,
+  FaBullhorn,
+  FaSuitcase,
+  FaHeartbeat,
+  FaCalendarTimesO
+} from 'react-icons/lib/fa';
+
+const default_icon = 'def-icon';
+
+const TypeWorkIcon = type_work => {
+  const tw = {
+    Development: (
+      <span title="Development">
+        <FaCogs />
+      </span>
+    ),
+    Design: (
+      <span title="Design">
+        <FaPaintBrush />
+      </span>
+    ),
+    'Bug fixing': (
+      <span title="Bug fixing">
+        <FaBug />
+      </span>
+    ),
+    Documentation: (
+      <span title="Documentation">
+        <FaBook />
+      </span>
+    ),
+    Mentoring: (
+      <span title="Mentoring">
+        <FaGroup />
+      </span>
+    ),
+    Study: (
+      <span title="Study">
+        <FaLeanpub />
+      </span>
+    ),
+    Testing: (
+      <span title="Testing">
+        <FaCheckCircle />
+      </span>
+    ),
+    Meeting: (
+      <span title="Meeting">
+        <FaBullhorn />
+      </span>
+    ),
+    Vacation: (
+      <span title="Vacation">
+        <FaSuitcase />
+      </span>
+    ),
+    SickDay: (
+      <span title="Sick Day">
+        <FaHeartbeat />
+      </span>
+    ),
+    DayOff: (
+      <span title="Day Off">
+        <FaCalendarTimesO />
+      </span>
+    )
+  };
+
+  return tw[type_work] || default_icon;
+};
 
 class Tracks extends React.Component {
   state = { showFilters: false };
@@ -65,7 +143,7 @@ class Tracks extends React.Component {
     const { bgColor, token, tracks, view, activeUser, showStatistic } = this.props;
 
     const trackComponents = tracks.map((t, i) => {
-      return <Track token={token} trackData={t} key={i} view={view} bgColor={bgColor} />;
+      return <Track token={token} trackData={t} key={i} view={view} bgColor={bgColor} TypeWorkIcon={TypeWorkIcon} />;
     });
 
     return (
