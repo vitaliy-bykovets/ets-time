@@ -73,7 +73,11 @@
   height: 100%;
   cursor: pointer;
   font-size: 14px;
-  transition: all 0.2s;
+  transition: background 0.2s;
+}
+
+.sidebarBtns--single .sidebarBtns__btn {
+  width: 100%;
 }
 
 .sidebarBtns__btn--save {

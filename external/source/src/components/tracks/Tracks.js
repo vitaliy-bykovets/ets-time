@@ -140,9 +140,27 @@ class Tracks extends React.Component {
   render() {
     const { showFilters } = this.state;
     const { bgColor, token, tracks, view, activeUser, showStatistic } = this.props;
+    let lastDate = '';
 
     const trackComponents = tracks.map((t, i) => {
-      return <Track token={token} trackData={t} key={i} view={view} bgColor={bgColor} TypeWorkIcon={TypeWorkIcon} />;
+      let lastInDay = false;
+      if (lastDate !== t.date_task) {
+        lastDate = t.date_task;
+        lastInDay = false;
+      } else {
+        lastInDay = true;
+      }
+      return (
+        <Track
+          token={token}
+          trackData={t}
+          key={i}
+          view={view}
+          bgColor={bgColor}
+          TypeWorkIcon={TypeWorkIcon}
+          lastInDay={lastInDay}
+        />
+      );
     });
 
     return (

@@ -1,4 +1,5 @@
 import React from 'react';
+import classnames from 'classnames';
 import { connect } from 'react-redux';
 
 // Icons
@@ -50,7 +51,9 @@ class TrackLineMenu extends React.Component {
                 : null}
               {isOwnerOrPm
                 ? <div
-                    className="track__menuBtnLine--btn"
+                    className={classnames('track__menuBtnLine--btn', {
+                      disabled: t.status === 'Accepted'
+                    })}
                     onClick={this.handleChangeStatus.bind(this, 'Accepted')}
                     title="Accept track"
                   >
@@ -59,7 +62,9 @@ class TrackLineMenu extends React.Component {
                 : null}
               {isOwnerOrPm
                 ? <div
-                    className="track__menuBtnLine--btn"
+                    className={classnames('track__menuBtnLine--btn', {
+                      disabled: t.status === 'Declined'
+                    })}
                     onClick={this.handleChangeStatus.bind(this, 'Declined')}
                     title="Decline track"
                   >

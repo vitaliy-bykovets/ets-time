@@ -67,3 +67,7 @@
 .Select-input > input {
   padding: 6px 0 12px;
 }
+
+.Select.is-disabled > .Select-control {
+  background-color: #ebebe4;
+}

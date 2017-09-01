@@ -33,18 +33,21 @@ class Track extends React.Component {
   };
 
   render() {
-    const { trackData: t, view, bgColor, token, TypeWorkIcon, activeUser } = this.props;
+    const { trackData: t, view, bgColor, token, TypeWorkIcon, activeUser, lastInDay } = this.props;
     const date = new Date(t.date_task);
     const dateStr = date ? formatDateToServer(date) : '';
     const project =
       typeof t.project === 'string' && t.project.length > 20 ? t.project.substring(0, 20) + ' ...' : t.project;
-    const isOwner = activeUser.roles && activeUser.roles.includes('owner');
+    const isTaskOwner = activeUser.id === t.user_id;
+
+    console.log(this.props.lastInDay);
 
     return (
       <div
         className={classnames('track', {
           track__block: view === 'block',
-          track__line: view === 'line'
+          track__line: view === 'line',
+          'track--last-day': !lastInDay
         })}
       >
         <div

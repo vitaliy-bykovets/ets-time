@@ -146,11 +146,11 @@ class InputAutoSuggest extends React.Component {
 
   render() {
     const { suggestions, activeSuggestion, field } = this.state;
-    const { errors, fieldName } = this.props;
+    const { errors, fieldName, disabled } = this.props;
 
     const Suggestions = (
       <div className="suggestions__values" ref="suggestions">
-        {suggestions.map((sg, index) => (
+        {suggestions.map((sg, index) =>
           <div
             key={index}
             className={classnames('suggestions__value', {
@@ -163,7 +163,7 @@ class InputAutoSuggest extends React.Component {
           >
             {sg.value}
           </div>
-        ))}
+        )}
       </div>
     );
 
@@ -179,6 +179,7 @@ class InputAutoSuggest extends React.Component {
           onFocus={this.handleFocusInput}
           onBlur={this.handleSuggestionBlur}
           onKeyDown={this.handleKeyDown}
+          disabled={disabled}
         />
         {suggestions.length ? Suggestions : null}
       </div>

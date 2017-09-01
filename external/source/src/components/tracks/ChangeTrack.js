@@ -82,6 +82,7 @@ class SingeTrack extends React.Component {
 
     const { errors, projects, isTrackEdit } = this.props;
     const { project } = this.state;
+    const isTaskOwner = this.props.activeUser.id === this.props.trackData.user_id;
 
     return (
       <div
@@ -95,9 +96,7 @@ class SingeTrack extends React.Component {
           </h4>
 
           {this.props.errors.changeTrackError
-            ? <p className="confirm__error">
-                Sorry, but something gone wrong...
-              </p>
+            ? <p className="confirm__error">Sorry, but something gone wrong...</p>
             : null}
 
           <label className="input-headline">
@@ -115,6 +114,7 @@ class SingeTrack extends React.Component {
             field={project}
             changeField={this.changeProject}
             needClearOnInit={!isTrackEdit}
+            disabled={isTrackEdit && !isTaskOwner}
           />
 
           <label className="input-headline">
@@ -134,6 +134,7 @@ class SingeTrack extends React.Component {
               bgError: errors.task
             })}
             onFocus={this.handleFocusInput}
+            disabled={isTrackEdit && !isTaskOwner}
           />
 
           <label className="input-headline">
@@ -155,6 +156,7 @@ class SingeTrack extends React.Component {
             className={classnames({
               bgErrorSelect: errors.type_work
             })}
+            disabled={isTrackEdit && !isTaskOwner}
           />
 
           <label className="input-headline">
@@ -174,6 +176,7 @@ class SingeTrack extends React.Component {
               bgError: errors.hours
             })}
             onFocus={this.handleFocusInput}
+            disabled={isTrackEdit && !isTaskOwner}
           />
 
           <label className="input-headline">
@@ -192,12 +195,19 @@ class SingeTrack extends React.Component {
               bgError: errors.date_task
             })}
             onFocus={this.handleDateFocus}
+            disabled={isTrackEdit && !isTaskOwner}
           />
         </div>
-        <div className="sidebarBtns">
-          <button className="sidebarBtns__btn sidebarBtns__btn--save" onClick={this.handleSaveTrack}>
-            Save
-          </button>
+        <div
+          className={classnames('sidebarBtns', {
+            'sidebarBtns--single': isTrackEdit && !isTaskOwner
+          })}
+        >
+          {!isTrackEdit || isTaskOwner
+            ? <button className="sidebarBtns__btn sidebarBtns__btn--save" onClick={this.handleSaveTrack}>
+                Save
+              </button>
+            : null}
           <button className="sidebarBtns__btn sidebarBtns__btn--cancel" onClick={this.handleClose}>
             Cancel
           </button>
@@ -210,12 +220,14 @@ class SingeTrack extends React.Component {
 function mapStateToProps(state) {
   const { trackIsOpen, workTypes, trackData, isTrackEdit, projects } = state.trackReducer;
   const { errors, token } = state.generalReducer;
+  const { activeUser } = state.userReducer;
 
   return {
     trackIsOpen,
     workTypes,
     trackData,
     isTrackEdit,
+    activeUser,
     errors,
     token,
     projects
