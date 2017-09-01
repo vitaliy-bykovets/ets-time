@@ -25,13 +25,13 @@ import { showClearFilters } from './../../shared/HelpService';
 import {
   FaPlus,
   FaFilter,
-  FaTimes,
+  FaClose,
   FaBug,
   FaCogs,
   FaPaintBrush,
   FaBook,
   FaGroup,
-  FaLeanpub,
+  FaGraduationCap,
   FaCheckCircle,
   FaBullhorn,
   FaSuitcase,
@@ -70,7 +70,7 @@ const TypeWorkIcon = type_work => {
     ),
     Study: (
       <span title="Study">
-        <FaLeanpub />
+        <FaGraduationCap />
       </span>
     ),
     Testing: (
@@ -140,15 +140,15 @@ class Tracks extends React.Component {
   render() {
     const { showFilters } = this.state;
     const { bgColor, token, tracks, view, activeUser, showStatistic } = this.props;
-    let lastDate = '';
+    let startOfDayRange = '';
 
     const trackComponents = tracks.map((t, i) => {
-      let lastInDay = false;
-      if (lastDate !== t.date_task) {
-        lastDate = t.date_task;
-        lastInDay = false;
+      let isStartDay = false;
+      if (startOfDayRange !== t.date_task) {
+        startOfDayRange = t.date_task;
+        isStartDay = false;
       } else {
-        lastInDay = true;
+        isStartDay = true;
       }
       return (
         <Track
@@ -158,7 +158,7 @@ class Tracks extends React.Component {
           view={view}
           bgColor={bgColor}
           TypeWorkIcon={TypeWorkIcon}
-          lastInDay={lastInDay}
+          isStartDay={isStartDay}
         />
       );
     });
@@ -176,11 +176,11 @@ class Tracks extends React.Component {
           <button className="mainBtns__btn" onClick={this.openFilters} style={{ color: bgColor }}>
             <FaFilter />
           </button>
-          {showFilters
-            ? <button className="mainBtns__btn" onClick={this.clearFilters} style={{ color: bgColor }}>
-                <FaTimes />
-              </button>
-            : null}
+          {showFilters ? (
+            <button className="mainBtns__btn" onClick={this.clearFilters} style={{ color: bgColor }}>
+              <FaClose />
+            </button>
+          ) : null}
         </div>
       </div>
     );

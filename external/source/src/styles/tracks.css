@@ -294,6 +294,6 @@
   color: #ffffff;
 }
 
-.track--last-day {
-  margin-bottom: 10px;
+.track--start-day:not(:nth-child(2)) {
+  margin-top: 10px;
 }

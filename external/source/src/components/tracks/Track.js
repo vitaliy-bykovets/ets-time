@@ -33,21 +33,19 @@ class Track extends React.Component {
   };
 
   render() {
-    const { trackData: t, view, bgColor, token, TypeWorkIcon, activeUser, lastInDay } = this.props;
+    const { trackData: t, view, bgColor, token, TypeWorkIcon, activeUser, isStartDay } = this.props;
     const date = new Date(t.date_task);
     const dateStr = date ? formatDateToServer(date) : '';
     const project =
       typeof t.project === 'string' && t.project.length > 20 ? t.project.substring(0, 20) + ' ...' : t.project;
     const isTaskOwner = activeUser.id === t.user_id;
 
-    console.log(this.props.lastInDay);
-
     return (
       <div
         className={classnames('track', {
           track__block: view === 'block',
           track__line: view === 'line',
-          'track--last-day': !lastInDay
+          'track--start-day': !isStartDay
         })}
       >
         <div
@@ -78,16 +76,14 @@ class Track extends React.Component {
           >
             {`${getFirstLetter(t.first_name)}. ${t.last_name}`}
           </h3>
-          <h4 className="track__project">
-            {project}
-          </h4>
+          <h4 className="track__project">{project}</h4>
         </div>
 
-        {view === 'line'
-          ? <a className="track__task" onClick={this.handleOpen} title="Open the task">
-              "{t.task}"
-            </a>
-          : null}
+        {view === 'line' ? (
+          <a className="track__task" onClick={this.handleOpen} title="Open the task">
+            "{t.task}"
+          </a>
+        ) : null}
 
         <div
           className={classnames('track__statusWrapper', {
@@ -114,22 +110,22 @@ class Track extends React.Component {
           <TrackLineMenu view={view} t={t} token={token} />
         </div>
 
-        {view === 'block'
-          ? <button
-              className="track__menuBtn"
-              onClick={this.toggleMenu}
-              style={{
-                borderColor: bgColor,
-                color: bgColor
-              }}
-            >
-              <FaEllipsis />
-            </button>
-          : null}
+        {view === 'block' ? (
+          <button
+            className="track__menuBtn"
+            onClick={this.toggleMenu}
+            style={{
+              borderColor: bgColor,
+              color: bgColor
+            }}
+          >
+            <FaEllipsis />
+          </button>
+        ) : null}
 
-        {view === 'block'
-          ? <TrackBlockMenu t={t} menuOpen={this.state.menuOpen} toggleMenu={this.toggleMenu} token={token} />
-          : null}
+        {view === 'block' ? (
+          <TrackBlockMenu t={t} menuOpen={this.state.menuOpen} toggleMenu={this.toggleMenu} token={token} />
+        ) : null}
       </div>
     );
   }
