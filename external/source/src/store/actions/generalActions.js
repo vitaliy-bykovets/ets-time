@@ -6,7 +6,8 @@ import {
   CLEAR_ERRORS,
   TOGGLE_CONFIRM,
   SET_TOKEN,
-  TOGGLE_STATISTIC
+  TOGGLE_STATISTIC,
+  TOGGLE_DIVIDE_DAYS
 } from './../actions/types';
 
 export function changeBgColor(color) {
@@ -36,6 +37,14 @@ export function toggleStatistic(param) {
     param
   };
 }
+
+export function toggleDivideDays(param) {
+  return {
+    type: TOGGLE_DIVIDE_DAYS,
+    param
+  };
+}
+
 
 export function clearErrors() {
   return {

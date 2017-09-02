@@ -294,6 +294,10 @@
   color: #ffffff;
 }
 
-.track--start-day:not(:nth-child(2)) {
+.track--start-day {
   margin-top: 10px;
+}
+
+.statistic + .track--start-day {
+  margin-top: 1px;
 }

@@ -36,10 +36,11 @@ import {
   FaBullhorn,
   FaSuitcase,
   FaHeartbeat,
-  FaCalendarTimesO
+  FaCalendarTimesO,
+  FaQuestionCircle
 } from 'react-icons/lib/fa';
 
-const default_icon = 'def-icon';
+const default_icon = <FaQuestionCircle />;
 
 const TypeWorkIcon = type_work => {
   const tw = {
@@ -139,17 +140,20 @@ class Tracks extends React.Component {
 
   render() {
     const { showFilters } = this.state;
-    const { bgColor, token, tracks, view, activeUser, showStatistic } = this.props;
+    const { bgColor, token, tracks, view, activeUser, showStatistic, divideDays } = this.props;
     let startOfDayRange = '';
 
     const trackComponents = tracks.map((t, i) => {
       let isStartDay = false;
-      if (startOfDayRange !== t.date_task) {
-        startOfDayRange = t.date_task;
-        isStartDay = false;
-      } else {
-        isStartDay = true;
+      if (divideDays) {
+        if (startOfDayRange !== t.date_task) {
+          startOfDayRange = t.date_task;
+          isStartDay = true;
+        } else {
+          isStartDay = false;
+        }
       }
+
       return (
         <Track
           token={token}
@@ -189,7 +193,7 @@ class Tracks extends React.Component {
 
 function mapStateToProps(state) {
   let { tracks, filters, view, _need_upd_list } = state.trackReducer;
-  let { bgColor, token, showStatistic } = state.generalReducer;
+  let { bgColor, token, showStatistic, divideDays } = state.generalReducer;
   let { activeUser } = state.userReducer;
 
   return {
@@ -200,7 +204,8 @@ function mapStateToProps(state) {
     bgColor,
     token,
     activeUser,
-    showStatistic
+    showStatistic,
+    divideDays
   };
 }
 

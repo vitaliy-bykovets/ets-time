@@ -5,17 +5,21 @@ import {
   CLEAR_ERRORS,
   TOGGLE_CONFIRM,
   SET_TOKEN,
-  TOGGLE_STATISTIC
+  TOGGLE_STATISTIC,
+  TOGGLE_DIVIDE_DAYS
 } from './../actions/types';
 
 const bgColor = localStorage.getItem('bdColor');
 const showStatistic = localStorage.getItem('showStatistic');
+const divideDays = localStorage.getItem('divideDays');
+
 const initial = {
   bgColor: bgColor ? bgColor : 'deepskyblue',
   errors: {},
   token: false,
   confirmIsOpen: false,
   showStatistic: showStatistic ? showStatistic === 'true' : true,
+  divideDays: divideDays ? divideDays === 'true' : true,
   confirmData: {
     text: 'text',
     action: '',
@@ -30,6 +34,10 @@ export default function userReducer(state = initial, action = {}) {
     case TOGGLE_STATISTIC:
       return Object.assign({}, state, {
         showStatistic: action.param
+      });
+    case TOGGLE_DIVIDE_DAYS:
+      return Object.assign({}, state, {
+        divideDays: action.param
       });
     case SET_TOKEN:
       return Object.assign({}, state, { token: action.token });
