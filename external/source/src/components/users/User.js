@@ -44,20 +44,12 @@ class User extends React.Component {
   render() {
     const { user, bgColor } = this.props;
     return (
-      <div className="track track__line">
+      <div className="track track__line track--user">
         <div className="track__info--line">
-          <h3 className="track__user track__user--line">
-            {user.email}
-          </h3>
-          <h4 className="track__type track__type--line">
-            {user.roles}
-          </h4>
-          <h4 className="track__type track__type--line">
-            {user.position}
-          </h4>
-          <p className="track__date track__date--line">
-            {user.first_name + ' ' + user.last_name}
-          </p>
+          <h3 className="track__user track__user--line">{user.email}</h3>
+          <h4 className="track__type track__type--line">{user.roles}</h4>
+          <h4 className="track__type track__type--line">{user.position}</h4>
+          <p className="track__date track__date--line">{user.first_name + ' ' + user.last_name}</p>
         </div>
         <div className="track__menuBtn--line" style={{ color: bgColor }}>
           <div

@@ -19,7 +19,38 @@
 .track__block {
   width: 300px;
   margin: 5px;
-  padding: 0 20px 20px 20px;
+  padding: 20px;
+}
+
+.track__block .track__project {
+  display: inline-block;
+  padding: 3px 5px;
+  margin:  15px auto auto 0;
+
+}
+
+.track__info--block {
+  display: flex;
+  flex-direction: column;
+  max-width: 80%;
+}
+
+.track__block .track__task {
+  margin-left: 0;
+  padding: 0;
+  margin-top: 15px;
+}
+
+.track__block .track__type-title {
+  margin-left: 10px;
+}
+
+.track__block .track__status {
+  margin-top: 0;
+}
+
+.track__block .track__user {
+  margin-bottom: 0;
 }
 
 .track__line {
@@ -60,6 +91,7 @@
 .track__user {
   margin-bottom: 5px;
   font-size: 16px;
+  white-space: nowrap;
 }
 
 .track__user--line {
@@ -172,7 +204,7 @@
   height: 30px;
   position: absolute;
   right: 20px;
-  bottom: 10px;
+  bottom: 20px;
   border-radius: 50%;
   border: 1px solid white;
   cursor: pointer;
@@ -258,6 +290,10 @@
   font-size: 18px;
   margin-left: 20px;
   height: 100%;
+}
+
+.track--user .track__type{
+  margin: 0 5px;
 }
 
 .suggestions {

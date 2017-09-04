@@ -44,7 +44,7 @@ class Track extends React.Component {
         className={classnames('track', {
           track__block: view === 'block',
           track__line: view === 'line',
-          'track--start-day': isStartDay
+          'track--start-day': view === 'line' && isStartDay
         })}
       >
         <div
@@ -59,6 +59,7 @@ class Track extends React.Component {
             })}
           >
             {TypeWorkIcon(t.type_work)}
+            {view === 'block' ? <span className="track__type-title">{t.type_work}</span> : null}
           </div>
           <p
             className={classnames('track__date', {
@@ -76,6 +77,11 @@ class Track extends React.Component {
             {`${getFirstLetter(t.first_name)}. ${t.last_name}`}
           </h3>
           <h4 className="track__project">{project}</h4>
+          {view === 'block' ? (
+            <a className="track__task" onClick={this.handleOpen} title="Open the task">
+              "{t.task}"
+            </a>
+          ) : null}
         </div>
 
         {view === 'line' ? (
