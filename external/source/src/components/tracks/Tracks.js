@@ -19,7 +19,7 @@ import {
 import { clearErrors } from './../../store/actions/generalActions';
 
 // Helpers
-import { showClearFilters } from './../../shared/HelpService';
+import { showClearFilters, formatDateToServer } from './../../shared/HelpService';
 
 // Icons
 import {
@@ -141,7 +141,8 @@ class Tracks extends React.Component {
   render() {
     const { showFilters } = this.state;
     const { bgColor, token, tracks, view, activeUser, showStatistic, divideDays } = this.props;
-    let startOfDayRange = '';
+    let startOfDayRange = '',
+      dateOfGroup = '';
 
     const trackComponents = tracks.map((t, i) => {
       let isStartDay = false;
@@ -149,6 +150,7 @@ class Tracks extends React.Component {
         if (startOfDayRange !== t.date_task) {
           startOfDayRange = t.date_task;
           isStartDay = true;
+          dateOfGroup = formatDateToServer(t.date_task);
         } else {
           isStartDay = false;
         }
@@ -163,6 +165,7 @@ class Tracks extends React.Component {
           bgColor={bgColor}
           TypeWorkIcon={TypeWorkIcon}
           isStartDay={isStartDay}
+          dateOfGroup={dateOfGroup}
         />
       );
     });
@@ -180,11 +183,11 @@ class Tracks extends React.Component {
           <button className="mainBtns__btn" onClick={this.openFilters} style={{ color: bgColor }}>
             <FaFilter />
           </button>
-          {showFilters ? (
-            <button className="mainBtns__btn" onClick={this.clearFilters} style={{ color: bgColor }}>
-              <FaClose />
-            </button>
-          ) : null}
+          {showFilters
+            ? <button className="mainBtns__btn" onClick={this.clearFilters} style={{ color: bgColor }}>
+                <FaClose />
+              </button>
+            : null}
         </div>
       </div>
     );
