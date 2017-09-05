@@ -75,7 +75,7 @@ class Track extends React.Component {
                   </span>
                 : null}
             </div>
-            {view !== 'line'
+            {view === 'block' || (!isStartDay && !dateOfGroup)
               ? <p
                   className={classnames('track__date', {
                     'track__date--line': view === 'line'
