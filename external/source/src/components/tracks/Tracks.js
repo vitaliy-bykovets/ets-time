@@ -56,7 +56,7 @@ const TypeWorkIcon = type_work => {
     ),
     'Bug fixing': (
       <span title="Bug fixing">
-        <FaBug />
+        <FaBug style={{ color: '#FF6E40' }} />
       </span>
     ),
     Documentation: (
@@ -141,8 +141,7 @@ class Tracks extends React.Component {
   render() {
     const { showFilters } = this.state;
     const { bgColor, token, tracks, view, activeUser, showStatistic, divideDays } = this.props;
-    let startOfDayRange = '',
-      dateOfGroup = '';
+    let startOfDayRange = '', dateOfGroup = '';
 
     const trackComponents = tracks.map((t, i) => {
       let isStartDay = false;

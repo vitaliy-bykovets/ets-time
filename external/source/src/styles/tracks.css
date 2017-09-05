@@ -351,7 +351,3 @@
 .track--start-day {
   margin-top: 10px;
 }
-
-.statistic + .track--start-day {
-  margin-top: 1px;
-}
