@@ -12,12 +12,12 @@ export function formatDateToServer(inputDate) {
 
 // Get start of week
 export function getStartOfWeek(date) {
-  return moment().startOf('isoWeek');
+  return moment().startOf('Month');
 }
 
 // Get end of week
 export function getEndOfWeek(date) {
-  return moment().endOf('isoWeek');
+  return moment().endOf('Month');
 }
 
 // Check if filters was selected

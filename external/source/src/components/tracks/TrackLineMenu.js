@@ -1,15 +1,15 @@
 import React from 'react';
+import classnames from 'classnames';
 import { connect } from 'react-redux';
 
 // Icons
-import FaPencil from 'react-icons/lib/fa/pencil';
 import FaDelete from 'react-icons/lib/fa/trash-o';
 import FaAccept from 'react-icons/lib/fa/check-square-o';
 import FaDecline from 'react-icons/lib/fa/ban';
 
 // Actions
-import { toggleConfirm, clearErrors } from './../../store/actions/generalActions';
-import { toggleChangeTrack, changeTrackStatus } from './../../store/actions/trackActions';
+import { toggleConfirm } from './../../store/actions/generalActions';
+import { changeTrackStatus } from './../../store/actions/trackActions';
 
 // Helpers
 import { formatDateToServer } from './../../shared/HelpService';
@@ -28,11 +28,6 @@ class TrackLineMenu extends React.Component {
     );
   };
 
-  handleEdit = () => {
-    this.props.toggleChangeTrack(true, true, this.props.t);
-    this.props.clearErrors();
-  };
-
   handleChangeStatus = action => {
     let { t, token } = this.props;
     if (t.status !== action) {
@@ -49,9 +44,6 @@ class TrackLineMenu extends React.Component {
       <div>
         {view === 'line'
           ? <div className="track__menuBtn--line" style={{ color: bgColor }}>
-              <div className="track__menuBtnLine--btn" onClick={this.handleEdit} title="Edit track">
-                <FaPencil />
-              </div>
               {isUserTrack
                 ? <div className="track__menuBtnLine--btn" onClick={this.handleDelete} title="Delete track">
                     <FaDelete />
@@ -59,7 +51,9 @@ class TrackLineMenu extends React.Component {
                 : null}
               {isOwnerOrPm
                 ? <div
-                    className="track__menuBtnLine--btn"
+                    className={classnames('track__menuBtnLine--btn', {
+                      disabled: t.status === 'Accepted'
+                    })}
                     onClick={this.handleChangeStatus.bind(this, 'Accepted')}
                     title="Accept track"
                   >
@@ -68,7 +62,9 @@ class TrackLineMenu extends React.Component {
                 : null}
               {isOwnerOrPm
                 ? <div
-                    className="track__menuBtnLine--btn"
+                    className={classnames('track__menuBtnLine--btn', {
+                      disabled: t.status === 'Declined'
+                    })}
                     onClick={this.handleChangeStatus.bind(this, 'Declined')}
                     title="Decline track"
                   >
@@ -91,7 +87,5 @@ function mapStateToProps(state) {
 
 export default connect(mapStateToProps, {
   toggleConfirm,
-  clearErrors,
-  toggleChangeTrack,
   changeTrackStatus
 })(TrackLineMenu);

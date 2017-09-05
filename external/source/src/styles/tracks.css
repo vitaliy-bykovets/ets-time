@@ -1,3 +1,20 @@
+.track-wrapper {
+  width: 100%;
+}
+
+.track__date-tab {
+  font-size: 14px;
+  background-color: rgba(255, 255, 255, 0.9);
+  box-shadow: 1px 2px 1px rgba(0, 0, 0, 0.1);
+  display: inline-block;
+  margin: 1px;
+  padding: 10px 20px;
+  text-align: center;
+  margin-bottom: 2px;
+  border-radius: 2px;
+  font-weight: bold;
+}
+
 .track {
   background: #ffffff;
   height: auto;
@@ -10,17 +27,64 @@
   overflow: hidden;
 }
 
+.track__container {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
 .track__block {
   width: 300px;
   margin: 5px;
-  padding: 0 20px 20px 20px;
+  padding: 20px;
+}
+
+.track__block .track__project {
+  display: inline-block;
+  padding: 3px 5px;
+  margin:  15px auto auto 0;
+
+}
+
+.track__info--block {
+  display: flex;
+  flex-direction: column;
+  max-width: 80%;
+}
+
+.track__block .track__task {
+  margin-left: 0;
+  padding: 0;
+  margin-top: 15px;
+}
+
+.track__block .track__type-title {
+  margin-left: 10px;
+}
+
+.track__block .track__status {
+  margin-top: 0;
+}
+
+.track__block .track__user {
+  margin-bottom: 0;
 }
 
 .track__line {
-  width: 100%;
+  /*width: 100%;*/
   margin: 1px;
-  padding: 0 0 0 20px;
+  padding: 0 20px;
   height: 50px;
+  align-items: center;
+}
+
+.track__line .track__project {
+  padding: 3px 5px;
+  margin-left: 20px;
+}
+
+.track__line .track__type {
+  padding: 0;
 }
 
 .track__project {
@@ -28,19 +92,23 @@
   font-weight: normal;
   margin: 0;
   font-size: 12px;
-  padding-bottom: 5px;
+  padding-bottom: 3px;
+  border: 1px solid #424242;
+  border-radius: 3px;
+  white-space: nowrap;
 }
 
 .track__type {
   color: #607d8b;
   font-weight: normal;
   margin: 0;
-  font-size: 12px;
+  font-size: 14px;
 }
 
 .track__user {
   margin-bottom: 5px;
   font-size: 16px;
+  white-space: nowrap;
 }
 
 .track__user--line {
@@ -49,6 +117,8 @@
   margin: 0;
   padding-left: 20px;
   font-weight: normal;
+  min-width: 100px;
+  white-space: nowrap;
 }
 
 .track__project--line {
@@ -60,18 +130,37 @@
 }
 
 .track__type--line {
-  padding-left: 20px;
-  padding-bottom: 0;
+  /*padding-bottom: 0;*/
+  padding: 3px 5px;
 }
 
 .track__date {
   margin-top: 15px;
   margin-bottom: 0;
+  white-space: nowrap;
+}
+
+.track__task {
+  margin: 0;
+  margin-left: 20px;
+  padding: 10px 0;
+  padding-right: 20px;
+  font-size: 14px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  width: 100%;
+  cursor: pointer;
+  transition: color 300ms ease-in-out;
+}
+
+.track__task:not(.disabled):hover {
+  color: deepskyblue;
 }
 
 .track__date--line {
   margin: 0;
-  order: -1;
+  margin-left: 20px;
   font-size: 14px;
 }
 
@@ -97,6 +186,8 @@
 
 .track__status--line {
   margin: 0;
+  order: 1;
+  margin-left: 10px;
 }
 
 .track__status--open {
@@ -120,8 +211,8 @@
 
 .track__hours--line {
   margin: 0;
-  padding-right: 20px;
   order: -1;
+  font-weight: 700;
 }
 
 .track__menuBtn {
@@ -131,7 +222,7 @@
   height: 30px;
   position: absolute;
   right: 20px;
-  bottom: 10px;
+  bottom: 20px;
   border-radius: 50%;
   border: 1px solid white;
   cursor: pointer;
@@ -181,6 +272,15 @@
   align-items: center;
 }
 
+.track__menuBtnLine--btn.disabled {
+  opacity: .3;
+  cursor: default;
+}
+
+.track__menuBtnLine--btn.disabled:hover {
+  transform: none;
+}
+
 .track__menuBtnLine--btn:not(:last-of-type) {
   border-right: 1px solid #ffffff;
 }
@@ -199,7 +299,6 @@
 
 .track__info--line {
   display: flex;
-  justify-content: center;
   align-items: center;
 }
 
@@ -207,8 +306,12 @@
   display: flex;
   align-items: center;
   font-size: 18px;
-  margin-left: 20px;
+  margin-left: 10px;
   height: 100%;
+}
+
+.track--user .track__type{
+  margin: 0 5px;
 }
 
 .suggestions {
@@ -243,4 +346,8 @@
 .suggestions__value-active {
   background: #00897b;
   color: #ffffff;
+}
+
+.track--start-day {
+  margin-top: 10px;
 }
