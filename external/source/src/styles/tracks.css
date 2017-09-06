@@ -310,6 +310,10 @@
   height: 100%;
 }
 
+.track--user {
+  width: 100%;
+}
+
 .track--user .track__type{
   margin: 0 5px;
 }
