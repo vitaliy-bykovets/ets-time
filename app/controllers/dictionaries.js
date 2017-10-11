@@ -12,7 +12,7 @@ router.get('/', (req, res, next) => {
         knex('track_lines')
           .pluck('project')
           .distinct()
-          .limit(100)
+          .limit(200)
           .orderBy('project', 'asc')
           .orderByRaw('CHAR_LENGTH(project) asc')
           .where('date_task', '>', knex.raw('DATE_SUB(now(), INTERVAL 60 DAY)'))
