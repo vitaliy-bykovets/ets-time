@@ -38,9 +38,9 @@ exports.up = knex => {
         roles: 'member'
       }
     ]);
+  } else {
+    return knex("users").first()
   }
 };
 
-exports.down = knex => {
-  return knex('users').where('email', 'like', '%tmail%').del();
-};
+exports.down = knex => knex('users').where('email', 'like', '%tmail%').del();

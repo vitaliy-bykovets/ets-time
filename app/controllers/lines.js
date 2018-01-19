@@ -4,7 +4,7 @@ const router = express.Router();
 const { parallel } = require('async');
 
 const {
-  validators: { line_list, line_create, line_edit, line_status, line_delete }
+  validators: { line_list, line_create, line_edit, line_status, line_delete, newLineByOwner }
 } = require('./../middlewares/index');
 
 const knex = require('./../libs/knex');
@@ -73,12 +73,12 @@ router.get('/', line_list, async (req, res) => {
 });
 
 /* Create track line */
-router.post('/', line_create, (req, res, next) => {
+router.post('/', line_create, newLineByOwner, (req, res, next) => {
   knex('track_lines').insert(req._vars).then(() => res.status(201).send()).catch(next);
 });
 
 // Update track-line by id
-router.patch('/', line_edit, (req, res, next) => {
+router.patch('/', line_edit, newLineByOwner, (req, res, next) => {
   knex('track_lines').where({ id: req.body.id }).update(req._vars).then(() => res.status(202).send()).catch(next);
 });
 

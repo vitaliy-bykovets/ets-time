@@ -1,4 +1,5 @@
 let config = {
+  activeProjectsInDay: 60,
   port: 3000,
   secret: 'ZyXHLWg35z',
   type_works: [
@@ -24,7 +25,7 @@ let config = {
       user: 'root',
       password: '1',
       database: 'ets',
-      port: '3306'
+      port: 3306
     },
     migrations: {
       tableName: 'knex_migrations',

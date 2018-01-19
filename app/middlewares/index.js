@@ -14,7 +14,8 @@ module.exports = {
     skill_delete: require('./validators/skill_delete'),
     skill_user_attach: require('./validators/skill_user_attach'),
     skill_list: require('./validators/skill_list'),
-    stat_user: require('./validators/stat_user')
+    stat_user: require('./validators/stat_user'),
+    newLineByOwner: require('./validators/newLineByOwner')
   },
   role: require('./role'),
   auth: require('./auth'),

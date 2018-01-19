@@ -1,4 +1,4 @@
-exports.up = (knex, Promise) => {
+exports.up = knex => {
   if (process.env.NODE_ENV === 'testing') {
     return knex.table('skill_gradation').insert([
       {
@@ -17,9 +17,9 @@ exports.up = (knex, Promise) => {
         skill_id: 2
       }
     ]);
+  } else {
+    return knex('users').first();
   }
 };
 
-exports.down = (knex, Promise) => {
-  return knex('skill_gradation').del();
-};
+exports.down = knex => knex('skill_gradation').del();

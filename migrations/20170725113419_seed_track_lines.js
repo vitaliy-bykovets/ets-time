@@ -1,4 +1,4 @@
-exports.up = (knex, Promise) => {
+exports.up = knex => {
   if (process.env.NODE_ENV === 'testing') {
     return knex.table('track_lines').insert([
       {
@@ -42,7 +42,7 @@ exports.up = (knex, Promise) => {
         estimated_time: '0',
         approved_time: '0',
         rate: '0',
-        date_task: '2017-07-26',
+        date_task: new Date(),
         created_at: new Date(),
         updated_at: new Date()
       },
@@ -57,7 +57,7 @@ exports.up = (knex, Promise) => {
         estimated_time: '0',
         approved_time: '0',
         rate: '0',
-        date_task: '2017-07-26',
+        date_task: new Date(),
         created_at: new Date(),
         updated_at: new Date()
       },
@@ -72,14 +72,14 @@ exports.up = (knex, Promise) => {
         estimated_time: '0',
         approved_time: '0',
         rate: '0',
-        date_task: '2017-07-26',
+        date_task: new Date(),
         created_at: new Date(),
         updated_at: new Date()
       }
     ]);
+  } else {
+    return knex('users').first();
   }
 };
 
-exports.down = (knex, Promise) => {
-  return knex('track_lines').del();
-};
+exports.down = knex => knex('track_lines').del();

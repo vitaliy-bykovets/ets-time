@@ -15,7 +15,7 @@ router.get('/', (req, res, next) => {
           .limit(200)
           .orderBy('project', 'asc')
           .orderByRaw('CHAR_LENGTH(project) asc')
-          .where('date_task', '>', knex.raw('DATE_SUB(now(), INTERVAL 60 DAY)'))
+          .where('date_task', '>', knex.raw(`DATE_SUB(now(), INTERVAL ${env.activeProjectsInDay} DAY)`))
           .asCallback(cb);
       }
     },
