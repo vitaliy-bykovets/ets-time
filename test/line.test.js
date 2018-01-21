@@ -622,6 +622,34 @@ describe('Line controller', () => {
       .expect(202, done);
   });
 
+  it('uniqproject: create fail for exist project from member', done => {
+    agent
+      .post(urls.lines)
+      .set('authorization', token_member)
+      .send({
+        project: 'ETS',
+        task: 'write unit tests for user controller',
+        type_work: 'Development',
+        hours: '2.9',
+        date_task: '2017-07-26'
+      })
+      .expect(400, done);
+  });
+
+  it('uniqproject: create success for exist project from owner', done => {
+    agent
+      .post(urls.lines)
+      .set('authorization', token_owner)
+      .send({
+        project: 'ets-2',
+        task: 'write unit tests for user controller',
+        type_work: 'Development',
+        hours: 2.9,
+        date_task: '2017-07-26'
+      })
+      .expect(201, done);
+  });
+
   it('update (as member not own)', done => {
     agent
       .patch(urls.lines)
