@@ -1,6 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { isEqual } from 'lodash';
+import moment from 'moment';
+
 
 // Components
 import Track from './Track';
@@ -154,6 +156,8 @@ class Tracks extends React.Component {
           isStartDay = false;
         }
       }
+
+      t.date_task = moment(t.date_task);
 
       return (
         <Track

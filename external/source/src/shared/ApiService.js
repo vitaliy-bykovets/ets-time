@@ -35,7 +35,7 @@ export function deleteTrackApi(id, token) {
 }
 
 export function createTrackApi(data, token) {
-  let { project = '', task = '', type_work = '', hours = 0, trackDate } = data;
+  let { project = '', task = '', type_work = '', hours = 0, date_task } = data;
 
   return fetch('/api/v1/lines', {
     method: 'POST',
@@ -48,7 +48,7 @@ export function createTrackApi(data, token) {
       task,
       type_work: type_work.value ? type_work.value : type_work,
       hours,
-      date_task: trackDate ? trackDate.format('YYYY-MM-DD') : ''
+      date_task: date_task ? date_task.format('YYYY-MM-DD') : ''
     })
   });
 }
@@ -124,7 +124,7 @@ export function updateTrackApi(data, token) {
     task = '',
     type_work = '',
     hours = 0,
-    trackDate
+    date_task
   } = data;
 
   return fetch('/api/v1/lines', {
@@ -139,7 +139,7 @@ export function updateTrackApi(data, token) {
       task,
       type_work: type_work.value ? type_work.value : type_work,
       hours,
-      date_task: trackDate ? trackDate.format('YYYY-MM-DD') : ''
+      date_task: date_task ? date_task.format('YYYY-MM-DD') : ''
     })
   });
 }

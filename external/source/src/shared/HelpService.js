@@ -75,7 +75,7 @@ export function getInitNewTrackData() {
     task: '',
     type_work: '',
     hours: '',
-    trackDate: moment(),
+    date_task: moment(),
     isLoading: false
   };
 }

@@ -57,7 +57,7 @@ class SingeTrack extends React.Component {
   };
 
   handleChangeDate = date => {
-    this.setState({ trackDate: date });
+    this.setState({ date_task: date });
   };
 
   handleFocusInput = e => {
@@ -189,7 +189,7 @@ class SingeTrack extends React.Component {
           </label>
           <DatePicker
             dateFormat="DD-MM-YYYY"
-            selected={this.state.trackDate}
+            selected={this.state.date_task}
             onChange={this.handleChangeDate}
             className={classnames('datepicker', {
               bgError: errors.date_task
