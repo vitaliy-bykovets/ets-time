@@ -1,6 +1,6 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import { isEqual } from 'lodash';
+import {connect} from 'react-redux';
+import {isEqual} from 'lodash';
 import moment from 'moment';
 
 
@@ -18,10 +18,10 @@ import {
   toggleChangeTrack,
   setVars
 } from './../../store/actions/trackActions';
-import { clearErrors } from './../../store/actions/generalActions';
+import {clearErrors} from './../../store/actions/generalActions';
 
 // Helpers
-import { showClearFilters, formatDateToServer } from './../../shared/HelpService';
+import {showClearFilters, formatDateToServer} from './../../shared/HelpService';
 
 // Icons
 import {
@@ -41,64 +41,65 @@ import {
   FaCalendarTimesO,
   FaQuestionCircle
 } from 'react-icons/lib/fa';
+import classnames from "classnames";
 
-const default_icon = <FaQuestionCircle />;
+const default_icon = <FaQuestionCircle/>;
 
 const TypeWorkIcon = type_work => {
   const tw = {
     Development: (
       <span title="Development">
-        <FaCogs />
+        <FaCogs/>
       </span>
     ),
     Design: (
       <span title="Design">
-        <FaPaintBrush />
+        <FaPaintBrush/>
       </span>
     ),
     'Bug fixing': (
       <span title="Bug fixing">
-        <FaBug style={{ color: '#FF6E40' }} />
+        <FaBug style={{color: '#FF6E40'}}/>
       </span>
     ),
     Documentation: (
       <span title="Documentation">
-        <FaBook />
+        <FaBook/>
       </span>
     ),
     Mentoring: (
       <span title="Mentoring">
-        <FaGroup />
+        <FaGroup/>
       </span>
     ),
     Study: (
       <span title="Study">
-        <FaGraduationCap />
+        <FaGraduationCap/>
       </span>
     ),
     Testing: (
       <span title="Testing">
-        <FaCheckCircle />
+        <FaCheckCircle/>
       </span>
     ),
     Meeting: (
       <span title="Meeting">
-        <FaBullhorn />
+        <FaBullhorn/>
       </span>
     ),
     Vacation: (
       <span title="Vacation">
-        <FaSuitcase />
+        <FaSuitcase/>
       </span>
     ),
     SickDay: (
       <span title="Sick Day">
-        <FaHeartbeat />
+        <FaHeartbeat/>
       </span>
     ),
     DayOff: (
       <span title="Day Off">
-        <FaCalendarTimesO />
+        <FaCalendarTimesO/>
       </span>
     )
   };
@@ -107,22 +108,22 @@ const TypeWorkIcon = type_work => {
 };
 
 class Tracks extends React.Component {
-  state = { showFilters: false };
+  state = {showFilters: false};
 
   componentDidMount() {
-    let { token, filters } = this.props;
+    let {token, filters} = this.props;
     this.props.getTracks(token, filters);
   }
 
   componentWillReceiveProps(nextProps) {
-    this.setState({ showFilters: showClearFilters(nextProps.filters) });
+    this.setState({showFilters: showClearFilters(nextProps.filters)});
 
     if (!isEqual(nextProps.filters, this.props.filters)) {
       this.props.getTracks(nextProps.token, nextProps.filters);
     }
 
     if (nextProps._need_upd_list) {
-      this.props.setVars({ _need_upd_list: false });
+      this.props.setVars({_need_upd_list: false});
       this.props.getTracks(nextProps.token, nextProps.filters);
     }
   }
@@ -141,9 +142,21 @@ class Tracks extends React.Component {
   };
 
   render() {
-    const { showFilters } = this.state;
-    const { bgColor, token, tracks, view, activeUser, showStatistic, divideDays } = this.props;
-    let startOfDayRange = '', dateOfGroup = '';
+    const {showFilters} = this.state;
+    const {bgColor, token, tracks, view, activeUser, showStatistic, divideDays} = this.props;
+    let startOfDayRange = '', dateOfGroup = '', hoursSum = 0, datesObj = {}
+
+    tracks.map((t, i) => {
+      if (divideDays) {
+        if (startOfDayRange !== t.date_task) {
+          startOfDayRange = t.date_task;
+          datesObj[t.date_task] = t.hours;
+        } else {
+          datesObj[t.date_task] += t.hours;
+        }
+      }
+
+    });
 
     const trackComponents = tracks.map((t, i) => {
       let isStartDay = false;
@@ -157,39 +170,55 @@ class Tracks extends React.Component {
         }
       }
 
+      console.log(startOfDayRange);
+
       t.date_task = moment(t.date_task);
 
       return (
-        <Track
-          token={token}
-          trackData={t}
+        <div
           key={i}
-          view={view}
-          bgColor={bgColor}
-          TypeWorkIcon={TypeWorkIcon}
-          isStartDay={isStartDay}
-          dateOfGroup={dateOfGroup}
-        />
+          className={classnames({
+            'track-wrapper': view === 'line',
+            'track--start-day': view === 'line' && isStartDay
+          })}
+        >
+          {view === 'line' && isStartDay && dateOfGroup
+            ? <span className="track__date-tab">
+              {dateOfGroup} • {datesObj[startOfDayRange]}h
+            </span>
+            : null}
+          <Track
+            token={token}
+            trackData={t}
+
+            view={view}
+            bgColor={bgColor}
+            TypeWorkIcon={TypeWorkIcon}
+            isStartDay={isStartDay}
+            dateOfGroup={dateOfGroup}
+            hoursSum={hoursSum}
+          />
+        </div>
       );
     });
 
     return (
-      <div className="container" style={{ background: bgColor }}>
-        {showStatistic ? <TracksStatistic tracks={tracks} view={view} activeUser={activeUser} /> : null}
+      <div className="container" style={{background: bgColor}}>
+        {showStatistic ? <TracksStatistic tracks={tracks} view={view} activeUser={activeUser}/> : null}
         {trackComponents}
-        <Filters activeUser={activeUser} />
-        <ChangeTrack />
+        <Filters activeUser={activeUser}/>
+        <ChangeTrack/>
         <div className="mainBtns">
-          <button className="mainBtns__btn" onClick={this.openChangeTrack} style={{ color: bgColor }}>
-            <FaPlus />
+          <button className="mainBtns__btn" onClick={this.openChangeTrack} style={{color: bgColor}}>
+            <FaPlus/>
           </button>
-          <button className="mainBtns__btn" onClick={this.openFilters} style={{ color: bgColor }}>
-            <FaFilter />
+          <button className="mainBtns__btn" onClick={this.openFilters} style={{color: bgColor}}>
+            <FaFilter/>
           </button>
           {showFilters
-            ? <button className="mainBtns__btn" onClick={this.clearFilters} style={{ color: bgColor }}>
-                <FaClose />
-              </button>
+            ? <button className="mainBtns__btn" onClick={this.clearFilters} style={{color: bgColor}}>
+              <FaClose/>
+            </button>
             : null}
         </div>
       </div>
@@ -198,9 +227,9 @@ class Tracks extends React.Component {
 }
 
 function mapStateToProps(state) {
-  let { tracks, filters, view, _need_upd_list } = state.trackReducer;
-  let { bgColor, token, showStatistic, divideDays } = state.generalReducer;
-  let { activeUser } = state.userReducer;
+  let {tracks, filters, view, _need_upd_list} = state.trackReducer;
+  let {bgColor, token, showStatistic, divideDays} = state.generalReducer;
+  let {activeUser} = state.userReducer;
 
   return {
     _need_upd_list,
