@@ -7,8 +7,6 @@ import { Link, withRouter } from "react-router-dom";
 import Settings from "./Settings";
 
 // Icons
-import FaBlocks from "react-icons/lib/fa/th";
-import FaLines from "react-icons/lib/fa/align-justify";
 import FaCog from "react-icons/lib/fa/cog";
 import FaPower from "react-icons/lib/fa/power-off";
 import logo from "./../../data/selecto.svg";
@@ -86,23 +84,6 @@ class Topbar extends React.Component {
         </h4>
 
         <div className="topbar__menu" style={{ color: bgColor }}>
-          {trackUrl
-            ? <FaBlocks
-                className={classnames("topbar__icon", {
-                  "topbar__icon--active": viewType === "block"
-                })}
-                onClick={() => this.changeView("block")}
-              />
-            : null}
-
-          {trackUrl
-            ? <FaLines
-                className={classnames("topbar__icon", "p-r-20", {
-                  "topbar__icon--active": viewType === "line"
-                })}
-                onClick={() => this.changeView("line")}
-              />
-            : null}
 
           {isOwnerOrPm
             ? <div className="topbar__menu--wrapper">

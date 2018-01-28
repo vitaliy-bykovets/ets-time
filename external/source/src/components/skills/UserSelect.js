@@ -9,7 +9,6 @@ export const UsersSelect = function(props) {
     return item;
   });
 
-  console.log('users_labels', users_labels);
 
   return (
     <Select

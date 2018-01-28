@@ -144,35 +144,41 @@ class Tracks extends React.Component {
   render() {
     const {showFilters} = this.state;
     const {bgColor, token, tracks, view, activeUser, showStatistic, divideDays} = this.props;
-    let startOfDayRange = '', dateOfGroup = '', hoursSum = 0, datesObj = {}
+    let startOfDayRange = '', dateOfGroup = '', hoursSum = 0, datesObj = {};
 
     tracks.map((t, i) => {
       if (divideDays) {
-        if (startOfDayRange !== t.date_task) {
-          startOfDayRange = t.date_task;
-          datesObj[t.date_task] = t.hours;
+        const trackDateFormatted = moment(t.date_task).format('YYYY-MM-DD');
+
+        if (startOfDayRange !== trackDateFormatted) {
+          startOfDayRange = trackDateFormatted;
+
+          datesObj[trackDateFormatted] = {};
+          datesObj[trackDateFormatted].hours = t.hours;
         } else {
-          datesObj[t.date_task] += t.hours;
+          datesObj[trackDateFormatted].hours += t.hours;
         }
+
+        datesObj[trackDateFormatted].date = trackDateFormatted;
       }
 
     });
 
     const trackComponents = tracks.map((t, i) => {
+      t.date_task = moment(t.date_task);
+
       let isStartDay = false;
+      const trackDateFormatted = t.date_task.format('YYYY-MM-DD');
+
       if (divideDays) {
-        if (startOfDayRange !== t.date_task) {
-          startOfDayRange = t.date_task;
+        if (startOfDayRange !== trackDateFormatted) {
+          startOfDayRange = trackDateFormatted;
           isStartDay = true;
-          dateOfGroup = formatDateToServer(t.date_task);
+          dateOfGroup = trackDateFormatted;
         } else {
           isStartDay = false;
         }
       }
-
-      console.log(startOfDayRange);
-
-      t.date_task = moment(t.date_task);
 
       return (
         <div
@@ -184,14 +190,14 @@ class Tracks extends React.Component {
         >
           {view === 'line' && isStartDay && dateOfGroup
             ? <span className="track__date-tab">
-              {dateOfGroup} • {datesObj[startOfDayRange]}h
+              {dateOfGroup} • {datesObj[trackDateFormatted].hours}h
             </span>
             : null}
           <Track
             token={token}
             trackData={t}
 
-            view={view}
+            view={'line'}
             bgColor={bgColor}
             TypeWorkIcon={TypeWorkIcon}
             isStartDay={isStartDay}
@@ -200,6 +206,8 @@ class Tracks extends React.Component {
           />
         </div>
       );
+
+
     });
 
     return (

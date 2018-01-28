@@ -27,7 +27,7 @@ const initial = {
   isTrackCreate: false,
   filtersIsOpen: false,
   filters: initFilters,
-  view: view ? view : 'block',
+  view: view ? view : 'line',
   trackData: initTrackData
 };
 
